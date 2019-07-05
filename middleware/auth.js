@@ -15,13 +15,11 @@ function auth(req, res, next) {
     // add user payload
     req.user = decoded;
     next();
-  } catch (e) {
-    res
-      .status(400)
-      .json({
-        msg:
-          "Invalid token. You have to be logged in with your account to do that"
-      });
+  } catch (err) {
+    res.status(400).json({
+      msg:
+        "Authorization denied. You have to be logged in with your account to do that"
+    });
   }
 }
 

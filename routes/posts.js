@@ -112,16 +112,19 @@ router.delete("/:postid", auth, (req, res, next) => {
 
 //update post
 //UPDATE @ /posts/:postid
-
+//auth
 router.put("/:postid", auth, (req, res, next) => {
+  //check fields if empty
+  const { valid, errors } = validatePost(req.body);
+  if (!valid) return res.status(400).json(errors);
+
   Post.findByIdAndUpdate(
     req.params.postid,
     req.body,
     { new: true },
     (err, updatedContent) => {
-      console.log("updatedContent", updatedContent);
-      console.log("userId", req.user.id);
-
+      if (!updatedContent)
+        return res.status(400).json({ msg: "Post not found" });
       if (err) {
         if (err.kind === "ObjectId") {
           return res.status(500).json({ msg: "Post not found" });

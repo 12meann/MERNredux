@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+
 const posts = require("./routes/posts");
+const users = require("./routes/users");
 const login = require("./routes/login");
 const register = require("./routes/register");
 
@@ -30,6 +32,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/posts", posts);
+app.use("/api/users", users);
 app.use("/api/login", login);
 app.use("/api/register", register);
 

@@ -21,10 +21,6 @@ const userSchema = new Schema({
     require: true,
     unique: true
   },
-  // posts: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "Post"
-  // }
   avatar: String,
   about: String
 });
