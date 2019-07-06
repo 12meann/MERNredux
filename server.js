@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 
 const posts = require("./routes/posts");
+const comments = require("./routes/comments");
 const users = require("./routes/users");
 const login = require("./routes/login");
 const register = require("./routes/register");
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
+//db
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -31,10 +33,13 @@ app.get("/", (req, res) => {
   res.send("Home");
 });
 
-app.use("/api/posts", posts);
-app.use("/api/users", users);
+//routes
+
 app.use("/api/login", login);
 app.use("/api/register", register);
+app.use("/api/users", users);
+app.use("/api/posts/:postid/comment", comments);
+app.use("/api/posts", posts);
 
 //error handler catch all
 app.use((req, res, next) => {

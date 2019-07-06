@@ -6,7 +6,7 @@ const { validatePost } = require("../utilities/validators");
 const auth = require("../middleware/auth");
 
 // get all posts
-//GET @ /posts/
+//GET @ /api/posts/
 //public
 router.get("/", (req, res, next) => {
   Post.find()
@@ -17,7 +17,7 @@ router.get("/", (req, res, next) => {
 });
 
 // create new post
-//POST @ /posts/
+//POST @ /api/posts/
 //auth
 router.post("/", auth, (req, res, next) => {
   const { content } = req.body;
@@ -60,7 +60,7 @@ router.post("/", auth, (req, res, next) => {
 });
 
 // get one post
-//GET @ /posts/:postid
+//GET @ /api/posts/:postid
 //public
 router.get("/:postid", (req, res, next) => {
   Post.findOne({ _id: req.params.postid })
@@ -78,7 +78,7 @@ router.get("/:postid", (req, res, next) => {
 });
 
 //delete post
-// DELETE @ /posts/:postid
+// DELETE @ /api/posts/:postid
 //auth
 router.delete("/:postid", auth, (req, res, next) => {
   Post.findById(req.params.postid)
@@ -111,7 +111,7 @@ router.delete("/:postid", auth, (req, res, next) => {
 });
 
 //update post
-//UPDATE @ /posts/:postid
+//UPDATE @ /api/posts/:postid
 //auth
 router.put("/:postid", auth, (req, res, next) => {
   //check fields if empty
@@ -127,7 +127,7 @@ router.put("/:postid", auth, (req, res, next) => {
         return res.status(400).json({ msg: "Post not found" });
       if (err) {
         if (err.kind === "ObjectId") {
-          return res.status(500).json({ msg: "Post not found" });
+          return res.status(400).json({ msg: "Post not found" });
         } else {
           res.status(500).json({ msg: "Something went wrong", err });
         }

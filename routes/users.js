@@ -3,10 +3,10 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const User = require("../models/User");
 const Post = require("../models/Post");
-const { validatePostUpdate } = require("../utilities/validators");
+const { validateUserUpdate } = require("../utilities/validators");
 
 // get all users
-// GET /users
+// GET /api/users
 // private
 router.get("/", auth, (req, res, next) => {
   User.find()
@@ -22,7 +22,7 @@ router.get("/", auth, (req, res, next) => {
 });
 
 // get single user info
-// GET /users/:userid
+// GET /api/users/:userid
 // private
 
 router.get("/:userid", auth, (req, res, next) => {
@@ -43,7 +43,7 @@ router.get("/:userid", auth, (req, res, next) => {
 });
 
 //delete user
-// DELETE @ /users/:userid
+// DELETE @ /api/users/:userid
 //auth
 router.delete("/:userid", auth, (req, res, next) => {
   User.findById(req.params.userid)
@@ -76,12 +76,12 @@ router.delete("/:userid", auth, (req, res, next) => {
 });
 
 //update user
-//UPDATE @ /users/:userid
+//UPDATE @ /api/users/:userid
 //auth
 router.put("/:userid", auth, (req, res, next) => {
   console.log(req.body);
   //check fields if empty
-  const { valid, errors } = validatePostUpdate(req.body);
+  const { valid, errors } = validateUserUpdate(req.body);
   if (!valid) return res.status(400).json(errors);
 
   // find and update user
@@ -120,7 +120,7 @@ router.put("/:userid", auth, (req, res, next) => {
 });
 
 // get user's posts
-//GET /users/:userid/posts
+//GET /api/users/:userid/posts
 //public
 
 router.get("/:userid/posts", (req, res, next) => {

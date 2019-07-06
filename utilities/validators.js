@@ -51,7 +51,7 @@ exports.validateLogin = data => {
   };
 };
 
-exports.validatePostUpdate = data => {
+exports.validateUserUpdate = data => {
   let errors = {};
 
   if (isEmpty(data.email)) {
