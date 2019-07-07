@@ -14,16 +14,13 @@ const commentSchema = new Schema({
   commentedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
-  }
-  // likes: [
-  //   {
-  //     id: {
-  //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: "User"
-  //     },
-  //     username: String
-  //   }
-  // ],
+  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ]
 });
 
 const Comment = mongoose.model("comment", commentSchema);

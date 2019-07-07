@@ -38,8 +38,8 @@ app.get("/", (req, res) => {
 app.use("/api/login", login);
 app.use("/api/register", register);
 app.use("/api/users", users);
-app.use("/api/posts/:postid/comment", comments);
 app.use("/api/posts", posts);
+app.use("/api/posts/:postid/comment", comments);
 
 //error handler catch all
 app.use((req, res, next) => {

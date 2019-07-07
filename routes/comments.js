@@ -3,24 +3,29 @@ const router = express.Router({ mergeParams: true });
 const auth = require("../middleware/auth");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
+const { validatePost } = require("../utilities/validators");
 
 // post a comment
 //POST /api/posts/:postid/comment
-
+//auth
 router.post("/", auth, (req, res, next) => {
+  //check fields if empty
+  const { valid, errors } = validatePost(req.body);
+  if (!valid) return res.status(400).json(errors);
+
+  //get post
   Post.findById(req.params.postid)
     .then(post => {
-      console.log("post", post);
-
       const newComment = new Comment({
         content: req.body.content,
         commentedBy: req.user.id
       });
-      console.log("newComment", newComment);
+
+      //save comment to Comment
       newComment
         .save()
         .then(comment => {
-          console.log("comment", comment);
+          //add comment to post.comments array
           post.comments.push(comment);
           post.save().then(() => {
             res.json(post.comments);
@@ -73,15 +78,15 @@ router.get("/:commentid", auth, (req, res, next) => {
     });
 });
 
-//delete comment
+//delete a comment
 // DELETE @ /api/posts/:postid/comment/:commentid
 //auth
 router.delete("/:commentid", auth, (req, res, next) => {
   Post.findById(req.params.postid)
     .then(post => {
-      //check post if there
+      //look for post if there
       if (!post) return res.status(400).json({ msg: "Post not found" });
-
+      // look comment
       Comment.findById(req.params.commentid)
         .then(comment => {
           //check comment if there
@@ -92,11 +97,11 @@ router.delete("/:commentid", auth, (req, res, next) => {
             return res
               .status(400)
               .json({ msg: "You are not allowed to do that" });
-          //remove comment
+          //remove comment from Comment
           comment
             .remove()
             .then(deletedComment => {
-              console.log("deletedComment", deletedComment);
+              //remove from post.comments array
               const removeIndex = post.comments.map(comment => {
                 console.log("comment", comment);
                 return comment == deletedComment._id;
@@ -130,19 +135,23 @@ router.delete("/:commentid", auth, (req, res, next) => {
     });
 });
 
-// update comment
+// update a comment
 //PUT /api/posts/:postid/comment/:commentid
 
 router.put("/:commentid", auth, (req, res, next) => {
+  //check fields if empty
+  const { valid, errors } = validatePost(req.body);
+  if (!valid) return res.status(400).json(errors);
+  //look post
   Post.findById(req.params.postid)
     .then(post => {
       if (!post) return res.status.json();
+      //look comment and update
       Comment.findByIdAndUpdate(
         req.params.commentid,
         req.body,
         { new: true },
         (err, updatedComment) => {
-          console.log(updatedComment);
           if (!updatedComment)
             return res.status(400).json({ msg: "Comment not found" });
           if (err) {
@@ -151,6 +160,7 @@ router.put("/:commentid", auth, (req, res, next) => {
             } else {
               res.status(500).json({ msg: "Something went wrong", err });
             }
+            //check if person updating is the one who created it
           } else if (updatedComment.commentedBy != req.user.id) {
             res.status(400).json({ msg: "You are not authorized to do that" });
           } else {
@@ -166,6 +176,100 @@ router.put("/:commentid", auth, (req, res, next) => {
         } else {
           res.status(500).json({ msg: "Something went wrong", err });
         }
+      }
+    });
+});
+
+//add like to a comment
+//PUT @ /api/posts/:postid/comment/:commentid/like
+//auth
+router.put("/:commentid/like", auth, (req, res, next) => {
+  Post.findById(req.params.postid)
+    .then(post => {
+      console.log("post", post);
+      Comment.findById(req.params.commentid)
+        .then(comment => {
+          console.log("comment==", comment);
+          if (
+            comment.likes.filter(like => like.toString() === req.user.id)
+              .length > 0
+          ) {
+            return res
+              .status(400)
+              .json({ msg: "You already liked the comment." });
+          }
+          comment.likes.unshift(req.user.id);
+          comment
+            .save()
+            .then(() => {
+              res.json(comment.likes);
+            })
+            .catch(err => {
+              if (err) {
+                return res.status(500).json({ msg: "Something went wrong." });
+              }
+            });
+        })
+        .catch(err => {
+          if (err.kind === "ObjectId") {
+            return res.status(500).json({ msg: "Comment not found" });
+          } else {
+            res.status(500).json({ msg: "Server error", err });
+          }
+        });
+    })
+    .catch(err => {
+      if (err.kind === "ObjectId") {
+        return res.status(500).json({ msg: "Post not found" });
+      } else {
+        res.status(500).json({ msg: "Server error", err });
+      }
+    });
+});
+
+//unlike the comment
+//PUT @ /api/posts/:postid/comment/:commentid/unlike
+//auth
+router.put("/:commentid/unlike", auth, (req, res, next) => {
+  Post.findById(req.params.postid)
+    .then(post => {
+      console.log("post", post);
+      Comment.findById(req.params.commentid)
+        .then(comment => {
+          console.log("comment==", comment);
+          if (
+            comment.likes.filter(like => like.toString() === req.user.id)
+              .length === 0
+          ) {
+            return res
+              .status(400)
+              .json({ msg: "You haven't like the comment yet." });
+          }
+          comment.likes.shift(req.user.id);
+          comment
+            .save()
+            .then(() => {
+              res.json(comment.likes);
+            })
+            .catch(err => {
+              if (err) {
+                return res.status(500).json({ msg: "Something went wrong." });
+              }
+            });
+        })
+        .catch(err => {
+          if (err.kind === "ObjectId") {
+            return res.status(500).json({ msg: "Comment not found" });
+          } else {
+            res.status(500).json({ msg: "Server error", err });
+          }
+        });
+    })
+    .catch(err => {
+      if (err.kind === "ObjectId") {
+        return res.status(500).json({ msg: "Post not found" });
+      } else {
+        res.status(500).json({ msg: "Server error", err });
       }
     });
 });

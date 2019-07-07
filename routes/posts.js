@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
 const User = require("../models/User");
+const Comment = require("../models/Comment");
 const { validatePost } = require("../utilities/validators");
 const auth = require("../middleware/auth");
 
@@ -91,10 +92,15 @@ router.delete("/:postid", auth, (req, res, next) => {
       //remove post
       post
         .remove()
-        .then(result => {
+        .then(deletedPost => {
+          Comment.remove({ _id: { $in: post.comments } }, err => {
+            if (err) {
+              return res.status(500).json({ msg: "Something went wrong" });
+            }
+          });
           res.status(200).json({
             msg: "You have succesfully deleted the post",
-            deletedPost: result
+            deletedPost
           });
         })
         .catch(err => {
@@ -111,7 +117,7 @@ router.delete("/:postid", auth, (req, res, next) => {
 });
 
 //update post
-//UPDATE @ /api/posts/:postid
+//PUT @ /api/posts/:postid
 //auth
 router.put("/:postid", auth, (req, res, next) => {
   //check fields if empty
@@ -140,4 +146,73 @@ router.put("/:postid", auth, (req, res, next) => {
   );
 });
 
+//add like to a post
+//PUT @ /api/posts/:postid/like
+//auth
+router.put("/:postid/like", auth, (req, res, next) => {
+  Post.findById(req.params.postid)
+    .then(post => {
+      console.log("post=", post);
+      console.log("likes=", post.likes);
+      console.log("userId", req.user.id);
+      if (
+        post.likes.filter(like => like.toString() === req.user.id).length > 0
+      ) {
+        return res.status(400).json({ msg: "You already liked the post." });
+      }
+      post.likes.unshift(req.user.id);
+      post
+        .save()
+        .then(() => {
+          res.json(post.likes);
+        })
+        .catch(err => {
+          if (err) {
+            return res.status(500).json({ msg: "Something went wrong." });
+          }
+        });
+    })
+    .catch(err => {
+      if (err.kind === "ObjectId") {
+        return res.status(500).json({ msg: "No post found" });
+      } else {
+        res.status(500).json({ msg: "Server error", err });
+      }
+    });
+});
+
+//unlike a post
+//PUT @ /api/posts/:postid/unlike
+//auth
+router.put("/:postid/unlike", auth, (req, res, next) => {
+  Post.findById(req.params.postid)
+    .then(post => {
+      console.log("post=", post);
+      console.log("likes=", post.likes);
+      console.log("userId", req.user.id);
+      if (
+        post.likes.filter(like => like.toString() === req.user.id).length === 0
+      ) {
+        return res.status(400).json({ msg: "You haven't like the post yet." });
+      }
+      post.likes.shift(req.user.id);
+      post
+        .save()
+        .then(() => {
+          res.json(post.likes);
+        })
+        .catch(err => {
+          if (err) {
+            return res.status(500).json({ msg: "Something went wrong." });
+          }
+        });
+    })
+    .catch(err => {
+      if (err.kind === "ObjectId") {
+        return res.status(500).json({ msg: "No post found" });
+      } else {
+        res.status(500).json({ msg: "Server error", err });
+      }
+    });
+});
 module.exports = router;

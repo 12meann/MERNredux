@@ -15,15 +15,12 @@ const postSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   },
-  // likes: [
-  //   {
-  //     id: {
-  //       type: mongoose.Schema.Types.ObjectId,
-  //       ref: "User"
-  //     },
-  //     username: String
-  //   }
-  // ],
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ],
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
