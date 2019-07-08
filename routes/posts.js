@@ -12,6 +12,16 @@ const auth = require("../middleware/auth");
 router.get("/", (req, res, next) => {
   Post.find()
     .sort({ date: -1 })
+    .populate("postedBy", "username -_id")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "commentedBy",
+        select: "username -_id"
+      }
+    })
+    .populate("likes", "username -_id")
+    .exec()
     .then(posts => {
       return res.json(posts);
     });
@@ -65,6 +75,7 @@ router.post("/", auth, (req, res, next) => {
 //public
 router.get("/:postid", (req, res, next) => {
   Post.findOne({ _id: req.params.postid })
+
     .then(post => {
       if (post === null) return res.json({ msg: "No post found" });
       res.json(post);
