@@ -24,6 +24,10 @@ exports.validateRegister = data => {
   }
 
   if (isEmpty(data.password)) errors.password = "Must not be empty";
+  if (data.confirmPassword == "")
+    errors.confirmPassword = "Must confirm password";
+  // if (data.password != data.confirmPassword)
+  //   errors.confirmPassword = "Passwords don't match";
   if (isEmpty(data.username)) {
     errors.username = "Must not be empty";
   } else if (!isUsername(data.username)) {
@@ -42,7 +46,11 @@ exports.validateRegister = data => {
 exports.validateLogin = data => {
   let errors = {};
 
-  if (isEmpty(data.email)) errors.email = "Must not be empty";
+  if (isEmpty(data.email)) {
+    errors.email = "Must not be empty";
+  } else if (!isEmail(data.email)) {
+    errors.email = "Must be a valid email address";
+  }
   if (isEmpty(data.password)) errors.password = "Must not be empty";
 
   return {

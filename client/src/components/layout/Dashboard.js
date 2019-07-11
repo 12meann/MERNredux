@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Profile from "./Profile";
-import PostFeed from "./PostFeed";
+import Profile from "../profile/Profile";
+import PostFeed from "../post/PostFeed";
 //
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";

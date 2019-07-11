@@ -6,6 +6,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
 import Button from "@material-ui/core/Button";
+import Login from "../auth/Login";
+import SignUp from "../auth/SignUp";
 
 const styles = {
   root: {
@@ -26,7 +28,7 @@ class Navbar extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar>
+        <AppBar color="secondary">
           <Toolbar className={classes.button}>
             <Button
               color="inherit"
@@ -35,12 +37,9 @@ class Navbar extends Component {
               className={classes.brand}>
               Mom's diary
             </Button>
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
-            <Button color="inherit" component={Link} to="/signup">
-              Sign up
-            </Button>
+            <Login />
+
+            <SignUp />
           </Toolbar>
         </AppBar>
       </div>

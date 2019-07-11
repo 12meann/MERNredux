@@ -1,25 +1,30 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Dashboard from "./components/dashboard/Dashboard";
-import Login from "./components/auth/Login";
-import SignUp from "./components/auth/SignUp";
-
+import Dashboard from "./components/layout/Dashboard";
+import setToken from "./utilities/setToken";
+//MUI
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import myTheme from "./utilities/theme";
 import Navbar from "./components/layout/Navbar";
+
+const theme = createMuiTheme(myTheme);
+
+if (localStorage.token) {
+  setToken(localStorage.token);
+}
 
 function App() {
   return (
-    <div className="App">
+    <MuiThemeProvider theme={theme}>
       <Router>
         <Navbar />
         <div className="container">
           <Switch>
             <Route exact path="/" component={Dashboard} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={SignUp} />
           </Switch>
         </div>
       </Router>
-    </div>
+    </MuiThemeProvider>
   );
 }
 

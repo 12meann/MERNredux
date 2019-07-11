@@ -33,12 +33,9 @@ router.post("/", (req, res) => {
               });
 
               //validate input
-              const { valid, errors } = validateRegister(newUser);
+              const { valid, errors } = validateRegister(req.body);
+
               if (!valid) return res.status(400).json(errors);
-              if (password !== confirmPassword)
-                return res
-                  .status(400)
-                  .json({ confirmPassword: "Passwords don't match" });
 
               //salt & hash password
               bcrypt.genSalt(10, (err, salt) => {
@@ -47,6 +44,7 @@ router.post("/", (req, res) => {
                   if (err) throw err;
                   newUser.password = hash;
                   newUser
+
                     .save()
                     .then(user => {
                       jwt.sign(
