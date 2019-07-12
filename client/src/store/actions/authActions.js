@@ -61,3 +61,24 @@ export const registerUser = newUserData => dispatch => {
       });
     });
 };
+
+export const loginUser = userData => dispatch => {
+  dispatch({ type: LOADING });
+  const body = JSON.stringify(userData);
+  axios
+    .post("/api/login", userData, body)
+    .then(res => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      });
+      dispatch(loadUser());
+      dispatch({ type: CLEAR_ERRORS });
+    })
+    .catch(err => {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data
+      });
+    });
+};

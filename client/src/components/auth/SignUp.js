@@ -77,13 +77,13 @@ class SignUp extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { username, email, password } = this.state;
-    const { registerUser, history } = this.props;
+    const { registerUser } = this.props;
     const newUser = {
       email,
       password,
       username
     };
-    registerUser(newUser, history);
+    registerUser(newUser);
   };
 
   toggle = () => {
