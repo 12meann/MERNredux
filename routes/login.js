@@ -5,7 +5,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { validateLogin } = require("../utilities/validators");
 
-//login users
+//login user
+//POST @ /api/login
+//public
 router.post("/", (req, res) => {
   const { email, password } = req.body;
   const user = { email, password };
@@ -47,12 +49,10 @@ router.post("/", (req, res) => {
         })
         .catch(err => {
           if (err)
-            return res
-              .status(500)
-              .json({
-                msg: "Something went wrong. Please try again.",
-                err: err
-              });
+            return res.status(500).json({
+              msg: "Something went wrong. Please try again.",
+              err: err
+            });
         });
     })
     .catch(err => {

@@ -60,7 +60,7 @@ router.post("/", (req, res) => {
                               username: user.username,
                               email: user.email
                             },
-                            msg: "You have succesfully registered"
+                            success: "You have succesfully registered"
                           });
                         }
                       );

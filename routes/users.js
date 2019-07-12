@@ -21,6 +21,20 @@ router.get("/", auth, (req, res, next) => {
     });
 });
 
+//get currently logged in user data
+//PUT @ /api/users/user
+//auth
+router.get("/user", auth, (req, res) => {
+  User.findById(req.user.id)
+    .select("-password")
+    .then(user => {
+      res.json(user);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 // get single user info
 // GET /api/users/:userid
 // private
@@ -79,7 +93,6 @@ router.delete("/:userid", auth, (req, res, next) => {
 //UPDATE @ /api/users/:userid
 //auth
 router.put("/:userid", auth, (req, res, next) => {
-  console.log(req.body);
   //check fields if empty
   const { valid, errors } = validateUserUpdate(req.body);
   if (!valid) return res.status(400).json(errors);

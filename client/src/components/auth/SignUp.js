@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
-import axios from "axios";
+import { compose } from "redux";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { registerUser } from "../../store/actions/authActions";
 
 //MUI
 import { withStyles } from "@material-ui/core/styles";
@@ -62,7 +64,6 @@ class SignUp extends Component {
     username: "",
     password: "",
     confirmPassword: "",
-    loading: false,
     errors: {},
     msg: {},
     open: false,
@@ -75,43 +76,19 @@ class SignUp extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({
-      loading: true
-    });
     const { username, email, password } = this.state;
+    const { registerUser, history } = this.props;
     const newUser = {
       email,
       password,
       username
     };
-    axios
-      .post("/api/register", newUser)
-      .then(res => {
-        localStorage.setItem("x-auth-token", res.data.token);
-        console.log(res.data);
-        this.setState({
-          loading: false,
-          open: false,
-          msg: res.data.msg
-        });
-        this.props.history.push("/");
-      })
-      .catch(err => {
-        console.log(err);
-        this.setState({
-          loading: false,
-          errors: err.response.data
-        });
-      });
+    registerUser(newUser, history);
   };
-  handleClickOpen = () => {
+
+  toggle = () => {
     this.setState({
-      open: true
-    });
-  };
-  handleClose = () => {
-    this.setState({
-      open: false
+      open: !this.state.open
     });
   };
   handleClickShowPassword = () => {
@@ -119,32 +96,50 @@ class SignUp extends Component {
       showPassword: !this.state.showPassword
     });
   };
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.errors) {
+      this.setState({
+        errors: nextProps.auth.errors
+      });
+    }
+    if (this.state.open) {
+      if (nextProps.auth.isAuthenticated === true) {
+        this.setState({
+          open: false
+        });
+      }
+    }
+  }
+
   render() {
     const {
-      open,
-      username,
-      confirmPassword,
       email,
       password,
+      username,
+      open,
+      confirmPassword,
       showPassword,
-      errors,
-      loading
+      errors
     } = this.state;
-    const { classes } = this.props;
+    const {
+      classes,
+      auth: { loading }
+    } = this.props;
     return (
       <Fragment>
-        <Button color="inherit" onClick={this.handleClickOpen}>
+        <Button color="inherit" onClick={this.toggle}>
           Sign Up
         </Button>
         <Dialog
           open={open}
-          onClose={this.handleClose}
+          onClose={this.toggle}
+          // onClose={this.handleClose}
           aria-labelledby="form-dialog-title">
           <Tooltip title="Close">
             <IconButton
               aria-label="Close"
               className={classes.closeIcon}
-              onClick={this.handleClose}>
+              onClick={this.toggle}>
               <CloseIcon />
             </IconButton>
           </Tooltip>
@@ -304,5 +299,14 @@ class SignUp extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-export default withRouter(withStyles(styles)(SignUp));
+export default compose(
+  connect(
+    mapStateToProps,
+    { registerUser }
+  ),
+  withStyles(styles)
+)(withRouter(SignUp));

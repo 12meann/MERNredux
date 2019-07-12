@@ -49,7 +49,7 @@ class PostItem extends Component {
   render() {
     const { classes, post } = this.props;
     const { expanded } = this.state;
-    console.log(post);
+
     return (
       <Card className={classes.card}>
         <CardHeader
