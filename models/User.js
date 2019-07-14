@@ -21,6 +21,9 @@ const userSchema = new Schema({
     require: true,
     unique: true
   },
+  location: String,
+  facebookLink: String,
+  twitterLink: String,
   avatar: String,
   about: String
 });

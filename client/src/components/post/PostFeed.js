@@ -1,26 +1,39 @@
 import React, { Component } from "react";
 import axios from "axios";
-import PostItem from "./PostItem";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import PostItemCard from "./PostItemCard";
+import AddPost from "./AddPost";
+import { getPostsFeed } from "../../store/actions/postActions";
 
 //MUI
 import { withStyles } from "@material-ui/styles";
+const styles = theme => ({});
+
 class PostFeed extends Component {
   state = {
     posts: null
   };
   componentDidMount() {
-    axios.get("/api/posts").then(res => {
-      this.setState({
-        posts: res.data
-      });
-    });
+    this.props.getPostsFeed();
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    // if (nextProps.post.posts) {
+    //   this.setState({
+    //     posts: nextProps.post.posts
+    //   });
+    // }
   }
   render() {
-    const { posts } = this.state;
+    // const { posts } = this.state;
+    const { isAuthenticated, posts } = this.props;
     return (
       <div>
+        {isAuthenticated && <AddPost />}
+
         {posts ? (
-          posts.map(post => <PostItem post={post} key={post._id} />)
+          posts.map(post => <PostItemCard post={post} key={post._id} />)
         ) : (
           <p>loading...</p>
         )}
@@ -29,4 +42,15 @@ class PostFeed extends Component {
   }
 }
 
-export default PostFeed;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  posts: state.post.posts
+});
+
+export default compose(
+  connect(
+    mapStateToProps,
+    { getPostsFeed }
+  ),
+  withStyles(styles)
+)(PostFeed);

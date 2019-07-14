@@ -26,8 +26,7 @@ exports.validateRegister = data => {
   if (isEmpty(data.password)) errors.password = "Must not be empty";
   if (data.confirmPassword == "")
     errors.confirmPassword = "Must confirm password";
-  // if (data.password != data.confirmPassword)
-  //   errors.confirmPassword = "Passwords don't match";
+
   if (isEmpty(data.username)) {
     errors.username = "Must not be empty";
   } else if (!isUsername(data.username)) {
@@ -61,18 +60,21 @@ exports.validateLogin = data => {
 
 exports.validateUserUpdate = data => {
   let errors = {};
-
-  if (isEmpty(data.email)) {
-    errors.email = "Must not be empty";
-  } else if (!isEmail(data.email)) {
-    errors.email = "Must be a valid email address";
+  if (data.email) {
+    if (isEmpty(data.email)) {
+      errors.email = "Must not be empty";
+    } else if (!isEmail(data.email)) {
+      errors.email = "Must be a valid email address";
+    }
   }
 
-  if (isEmpty(data.username)) {
-    errors.username = "Must not be empty";
-  } else if (!isUsername(data.username)) {
-    errors.username =
-      "Only characters from a-z, 0-9, underscore and hyphen are allowed. Must be 3 to 25 characters.";
+  if (data.username) {
+    if (isEmpty(data.username)) {
+      errors.username = "Must not be empty";
+    } else if (!isUsername(data.username)) {
+      errors.username =
+        "Only characters from a-z, 0-9, underscore and hyphen are allowed. Must be 3 to 25 characters.";
+    }
   }
 
   return {

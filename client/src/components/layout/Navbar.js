@@ -1,13 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import Login from "../auth/Login";
+import SignUp from "../auth/SignUp";
+import { logOut } from "../../store/actions/authActions";
 //MUI
 import { withStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
 import Button from "@material-ui/core/Button";
-import Login from "../auth/Login";
-import SignUp from "../auth/SignUp";
+import Typography from "@material-ui/core/Typography";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const styles = {
   root: {
@@ -25,7 +30,27 @@ const styles = {
 
 class Navbar extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, isAuthenticated, user, logOut } = this.props;
+
+    const guestLinks = (
+      <Fragment>
+        <Login />
+        <SignUp />
+      </Fragment>
+    );
+    const authLinks = (
+      <Fragment>
+        {user ? (
+          <Fragment>
+            <AccountCircle />
+            <Typography variant="body1">Hi, {user.username}</Typography>
+          </Fragment>
+        ) : null}
+        <Button color="inherit" onClick={logOut}>
+          Logout
+        </Button>
+      </Fragment>
+    );
     return (
       <div className={classes.root}>
         <AppBar color="secondary">
@@ -37,9 +62,7 @@ class Navbar extends Component {
               className={classes.brand}>
               Mom's diary
             </Button>
-            <Login />
-
-            <SignUp />
+            {isAuthenticated ? authLinks : guestLinks}
           </Toolbar>
         </AppBar>
       </div>
@@ -47,4 +70,15 @@ class Navbar extends Component {
   }
 }
 
-export default withStyles(styles)(Navbar);
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default compose(
+  connect(
+    mapStateToProps,
+    { logOut }
+  ),
+  withStyles(styles)
+)(Navbar);

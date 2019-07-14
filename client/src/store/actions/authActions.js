@@ -9,8 +9,10 @@ import {
   LOGOUT_SUCCESS,
   USER_LOADED,
   CLEAR_ERRORS,
-  LOADING
+  LOADING,
+  REMOVE_SUCCESS_MSG
 } from "./types";
+import { closeLoginModal, closeRegisterModal } from "./modalActions";
 
 const config = {
   headers: {
@@ -53,6 +55,8 @@ export const registerUser = newUserData => dispatch => {
       });
       dispatch(loadUser());
       dispatch({ type: CLEAR_ERRORS });
+      setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+      dispatch(closeRegisterModal());
     })
     .catch(err => {
       dispatch({
@@ -74,11 +78,20 @@ export const loginUser = userData => dispatch => {
       });
       dispatch(loadUser());
       dispatch({ type: CLEAR_ERRORS });
+      setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+      dispatch(closeLoginModal());
     })
     .catch(err => {
+      console.log(err);
       dispatch({
         type: LOGIN_FAIL,
         payload: err.response.data
       });
     });
+};
+
+export const logOut = () => dispatch => {
+  dispatch({ type: LOADING });
+  dispatch({ type: LOGOUT_SUCCESS });
+  setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
 };

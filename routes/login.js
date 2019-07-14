@@ -50,7 +50,7 @@ router.post("/", (req, res) => {
         .catch(err => {
           if (err)
             return res.status(500).json({
-              msg: "Something went wrong. Please try again.",
+              fail: "Something went wrong. Please try again.",
               err: err
             });
         });

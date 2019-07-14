@@ -1,3 +1,8 @@
+export const OPEN_LOGIN_MODAL = "OPEN_LOGIN_MODAL";
+export const OPEN_REGISTER_MODAL = "OPEN_REGISTER_MODAL";
+export const CLOSE_LOGIN_MODAL = "CLOSE_LOGIN_MODAL";
+export const CLOSE_REGISTER_MODAL = "CLOSE_REGISTER_MODAL";
+
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 export const LOGIN_FAIL = "LOGIN_FAIL";
@@ -12,13 +17,15 @@ export const DELETE_POST = "DELETE_POST";
 export const ADD_POST = "ADD_POST";
 export const EDIT_POST = "EDIT_POST";
 
+export const SET_ALERT = "SET_ALERT";
+export const REMOVE_SUCCESS_MSG = "REMOVE_SUCCESS_MSG";
+
 export const ADD_COMMENT = "ADD_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 
-export const GET_USER_PROFILE = "GET_USER_PROFILE";
 export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
-export const EDIT_USER_PROFILE = "CLEAR_USER_PROFILE";
+export const CLEAR_USER_PROFILE = "CLEAR_USER_PROFILE";
 export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
 export const GET_USERS_POSTS = "GET_USERS_POSTS";
 
@@ -30,7 +37,3 @@ export const LOADING = "LOADING";
 
 export const UPDATE_LIKES = "UPDATE_LIKES";
 export const USER_LOADING = "USER_LOADING";
-
-//NOT SURE YET
-export const SET_ALERT = "SET_ALERT";
-export const REMOVE_ALERT = "REMOVE_ALERT";

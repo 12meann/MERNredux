@@ -89,47 +89,92 @@ router.delete("/:userid", auth, (req, res, next) => {
     });
 });
 
+// //update user
+// //UPDATE @ /api/users/:userid
+// //auth
+// router.put("/:userid", auth, (req, res, next) => {
+//   // //check fields if empty
+//   // const { valid, errors } = validateUserUpdate(req.body);
+//   // if (!valid) return res.status(400).json(errors);
+
+//   // find and update user
+//   User.findByIdAndUpdate(
+//     req.params.userid,
+//     req.body,
+//     { new: true, select: "-password" },
+//     (err, updatedUser) => {
+//       if (!updatedUser) return res.status(400).json({ msg: "User not found" });
+//       if (err) {
+//         if (err.kind === "ObjectId") {
+//           return res.status(500).json({ msg: "User not found" });
+//         } else {
+//           res.status(500).json({ msg: "Something went wrong", err });
+//         }
+//       } else if (updatedUser._id != req.user.id) {
+//         res.status(400).json({ msg: "You are not authorized to do that" });
+//       }
+//       // check if username is taken
+//       User.findOne({ username: req.body.username })
+//         .then(usernameTaken => {
+//           if (usernameTaken) {
+//             return res.status(400).json({
+//               username: "That username is already taken. Try other name."
+//             })
+//           } else {
+//             // if everything passed, send updatedUser
+//             return res.json(updatedUser);
+//           }
+//         })
+
+//         .catch(err => {
+//           if (err)
+//             return res.status(500).json({ msg: "Something went wrong", err });
+//         });
+//     }
+//   );
+// });
+
 //update user
 //UPDATE @ /api/users/:userid
 //auth
 router.put("/:userid", auth, (req, res, next) => {
-  //check fields if empty
-  const { valid, errors } = validateUserUpdate(req.body);
-  if (!valid) return res.status(400).json(errors);
-
-  // find and update user
-  User.findByIdAndUpdate(
-    req.params.userid,
-    req.body,
-    { new: true, select: "-password" },
-    (err, updatedUser) => {
-      if (!updatedUser) return res.status(400).json({ msg: "User not found" });
-      if (err) {
-        if (err.kind === "ObjectId") {
-          return res.status(500).json({ msg: "User not found" });
-        } else {
-          res.status(500).json({ msg: "Something went wrong", err });
-        }
-      } else if (updatedUser._id != req.user.id) {
-        res.status(400).json({ msg: "You are not authorized to do that" });
-      }
-      // check if username is taken
-      User.findOne({ username: req.body.username })
-        .then(usernameTaken => {
-          if (usernameTaken) {
-            return res.status(400).json({
-              username: "That username is already taken. Try other name."
-            });
-          }
-        })
-        .catch(err => {
-          if (err)
-            return res.status(500).json({ msg: "Something went wrong", err });
+  // check if username is taken
+  User.findOne({ username: req.body.username })
+    .then(usernameTaken => {
+      if (usernameTaken) {
+        return res.status(400).json({
+          username: "That username is already taken. Try other name."
         });
-      // if everything passed, send updatedUser
-      return res.json(updatedUser);
-    }
-  );
+      } else {
+        // find and update user
+        User.findByIdAndUpdate(
+          req.params.userid,
+          req.body,
+          { new: true, select: "-password" },
+          (err, updatedUser) => {
+            if (!updatedUser)
+              return res.status(400).json({ msg: "User not found" });
+            if (err) {
+              if (err.kind === "ObjectId") {
+                return res.status(500).json({ msg: "User not found" });
+              } else {
+                res.status(500).json({ msg: "Something went wrong", err });
+              }
+            } else if (updatedUser._id != req.user.id) {
+              res
+                .status(400)
+                .json({ msg: "You are not authorized to do that" });
+            }
+            return res.json(updatedUser);
+          }
+        );
+      }
+    })
+
+    .catch(err => {
+      if (err)
+        return res.status(500).json({ msg: "Something went wrong", err });
+    });
 });
 
 // get user's posts

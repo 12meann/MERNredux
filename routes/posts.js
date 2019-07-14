@@ -75,7 +75,7 @@ router.post("/", auth, (req, res, next) => {
 //public
 router.get("/:postid", (req, res, next) => {
   Post.findOne({ _id: req.params.postid })
-
+    .populate("postedBy", "username _id")
     .then(post => {
       if (post === null) return res.json({ msg: "No post found" });
       res.json(post);

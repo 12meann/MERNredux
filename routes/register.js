@@ -60,13 +60,18 @@ router.post("/", (req, res) => {
                               username: user.username,
                               email: user.email
                             },
-                            success: "You have succesfully registered"
+                            success: `You have succesfully registered. Welcome, ${
+                              user.username
+                            }!`
                           });
                         }
                       );
                     })
                     .catch(err => {
-                      res.json({ msg: "Something went wrong 1", err: err });
+                      res.json({
+                        fail: "Something went wrong. Please try again later.",
+                        err: err
+                      });
                     });
                 });
               });
@@ -74,13 +79,18 @@ router.post("/", (req, res) => {
           })
           .catch(err => {
             if (err) {
-              res.status(500).json({ msg: "Something went wrong 2", err: err });
+              res.status(500).json({
+                fail: "Something went wrong. Please try again later.",
+                err: err
+              });
             }
           });
       }
     })
     .catch(err => {
-      res.json({ msg: "Something went wrong." });
+      res
+        .status(500)
+        .json({ fail: "Something went wrong. Please try again later." });
     });
 });
 

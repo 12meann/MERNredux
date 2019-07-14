@@ -8,7 +8,8 @@ import {
   ACCOUNT_DELETED,
   AUTH_ERROR,
   CLEAR_ERRORS,
-  LOADING
+  LOADING,
+  REMOVE_SUCCESS_MSG
 } from "../actions/types";
 
 const initialState = {
@@ -16,7 +17,8 @@ const initialState = {
   isAuthenticated: null,
   loading: false,
   user: null,
-  errors: null
+  errors: null,
+  success: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -54,10 +56,24 @@ const authReducer = (state = initialState, action) => {
         errors: null,
         loading: false
       };
+    case REMOVE_SUCCESS_MSG:
+      return {
+        ...state,
+        success: null
+      };
     case LOADING:
       return {
         ...state,
         loading: true
+      };
+    case LOGOUT_SUCCESS:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        success: "You have succesfully logout."
       };
     default:
       return state;

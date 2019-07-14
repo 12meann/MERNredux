@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { compose } from "redux";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -7,7 +9,12 @@ import CloseIcon from "@material-ui/icons/Close";
 
 const styles = theme => ({
   root: {
-    background: "rgba(220,53,69, 0.8)",
+    background: "rgba(220,53,69, 0.8)", // danger
+    fontSize: "1rem",
+    letterSpacing: 2
+  },
+  success: {
+    background: "rgba(40, 167, 69, 0.8)", // success
     fontSize: "1rem",
     letterSpacing: 2
   }
@@ -27,7 +34,7 @@ class Message extends Component {
     });
   };
   render() {
-    const { classes } = this.props;
+    const { classes, msg } = this.props;
     return (
       <div>
         <Snackbar
@@ -40,10 +47,10 @@ class Message extends Component {
           ContentProps={{
             "aria-describedby": "message-id",
             classes: {
-              root: classes.root
+              root: msg.success ? classes.success : classes.root
             }
           }}
-          message={<span id="message-id">{this.props.msg}</span>}
+          message={<span id="message-id">{msg.success || msg.fail}</span>}
           action={[
             <IconButton
               key="close"
@@ -58,5 +65,11 @@ class Message extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  msg: state.auth
+});
 
-export default withStyles(styles)(Message);
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(Message);

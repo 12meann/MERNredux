@@ -3,6 +3,11 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { loginUser } from "../../store/actions/authActions";
+import {
+  openLoginModal,
+  closeLoginModal,
+  openRegisterModal
+} from "../../store/actions/modalActions";
 
 //MUI
 import { withStyles } from "@material-ui/core/styles";
@@ -21,6 +26,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MuiLink from "@material-ui/core/Link";
 
 const styles = theme => ({
   form: {
@@ -54,6 +60,12 @@ const styles = theme => ({
   },
   title: {
     marginTop: 30
+  },
+  link: {
+    "&:hover": {
+      color: theme.palette.primary.main,
+      cursor: "pointer"
+    }
   }
 });
 
@@ -61,9 +73,7 @@ class Login extends Component {
   state = {
     email: "",
     password: "",
-
     errors: {},
-    open: false,
     showPassword: false
   };
   handleChange = e => {
@@ -80,15 +90,15 @@ class Login extends Component {
     };
     this.props.loginUser(userData);
   };
-  toggle = () => {
-    this.setState({
-      open: !this.state.open
-    });
-  };
+
   handleClickShowPassword = () => {
     this.setState({
       showPassword: !this.state.showPassword
     });
+  };
+  handleOpenRegisterModal = () => {
+    this.props.closeLoginModal();
+    this.props.openRegisterModal();
   };
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.errors) {
@@ -96,35 +106,32 @@ class Login extends Component {
         errors: nextProps.auth.errors
       });
     }
-    if (this.state.open) {
-      if (nextProps.auth.isAuthenticated === true) {
-        this.setState({
-          open: false
-        });
-      }
-    }
   }
 
   render() {
-    const { open, email, password, showPassword, errors } = this.state;
+    const { email, password, showPassword, errors } = this.state;
     const {
       classes,
+      openLoginModal,
+      closeLoginModal,
+      loginModalOpen,
       auth: { loading }
     } = this.props;
     return (
       <Fragment>
-        <Button color="inherit" onClick={this.toggle}>
+        <Button color="inherit" onClick={openLoginModal}>
           Login
         </Button>
+
         <Dialog
-          open={open}
-          onClose={this.toggle}
+          open={loginModalOpen}
+          onClose={closeLoginModal}
           aria-labelledby="form-dialog-title">
           <Tooltip title="Close">
             <IconButton
               aria-label="Close"
               className={classes.closeIcon}
-              onClick={this.toggle}>
+              onClick={closeLoginModal}>
               <CloseIcon />
             </IconButton>
           </Tooltip>
@@ -160,12 +167,7 @@ class Login extends Component {
                       position="end"
                       aria-label="User"
                       className={classes.adornment}>
-                      {/* <IconButton
-                        edge="end"
-                        aria-label="User"
-                        className={classes.icon}> */}
                       <AccountCircle />
-                      {/* </IconButton> */}
                     </InputAdornment>
                   )
                 }}
@@ -214,7 +216,6 @@ class Login extends Component {
                   fullWidth
                   color="primary"
                   disabled={loading}
-                  // onClick={this.handleClose}
                   size="large">
                   Login
                   {loading && (
@@ -222,6 +223,16 @@ class Login extends Component {
                   )}
                 </Button>
               </DialogActions>
+              <Typography variant="body2" align="center" gutterBottom>
+                Don't have an account yet?{" "}
+                <MuiLink
+                  color="secondary"
+                  underline="none"
+                  className={classes.link}
+                  onClick={this.handleOpenRegisterModal}>
+                  Register here!
+                </MuiLink>
+              </Typography>
             </form>
           </DialogContent>
         </Dialog>
@@ -230,13 +241,14 @@ class Login extends Component {
   }
 }
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  loginModalOpen: state.modal.loginModalOpen
 });
 
 export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { loginUser }
+    { loginUser, openLoginModal, closeLoginModal, openRegisterModal }
   )
 )(withRouter(Login));

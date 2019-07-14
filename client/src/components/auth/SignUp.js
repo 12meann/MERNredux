@@ -3,6 +3,11 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { registerUser } from "../../store/actions/authActions";
+import {
+  openLoginModal,
+  openRegisterModal,
+  closeRegisterModal
+} from "../../store/actions/modalActions";
 
 //MUI
 import { withStyles } from "@material-ui/core/styles";
@@ -22,6 +27,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import MuiLink from "@material-ui/core/Link";
 
 const styles = theme => ({
   form: {
@@ -55,6 +61,12 @@ const styles = theme => ({
   },
   title: {
     marginTop: 30
+  },
+  link: {
+    "&:hover": {
+      color: theme.palette.primary.main,
+      cursor: "pointer"
+    }
   }
 });
 
@@ -65,8 +77,8 @@ class SignUp extends Component {
     password: "",
     confirmPassword: "",
     errors: {},
-    msg: {},
-    open: false,
+    // msg: {},
+    // open: false,
     showPassword: false
   };
   handleChange = e => {
@@ -76,21 +88,27 @@ class SignUp extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    const { username, email, password } = this.state;
-    const { registerUser } = this.props;
-    const newUser = {
-      email,
-      password,
-      username
-    };
-    registerUser(newUser);
+    const { username, email, password, confirmPassword } = this.state;
+    if (password !== confirmPassword) {
+      this.setState({
+        errors: { confirmPassword: "Passwords must match" }
+      });
+    } else {
+      const { registerUser } = this.props;
+      const newUser = {
+        email,
+        password,
+        username
+      };
+      registerUser(newUser);
+    }
   };
 
-  toggle = () => {
-    this.setState({
-      open: !this.state.open
-    });
-  };
+  // toggle = () => {
+  //   this.setState({
+  //     open: !this.state.open
+  //   });
+  // };
   handleClickShowPassword = () => {
     this.setState({
       showPassword: !this.state.showPassword
@@ -110,36 +128,42 @@ class SignUp extends Component {
       }
     }
   }
+  handleOpenLoginModal = () => {
+    this.props.closeRegisterModal();
+    this.props.openLoginModal();
+  };
 
   render() {
     const {
       email,
       password,
       username,
-      open,
       confirmPassword,
       showPassword,
       errors
     } = this.state;
     const {
+      openRegisterModal,
+      closeRegisterModal,
+      registerModalOpen,
       classes,
       auth: { loading }
     } = this.props;
     return (
       <Fragment>
-        <Button color="inherit" onClick={this.toggle}>
+        <Button color="inherit" onClick={openRegisterModal}>
           Sign Up
         </Button>
         <Dialog
-          open={open}
-          onClose={this.toggle}
+          open={registerModalOpen}
+          onClose={closeRegisterModal}
           // onClose={this.handleClose}
           aria-labelledby="form-dialog-title">
           <Tooltip title="Close">
             <IconButton
               aria-label="Close"
               className={classes.closeIcon}
-              onClick={this.toggle}>
+              onClick={closeRegisterModal}>
               <CloseIcon />
             </IconButton>
           </Tooltip>
@@ -173,12 +197,7 @@ class SignUp extends Component {
                       position="end"
                       aria-label="User"
                       className={classes.adornment}>
-                      {/* <IconButton
-                        edge="end"
-                        aria-label="User"
-                        className={classes.icon}> */}
                       <AccountCircle />
-                      {/* </IconButton> */}
                     </InputAdornment>
                   )
                 }}
@@ -202,12 +221,7 @@ class SignUp extends Component {
                       position="end"
                       aria-label="User"
                       className={classes.adornment}>
-                      {/* <IconButton
-                        edge="end"
-                        aria-label="User"
-                        className={classes.icon}> */}
                       <Face />
-                      {/* </IconButton> */}
                     </InputAdornment>
                   )
                 }}
@@ -240,7 +254,7 @@ class SignUp extends Component {
                   )
                 }}
               />
-              {/* <TextField
+              <TextField
                 margin="dense"
                 id="confirmPassword"
                 name="confirmPassword"
@@ -267,7 +281,7 @@ class SignUp extends Component {
                     </InputAdornment>
                   )
                 }}
-              /> */}
+              />
               {errors.msg && (
                 <Typography
                   variant="body2"
@@ -291,7 +305,19 @@ class SignUp extends Component {
                     <CircularProgress size={30} className={classes.spinner} />
                   )}
                 </Button>
+                <br />
+                <br />
               </DialogActions>
+              <Typography variant="body2" align="center" gutterBottom>
+                Already have an account? Login{" "}
+                <MuiLink
+                  color="secondary"
+                  underline="none"
+                  className={classes.link}
+                  onClick={this.handleOpenLoginModal}>
+                  here
+                </MuiLink>
+              </Typography>
             </form>
           </DialogContent>
         </Dialog>
@@ -300,13 +326,19 @@ class SignUp extends Component {
   }
 }
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  registerModalOpen: state.modal.registerModalOpen
 });
 
 export default compose(
   connect(
     mapStateToProps,
-    { registerUser }
+    {
+      registerUser,
+      openLoginModal,
+      openRegisterModal,
+      closeRegisterModal
+    }
   ),
   withStyles(styles)
 )(withRouter(SignUp));
