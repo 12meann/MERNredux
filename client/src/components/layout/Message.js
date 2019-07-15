@@ -50,7 +50,11 @@ class Message extends Component {
               root: msg.success ? classes.success : classes.root
             }
           }}
-          message={<span id="message-id">{msg.success || msg.fail}</span>}
+          message={
+            <span id="message-id">
+              {msg.success || msg.fail || msg.errors.error.message}
+            </span>
+          }
           action={[
             <IconButton
               key="close"

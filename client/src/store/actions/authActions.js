@@ -100,16 +100,17 @@ export const logOut = () => dispatch => {
   setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
 };
 
-export const deleteAccount = userId => dispatch => {
+export const deleteAccount = () => dispatch => {
   dispatch({ type: LOADING });
   axios
-    .delete(`/api/users/${userId}`)
+    .delete(`/api/users/`)
     .then(res => {
       dispatch({ type: DELETE_ACCOUNT, payload: res.data });
+      dispatch(loadUser());
     })
     .catch(err => {
-      // if(err.response){
-      dispatch({ type: DELETE_FAIL, payload: err.response.data });
-      // }
+      if (err.response) {
+        dispatch({ type: DELETE_FAIL, payload: err.response.data });
+      }
     });
 };

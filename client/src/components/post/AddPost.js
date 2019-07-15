@@ -55,6 +55,9 @@ class AddPost extends Component {
       content: this.state.content
     };
     this.props.addPost(newPost);
+    this.setState({
+      content: ""
+    });
   };
   componentWillReceiveProps(nextProps) {
     if (nextProps.post.errors) {

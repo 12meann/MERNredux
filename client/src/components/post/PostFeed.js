@@ -6,6 +6,7 @@ import PostItemCard from "./PostItemCard";
 import AddPost from "./AddPost";
 import { getPostsFeed } from "../../store/actions/postActions";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 //MUI
 import { withStyles } from "@material-ui/styles";
@@ -34,10 +35,14 @@ class PostFeed extends Component {
       <div>
         {isAuthenticated && <AddPost />}
 
-        {posts.length !== 0 ? (
-          posts.map(post => <PostItemCard post={post} key={post._id} />)
+        {!loading ? (
+          posts.length !== 0 ? (
+            posts.map(post => <PostItemCard post={post} key={post._id} />)
+          ) : (
+            <Typography align="center">No posts found yet.</Typography>
+          )
         ) : (
-          <Typography align="center">No posts found yet.</Typography>
+          <CircularProgress size={250} />
         )}
         {/* {posts ? (
           posts.map(post => <PostItemCard post={post} key={post._id} />)

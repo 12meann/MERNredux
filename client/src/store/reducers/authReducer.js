@@ -86,7 +86,7 @@ const authReducer = (state = initialState, action) => {
         token: null,
         isAuthenticated: false,
         loading: false,
-        success: action.payload
+        success: action.payload.success
       };
     case DELETE_FAIL:
       return {

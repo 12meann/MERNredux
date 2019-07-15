@@ -59,7 +59,7 @@ router.get("/:userid", auth, (req, res, next) => {
 });
 
 // delete user
-// DELETE @ /api/users/:userid
+// DELETE @ /api/users/
 // auth
 router.delete("/", auth, async (req, res, next) => {
   try {
