@@ -18,7 +18,8 @@ router.post("/", auth, (req, res, next) => {
     .then(post => {
       const newComment = new Comment({
         content: req.body.content,
-        commentedBy: req.user.id
+        commentedBy: req.user.id,
+        postItem: req.params.postid
       });
 
       //save comment to Comment
@@ -33,13 +34,13 @@ router.post("/", auth, (req, res, next) => {
         })
         .catch(err => {
           if (err) {
-            res.status(500).json({ msg: "Server error 1", err });
+            res.status(500).json({ fail: "Server error 1", err });
           }
         });
     })
     .catch(err => {
       if (err) {
-        res.status(500).json({ msg: "Server error 2", err });
+        res.status(500).json({ fail: "Server error 2", err });
       }
     });
 });

@@ -25,7 +25,13 @@ const userSchema = new Schema({
   facebookLink: String,
   twitterLink: String,
   avatar: String,
-  about: String
+  about: String,
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ]
 });
 
 const User = mongoose.model("User", userSchema);

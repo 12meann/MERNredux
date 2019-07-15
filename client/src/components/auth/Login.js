@@ -126,7 +126,7 @@ class Login extends Component {
         <Dialog
           open={loginModalOpen}
           onClose={closeLoginModal}
-          aria-labelledby="form-dialog-title">
+          aria-labelledby="Login modal">
           <Tooltip title="Close">
             <IconButton
               aria-label="Close"
@@ -135,10 +135,7 @@ class Login extends Component {
               <CloseIcon />
             </IconButton>
           </Tooltip>
-          <DialogTitle
-            className={classes.title}
-            id="form-dialog-title"
-            align="center">
+          <DialogTitle className={classes.title} id="Login" align="center">
             Login
           </DialogTitle>
           {/* <DialogTitle id="form-dialog-subtitle">Mom's Daily Log</DialogTitle> */}

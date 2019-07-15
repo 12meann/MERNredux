@@ -4,7 +4,7 @@ import {
   DELETE_POST,
   ADD_POST,
   EDIT_POST,
-  LOADING,
+  LOADING_POSTS,
   POST_ERROR,
   CLEAR_ERRORS
 } from "../actions/types";
@@ -18,6 +18,11 @@ const initialState = {
 
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOADING_POSTS:
+      return {
+        ...state,
+        loading: true
+      };
     case GET_POSTS:
       return {
         ...state,
@@ -27,8 +32,9 @@ const postReducer = (state = initialState, action) => {
     case ADD_POST:
       return {
         ...state,
-        loading: false,
-        posts: action.payload
+        post: action.payload,
+        posts: state.posts,
+        loading: false
       };
     case GET_POST:
       return {

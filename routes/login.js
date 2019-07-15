@@ -21,45 +21,38 @@ router.post("/", (req, res) => {
         return res
           .status(400)
           .json({ msg: "Wrong credentials. Please try again." });
-      bcrypt
-        .compare(password, user.password)
-        .then(isMatch => {
-          if (!isMatch)
-            return res
-              .status(400)
-              .json({ msg: "Wrong credentials. Please try again." });
 
-          jwt.sign(
-            { id: user.id, postedBy: user.username },
-            process.env.JWT_SECRET,
-            { expiresIn: 3600 }, //1 hour
-            (err, token) => {
-              if (err) throw err;
-              res.json({
-                token,
-                user: {
-                  id: user.id,
-                  username: user.username,
-                  email: user.email
-                },
-                success: "You have succesfully logged in."
-              });
-            }
-          );
-        })
-        .catch(err => {
-          if (err)
-            return res.status(500).json({
-              fail: "Something went wrong. Please try again.",
-              err: err
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (!isMatch)
+          return res
+            .status(400)
+            .json({ msg: "Wrong credentials. Please try again." });
+
+        jwt.sign(
+          { id: user.id, postedBy: user.username },
+          process.env.JWT_SECRET,
+          { expiresIn: 3600 }, //1 hour
+          (err, token) => {
+            if (err) throw err;
+            res.json({
+              token,
+              user: {
+                id: user.id,
+                username: user.username,
+                email: user.email
+              },
+              success: `You have succesfully logged in, ${user.username}.`
             });
-        });
+          }
+        );
+      });
     })
     .catch(err => {
       if (err)
-        return res
-          .status(500)
-          .json({ msg: "Something went wrong. Please try again.", err: err });
+        return res.status(500).json({
+          fail: "Something went wrong. Please try again.",
+          err: err
+        });
     });
 });
 

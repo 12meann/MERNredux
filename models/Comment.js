@@ -20,7 +20,11 @@ const commentSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     }
-  ]
+  ],
+  post: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post"
+  }
 });
 
 const Comment = mongoose.model("Comment", commentSchema);

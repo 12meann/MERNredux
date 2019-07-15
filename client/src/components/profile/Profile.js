@@ -3,6 +3,7 @@ import noUserImg from "../../images/blankAvatar.png";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import moment from "moment";
+import EditProfileButton from "./EditProfileButton";
 
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -15,13 +16,17 @@ import CalendarToday from "@material-ui/icons/CalendarToday";
 const styles = theme => ({
   card: {
     position: "relative",
-    textAlign: "center"
+    textAlign: "center",
+    padding: 20
   },
   progress: {
     postion: "absolute"
   },
   content: {
     textAlign: "center"
+  },
+  img: {
+    borderRadius: "50%"
   }
 });
 
@@ -31,36 +36,36 @@ class Profile extends Component {
     const { user, classes, loading } = this.props;
     return (
       <div>
-        <Card className={classes.card}>
-          {user ? (
-            <Fragment>
-              <CardMedia
-                component="img"
-                alt="no user image"
-                // height="140"
-                image={noUserImg}
-                title="no user image"
-              />
-              <CardContent className={classes.content}>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <strong>@ {user.username} </strong>
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  color="textSecondary"
-                  component="span">
-                  <CalendarToday color="secondary" />
-                  Member Since{" "}
-                  <strong>
-                    {moment(user.registeredDate).format("MMM Do YY")}
-                  </strong>
-                </Typography>
-              </CardContent>
-            </Fragment>
-          ) : loading ? (
-            <CircularProgress size={250} className={classes.progress} />
-          ) : null}
-        </Card>
+        {user ? (
+          <Card className={classes.card}>
+            <EditProfileButton />
+            <CardMedia
+              className={classes.img}
+              component="img"
+              alt="no user image"
+              // height="140"
+              image={noUserImg}
+              title="no user image"
+            />
+            <CardContent className={classes.content}>
+              <Typography variant="body2" color="textSecondary" component="p">
+                <strong>@ {user.username} </strong>
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+                component="span">
+                <CalendarToday color="secondary" />
+                Member Since{" "}
+                <strong>
+                  {moment(user.registeredDate).format("MMM Do YY")}
+                </strong>
+              </Typography>
+            </CardContent>
+          </Card>
+        ) : loading ? (
+          <CircularProgress size={250} className={classes.progress} />
+        ) : null}
       </div>
     );
   }

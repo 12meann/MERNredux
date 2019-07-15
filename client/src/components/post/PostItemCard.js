@@ -66,7 +66,13 @@ class PostItem extends Component {
                 <MoreVertIcon />
               </IconButton>
             }
-            title={post.postedBy.username}
+            title={
+              post.postedBy ? (
+                post.postedBy.username
+              ) : (
+                <Typography variant="subtitle1">Deleted Account</Typography>
+              )
+            }
             subheader={moment(post.date.toString()).fromNow()}
           />
           <CardContent>

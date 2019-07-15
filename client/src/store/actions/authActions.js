@@ -10,7 +10,9 @@ import {
   USER_LOADED,
   CLEAR_ERRORS,
   LOADING,
-  REMOVE_SUCCESS_MSG
+  REMOVE_SUCCESS_MSG,
+  DELETE_ACCOUNT,
+  DELETE_FAIL
 } from "./types";
 import { closeLoginModal, closeRegisterModal } from "./modalActions";
 
@@ -83,10 +85,12 @@ export const loginUser = userData => dispatch => {
     })
     .catch(err => {
       console.log(err);
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: err.response.data
-      });
+      if (err.response) {
+        dispatch({
+          type: LOGIN_FAIL,
+          payload: err.response.data
+        });
+      }
     });
 };
 
@@ -94,4 +98,18 @@ export const logOut = () => dispatch => {
   dispatch({ type: LOADING });
   dispatch({ type: LOGOUT_SUCCESS });
   setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+};
+
+export const deleteAccount = userId => dispatch => {
+  dispatch({ type: LOADING });
+  axios
+    .delete(`/api/users/${userId}`)
+    .then(res => {
+      dispatch({ type: DELETE_ACCOUNT, payload: res.data });
+    })
+    .catch(err => {
+      // if(err.response){
+      dispatch({ type: DELETE_FAIL, payload: err.response.data });
+      // }
+    });
 };

@@ -2,11 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 
-const posts = require("./routes/posts");
-const comments = require("./routes/comments");
-const users = require("./routes/users");
 const login = require("./routes/login");
 const register = require("./routes/register");
+const users = require("./routes/users");
+const posts = require("./routes/posts");
+const comments = require("./routes/comments");
 
 const app = express();
 require("dotenv").config();

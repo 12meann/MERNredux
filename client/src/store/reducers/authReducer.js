@@ -5,7 +5,8 @@ import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  ACCOUNT_DELETED,
+  DELETE_ACCOUNT,
+  DELETE_FAIL,
   AUTH_ERROR,
   CLEAR_ERRORS,
   LOADING,
@@ -45,6 +46,7 @@ const authReducer = (state = initialState, action) => {
       localStorage.removeItem("token");
       return {
         ...state,
+        user: null,
         token: null,
         isAuthenticated: false,
         loading: false,
@@ -70,10 +72,27 @@ const authReducer = (state = initialState, action) => {
       localStorage.removeItem("token");
       return {
         ...state,
+        user: null,
         token: null,
         isAuthenticated: false,
         loading: false,
         success: "You have succesfully logout."
+      };
+    case DELETE_ACCOUNT:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        user: null,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        success: action.payload
+      };
+    case DELETE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errors: action.payload
       };
     default:
       return state;

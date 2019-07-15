@@ -22,7 +22,7 @@ class Dashboard extends Component {
     const { classes, msg } = this.props;
 
     return (
-      <Grid container spacing={3} className={classes.dashboard}>
+      <Grid container spacing={6} className={classes.dashboard}>
         {msg.success || msg.fail ? <Message /> : null}
         <Grid item xs={12} sm={7}>
           <PostFeed />

@@ -5,13 +5,13 @@ import {
   DELETE_POST,
   ADD_POST,
   EDIT_POST,
-  LOADING,
+  LOADING_POSTS,
   POST_ERROR,
   CLEAR_ERRORS
 } from "./types";
 
 export const addPost = newPost => dispatch => {
-  dispatch({ type: LOADING });
+  dispatch({ type: LOADING_POSTS });
   axios
     .post("/api/posts", newPost)
     .then(res => {
@@ -27,7 +27,7 @@ export const addPost = newPost => dispatch => {
 };
 
 export const getPostsFeed = () => dispatch => {
-  dispatch({ type: LOADING });
+  dispatch({ type: LOADING_POSTS });
   axios
     .get("/api/posts")
     .then(res => {
@@ -37,11 +37,13 @@ export const getPostsFeed = () => dispatch => {
       });
     })
     .catch(err => {
-      dispatch({ type: POST_ERROR, payload: err.response.data });
+      if (err.response) {
+        dispatch({ type: POST_ERROR, payload: err.response.data });
+      }
     });
 };
 export const getPost = postId => dispatch => {
-  dispatch({ type: LOADING });
+  dispatch({ type: LOADING_POSTS });
   axios
     .get(`/api/posts/${postId}`)
     .then(res => {

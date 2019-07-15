@@ -5,6 +5,7 @@ import { compose } from "redux";
 import PostItemCard from "./PostItemCard";
 import AddPost from "./AddPost";
 import { getPostsFeed } from "../../store/actions/postActions";
+import Typography from "@material-ui/core/Typography";
 
 //MUI
 import { withStyles } from "@material-ui/styles";
@@ -26,17 +27,25 @@ class PostFeed extends Component {
     // }
   }
   render() {
+    console.log(this.props.posts.length);
     // const { posts } = this.state;
-    const { isAuthenticated, posts } = this.props;
+    const { isAuthenticated, posts, loading } = this.props;
     return (
       <div>
         {isAuthenticated && <AddPost />}
 
-        {posts ? (
+        {posts.length !== 0 ? (
           posts.map(post => <PostItemCard post={post} key={post._id} />)
         ) : (
-          <p>loading...</p>
+          <Typography align="center">No posts found yet.</Typography>
         )}
+        {/* {posts ? (
+          posts.map(post => <PostItemCard post={post} key={post._id} />)
+        ) : loading ? (
+          <p>loading...</p>
+        ) : (
+          <p>No posts found yet.</p>
+        )} */}
       </div>
     );
   }
@@ -44,7 +53,8 @@ class PostFeed extends Component {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  posts: state.post.posts
+  posts: state.post.posts,
+  loading: state.post.loading
 });
 
 export default compose(
