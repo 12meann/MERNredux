@@ -5,6 +5,7 @@ import { deleteAccount } from "../../store/actions/authActions";
 import { Link } from "react-router-dom";
 
 //MUI
+import { withStyles } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -18,14 +19,12 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Divider from "@material-ui/core/Divider";
 
 import DialogActions from "@material-ui/core/DialogActions";
-import { withStyles } from "@material-ui/core";
-import DeleteDialog from "./DeleteDialog";
 
 const styles = theme => ({
   moreButton: {
     float: "right"
   },
-  delete: {
+  deleteMenu: {
     color: theme.palette.error.main
   },
   deleteButton: {
@@ -39,7 +38,12 @@ const styles = theme => ({
     padding: "20px",
     textAlign: "center"
   },
-  spinner: {}
+  spinner: {
+    position: "absolute"
+  },
+  disabledButton: {
+    backgroundColor: theme.palette.error.light
+  }
 });
 
 export class MoreProfileButton extends Component {
@@ -95,13 +99,15 @@ export class MoreProfileButton extends Component {
           keepMounted
           open={Boolean(anchorEl)}
           onClose={this.handleCloseMenu}>
-          <MenuItem component={Link} to="/users/${user._id}">
+          <MenuItem component={Link} to={`/users/${user._id}`}>
             Edit Profile
           </MenuItem>
           <MenuItem>Edit Profile Image</MenuItem>
           <MenuItem>Logout</MenuItem>
           <Divider variant="middle" />
-          <MenuItem onClick={this.handleModalDelete} className={classes.delete}>
+          <MenuItem
+            onClick={this.handleModalDelete}
+            className={classes.deleteMenu}>
             Delete Account
           </MenuItem>
         </Menu>
@@ -109,12 +115,14 @@ export class MoreProfileButton extends Component {
           open={openModal}
           onClose={this.handleModalDelete}
           aria-labelledby="Delete modal"
-          className={classes.dialog}>
+          className={classes.dialog}
+          fullWidth
+          maxWidth="sm">
           <DialogTitle className={classes.title} id="Login" align="center">
             Delete Account
           </DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText variant="h6">
               This is irreversable.
               <br />
               <br />
@@ -122,16 +130,15 @@ export class MoreProfileButton extends Component {
               <br />
               <br />
               All your profile info will be deleted.
-              <br />
-              (Post and comments might still be available.)
             </DialogContentText>
             <DialogActions>
               <Button
-                variant="contained"
+                variant="outlined"
                 onClick={this.handleDelete}
                 className={classes.deleteButton}
                 fullWidth
-                // disabled={loading}
+                disabled={loading}
+                classes={{ disabled: classes.disabledButton }}
                 size="large">
                 DELETE
                 {loading && (

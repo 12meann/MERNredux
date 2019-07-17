@@ -51,6 +51,7 @@ export const registerUser = newUserData => dispatch => {
   axios
     .post("/api/register", body, config)
     .then(res => {
+      console.log(res);
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
@@ -61,10 +62,13 @@ export const registerUser = newUserData => dispatch => {
       dispatch(closeRegisterModal());
     })
     .catch(err => {
-      dispatch({
-        type: AUTH_ERROR,
-        payload: err.response.data
-      });
+      console.log(err);
+      if (err) {
+        dispatch({
+          type: AUTH_ERROR,
+          payload: err.response.data
+        });
+      }
     });
 };
 

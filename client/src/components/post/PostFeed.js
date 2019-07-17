@@ -1,16 +1,12 @@
 import React, { Component } from "react";
-
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { compose } from "redux";
 import PostItemCard from "./PostItemCard";
 import AddPost from "./AddPost";
 import { getPostsFeed } from "../../store/actions/postActions";
+//MUI stuff
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-//MUI
-import { withStyles } from "@material-ui/styles";
-const styles = theme => ({});
 
 class PostFeed extends Component {
   state = {
@@ -19,15 +15,8 @@ class PostFeed extends Component {
   componentDidMount() {
     this.props.getPostsFeed();
   }
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.post.posts) {
-    //   this.setState({
-    //     posts: nextProps.post.posts
-    //   });
-    // }
-  }
+
   render() {
-    // const { posts } = this.state;
     const { isAuthenticated, posts, loading } = this.props;
     return (
       <div>
@@ -42,13 +31,6 @@ class PostFeed extends Component {
         ) : (
           <CircularProgress size={250} />
         )}
-        {/* {posts ? (
-          posts.map(post => <PostItemCard post={post} key={post._id} />)
-        ) : loading ? (
-          <p>loading...</p>
-        ) : (
-          <p>No posts found yet.</p>
-        )} */}
       </div>
     );
   }
@@ -60,10 +42,14 @@ const mapStateToProps = state => ({
   loading: state.post.loading
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    { getPostsFeed }
-  ),
-  withStyles(styles)
+PostFeed.propTypes = {
+  getPostsFeed: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+  posts: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired
+};
+
+export default connect(
+  mapStateToProps,
+  { getPostsFeed }
 )(PostFeed);

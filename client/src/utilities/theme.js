@@ -38,6 +38,12 @@ export default {
       root: {
         marginBottom: "10px"
       }
+    },
+
+    MuiDivider: {
+      root: {
+        marginTop: 1
+      }
     }
   }
 };

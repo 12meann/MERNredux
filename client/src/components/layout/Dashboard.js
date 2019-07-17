@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
 import Profile from "../profile/Profile";
 import PostFeed from "../post/PostFeed";
 import Message from "../layout/Message";
 import { connect } from "react-redux";
-import { compose } from "redux";
+
 //MUI Stuff
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
@@ -47,7 +46,4 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default compose(
-  connect(mapStateToProps),
-  withStyles(styles)
-)(Dashboard);
+export default connect(mapStateToProps)(withStyles(styles)(Dashboard));

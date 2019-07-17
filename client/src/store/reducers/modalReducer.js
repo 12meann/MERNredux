@@ -2,9 +2,7 @@ import {
   OPEN_LOGIN_MODAL,
   CLOSE_LOGIN_MODAL,
   OPEN_REGISTER_MODAL,
-  CLOSE_REGISTER_MODAL,
-  OPEN_UPDATE_MODAL,
-  CLOSE_UPDATE_MODAL
+  CLOSE_REGISTER_MODAL
 } from "../actions/types";
 
 const initialState = {
@@ -35,16 +33,7 @@ const modalReducer = (state = initialState, action) => {
         ...state,
         registerModalOpen: false
       };
-    // case CLOSE_UPDATE_MODAL:
-    //   return {
-    //     ...state,
-    //     updateModalOpen: false
-    //   };
-    // case OPEN_UPDATE_MODAL:
-    //   return {
-    //     ...state,
-    //     updateModalOpen: true
-    //   };
+
     default:
       return state;
   }

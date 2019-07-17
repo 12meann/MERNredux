@@ -4,7 +4,7 @@ import {
   ADD_POST,
   // DELETE_POST,
   // EDIT_POST,
-  // CLEAR_ERRORS,
+  CLEAR_ERRORS,
   LOADING_POSTS,
   POST_ERROR
 } from "../actions/types";
@@ -46,6 +46,13 @@ const postReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         errors: action.payload
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        loading: false,
+        errors: null,
+        posts: [...state.posts]
       };
     default:
       return state;

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { compose } from "redux";
 import { connect } from "react-redux";
 import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
@@ -9,15 +9,14 @@ import { logOut } from "../../store/actions/authActions";
 import { withStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const styles = {
-  root: {
-    flexGrow: 1
-  },
+  // root: {
+  //   flexGrow: 1
+  // },
   brand: {
     flexGrow: 1,
     justifyContent: "flex-start",
@@ -75,10 +74,14 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    { logOut }
-  ),
-  withStyles(styles)
-)(Navbar);
+Navbar.propTypes = {
+  user: PropTypes.object,
+  classes: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool,
+  logOut: PropTypes.func.isRequired
+};
+
+export default connect(
+  mapStateToProps,
+  { logOut }
+)(withStyles(styles)(Navbar));

@@ -174,10 +174,7 @@ class Login extends Component {
                 }}
               />
               {errors.msg && (
-                <Typography
-                  variant="body2"
-                  align="center"
-                  className={classes.errorMsg}>
+                <Typography variant="body2" align="center" color="error">
                   {errors.msg}
                 </Typography>
               )}

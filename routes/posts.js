@@ -12,7 +12,7 @@ const auth = require("../middleware/auth");
 router.get("/", (req, res, next) => {
   Post.find()
     .sort({ date: -1 })
-    .populate("postedBy", "username -_id")
+    .populate("postedBy", "username")
     .populate({
       path: "comments",
       populate: {

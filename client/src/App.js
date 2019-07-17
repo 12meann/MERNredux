@@ -7,7 +7,7 @@ import store from "./store/store";
 
 //links
 import Dashboard from "./components/layout/Dashboard";
-import Post from "./components/post/Post";
+import EditPost from "./components/post/EditPost";
 import EditProfile from "./components/profile/EditProfile";
 import Navbar from "./components/layout/Navbar";
 //MUI
@@ -30,7 +30,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Dashboard} />
                 <PrivateRoute path="/users/:userid" component={EditProfile} />
-                <PrivateRoute path="/posts/:postid" component={Post} />
+                <PrivateRoute path="/posts/:postid" component={EditPost} />
               </Switch>
             </div>
           </Router>

@@ -16,13 +16,16 @@ export const addPost = newPost => dispatch => {
     .post("/api/posts", newPost)
     .then(res => {
       dispatch({ type: ADD_POST, payload: res.data });
-      dispatch({ type: CLEAR_ERRORS });
+      setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 5000);
     })
     .catch(err => {
-      dispatch({
-        type: POST_ERROR,
-        payload: err.response.data
-      });
+      console.log(err);
+      if (err) {
+        dispatch({
+          type: POST_ERROR,
+          payload: err.response.data
+        });
+      }
     });
 };
 

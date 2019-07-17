@@ -7,6 +7,8 @@ import { editProfile } from "../../store/actions/authActions";
 
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
+import clsx from "clsx";
+import { loadCSS } from "fg-loadcss";
 import CloseIcon from "@material-ui/icons/Close";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -21,8 +23,6 @@ import FaceIcon from "@material-ui/icons/Face";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import AboutIcon from "@material-ui/icons/PermContactCalendar";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import clsx from "clsx";
-import { loadCSS } from "fg-loadcss";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";

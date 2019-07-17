@@ -1,17 +1,27 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 import noUserImg from "../../images/blankAvatar.png";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import moment from "moment";
 import MoreProfileButton from "./MoreProfileButton";
 
+//MUI
 import { withStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
+import { loadCSS } from "fg-loadcss";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import CalendarToday from "@material-ui/icons/CalendarToday";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import RoomIcon from "@material-ui/icons/Room";
+import PermIdentityIcon from "@material-ui/icons/PermIdentity";
+import LinkIcon from "@material-ui/icons/Link";
+import Icon from "@material-ui/core/Icon";
+import Divider from "@material-ui/core/Divider";
 
 const styles = theme => ({
   card: {
@@ -22,17 +32,40 @@ const styles = theme => ({
   progress: {
     postion: "absolute"
   },
-  content: {
-    textAlign: "center"
+
+  icon: {
+    position: "relative",
+    top: theme.spacing.unit,
+    width: theme.typography.display3,
+    height: theme.typography.display3,
+    color: theme.palette.secondary.light
+  },
+  connect: {
+    transform: "rotate(45deg)"
   },
   img: {
     borderRadius: "50%"
+  },
+  about: {
+    textAlign: "justify",
+    lineHeight: "1.85rem"
   }
 });
 
 class Profile extends Component {
+  componentDidMount() {
+    loadCSS(
+      "https://use.fontawesome.com/releases/v5.1.0/css/all.css",
+      document.querySelector("#font-awesome-css")
+    );
+  }
   render() {
-    const { user, classes, loading } = this.props;
+    const {
+      user,
+
+      classes,
+      loading
+    } = this.props;
     return (
       <div>
         {user ? (
@@ -47,19 +80,72 @@ class Profile extends Component {
               title="no user image"
             />
             <CardContent className={classes.content}>
-              <Typography variant="body2" color="textSecondary" component="p">
-                <strong>@ {user.username} </strong>
+              <Typography variant="h6" color="textSecondary" component="p">
+                <AccountBoxIcon className={classes.icon} />{" "}
+                <strong>@ {user.username ? user.username : null} </strong>
               </Typography>
               <Typography
-                variant="subtitle2"
+                variant="subtitle1"
                 color="textSecondary"
                 component="span">
-                <CalendarToday color="secondary" />
-                Member Since{" "}
-                <strong>
-                  {moment(user.registeredDate).format("MMM Do YY")}
-                </strong>
+                <CalendarTodayIcon className={classes.icon} /> Member Since{" "}
+                {moment(user.registeredDate).format("MMM Do YY")}
               </Typography>
+              {user.location ? (
+                <Typography variant="body1" color="textSecondary">
+                  <RoomIcon className={classes.icon} /> Location:{" "}
+                  {user.location}
+                </Typography>
+              ) : null}
+              <br />
+
+              {user.facebookLink || user.twitterLink ? (
+                <Fragment>
+                  <Divider />
+                  <br />
+                  <Typography variant="body1" color="textSecondary">
+                    {" "}
+                    <LinkIcon
+                      className={clsx(classes.icon, classes.connect)}
+                    />{" "}
+                    <strong> Let's connect! </strong>
+                  </Typography>
+                </Fragment>
+              ) : null}
+
+              {user.facebookLink ? (
+                <Typography variant="body1" color="textSecondary">
+                  <Icon
+                    className={clsx("fab fa-facebook-square", classes.icon)}
+                  />{" "}
+                  {user.facebookLink}
+                </Typography>
+              ) : null}
+              {user.twitterLink ? (
+                <Typography variant="body1" color="textSecondary">
+                  <Icon
+                    className={clsx("fab fa-twitter-square", classes.icon)}
+                  />{" "}
+                  {user.twitterLink}
+                </Typography>
+              ) : null}
+              <br />
+              {user.about ? (
+                <Fragment>
+                  <Divider />
+
+                  <br />
+                  <Typography variant="body1" color="textSecondary">
+                    <PermIdentityIcon className={classes.icon} />{" "}
+                    <strong> About me: </strong>
+                    <br />
+                    <br />
+                  </Typography>
+                  <Typography color="textSecondary" component="p">
+                    {user.about}
+                  </Typography>
+                </Fragment>
+              ) : null}
             </CardContent>
           </Card>
         ) : loading ? (
@@ -74,6 +160,12 @@ const mapStateToProps = state => ({
   user: state.auth.user,
   loading: state.auth.loading
 });
+
+Profile.propTypes = {
+  user: PropTypes.object,
+  classes: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired
+};
 
 export default compose(
   connect(mapStateToProps),

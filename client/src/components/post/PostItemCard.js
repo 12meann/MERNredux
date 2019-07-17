@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import moment from "moment";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-// import noUser from "../../images/blankAvatar";
+import noUserImg from "../../images/blankAvatar.png";
+
 //MUI
 import { withStyles } from "@material-ui/styles";
-
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -17,28 +18,39 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import AddCommentIcon from "@material-ui/icons/AddComment";
 import MuiLink from "@material-ui/core/Link";
 
 const styles = {
   card: {
     marginBottom: "20px"
   },
-  media: {
-    height: 0,
-    paddingTop: "56.25%" // 16:9
+  avatar: {
+    width: 75,
+    height: 75,
+    objectFit: "cover"
   },
   expand: {
     transform: "rotate(0deg)",
     marginLeft: "auto"
-    // transition: theme.transitions.create("transform", {
-    //   duration: theme.transitions.duration.shortest
-    // })
   },
   expandOpen: {
     transform: "rotate(180deg)"
+  },
+  post: {
+    borderColor: "rgba(40, 167, 69, 1)",
+    borderLeftStyle: "solid",
+    border: "4px",
+    padding: "0 10px",
+    margin: "0 30px"
+  },
+  comments: {
+    padding: "0 10px",
+    margin: "0 30px"
   }
 };
 
+//from the feed
 class PostItem extends Component {
   state = {
     expanded: false
@@ -51,60 +63,74 @@ class PostItem extends Component {
   render() {
     const { classes, post } = this.props;
     const { expanded } = this.state;
-
     return (
-      <MuiLink underline="none" component={Link} to={`/posts/${post._id}`}>
-        <Card className={classes.card}>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="Recipe" className={classes.avatar}>
-                R
-              </Avatar>
-            }
-            action={
-              <IconButton aria-label="Settings">
-                <MoreVertIcon />
+      <Card className={classes.card}>
+        <CardHeader
+          className={classes.cardHeader}
+          avatar={
+            <Avatar
+              aria-label="User Image"
+              src={noUserImg}
+              className={classes.avatar}
+              alt="profile image"
+            />
+          }
+          action={
+            <IconButton aria-label="Settings">
+              <MoreVertIcon color="primary" />
+            </IconButton>
+          }
+          title={
+            <MuiLink
+              underline="none"
+              component={Link}
+              to={`/posts/${post._id}`}>
+              <Typography variant="h6" color="primary">
+                @ {post.postedBy.username}
+              </Typography>
+            </MuiLink>
+          }
+          subheader={moment(post.date.toString()).fromNow()}
+        />
+        <CardContent>
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            component="p"
+            className={classes.post}>
+            {post.content}
+          </Typography>
+        </CardContent>
+        <CardActions className={classes.comments}>
+          <Fragment>
+            <AddCommentIcon color="primary" />
+            <Typography variant="body2">
+              Comments{" "}
+              <IconButton
+                aria-expanded={expanded}
+                aria-label="Show more"
+                onClick={this.handleExpandClick}>
+                <ExpandMoreIcon color="primary" />
               </IconButton>
-            }
-            title={
-              post.postedBy ? (
-                post.postedBy.username
-              ) : (
-                <Typography variant="subtitle1">Deleted Account</Typography>
-              )
-            }
-            subheader={moment(post.date.toString()).fromNow()}
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {post.content}
             </Typography>
-          </CardContent>
-          <CardActions disableSpacing>
-            <Typography variant="body1"> Comments</Typography>
-            <IconButton
-              // className={clsx(classes.expand, {
-              //   [classes.expandOpen]: expanded
-              // })}
-              onClick={this.handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="Show more">
-              <ExpandMoreIcon />
-            </IconButton>
-            <IconButton aria-label="Add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="Share">
-              <ShareIcon />
-            </IconButton>
-          </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>where comments will go</CardContent>
-          </Collapse>
-        </Card>
-      </MuiLink>
+          </Fragment>
+          <IconButton aria-label="Add to favorites">
+            <FavoriteIcon color="primary" />
+          </IconButton>
+          <IconButton aria-label="Share">
+            <ShareIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>where comments will go</CardContent>
+        </Collapse>
+      </Card>
     );
   }
 }
+PostItem.propTypes = {
+  classes: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired
+};
 
 export default withStyles(styles)(PostItem);

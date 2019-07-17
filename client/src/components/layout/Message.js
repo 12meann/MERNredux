@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { compose } from "redux";
+import PropTypes from "prop-types";
 
+//MUI stuff
 import withStyles from "@material-ui/core/styles/withStyles";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -73,7 +74,9 @@ const mapStateToProps = state => ({
   msg: state.auth
 });
 
-export default compose(
-  connect(mapStateToProps),
-  withStyles(styles)
-)(Message);
+Message.propTypes = {
+  msg: PropTypes.object,
+  classes: PropTypes.object.isRequired
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Message));

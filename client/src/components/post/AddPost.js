@@ -1,14 +1,15 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { compose } from "redux";
 import { addPost } from "../../store/actions/postActions";
-
+///MUI
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
+import Textfield from "@material-ui/core/Textfield";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import { CircularProgress } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = theme => ({
   root: {
@@ -22,27 +23,41 @@ const styles = theme => ({
   },
   input: {
     marginLeft: 8,
-    flex: 1
+    flex: 1,
+    padding: 15
   },
   button: {
     height: "100%",
     fontSize: "1.5rem",
     lineHeight: "inherit",
     width: "20%",
-    // padding: "20px",
     margin: 0,
     padding: 0,
     position: "relative"
   },
   spinner: {
     position: "absolute"
+  },
+  // error: {
+  //   display: "flex",
+  //   alignItems: "center",
+  //   height: 100,
+  //   boxShadow: "1px 2px 3px 0px rgba(0,0,0,0.8)",
+  //   borderColor: theme.palette.error.light,
+  //   borderStyle: "solid",
+  //   borderWidth: "2px",
+  //   marginBottom: "5%"
+  // },
+  helperText: {
+    position: "absolute",
+    top: "29%"
   }
 });
 
 class AddPost extends Component {
   state = {
     content: "",
-    errors: null
+    errors: {}
   };
   handleChange = e => {
     this.setState({
@@ -59,13 +74,7 @@ class AddPost extends Component {
       content: ""
     });
   };
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.post.errors) {
-      this.setState({
-        errors: nextProps.post.errors
-      });
-    }
-  }
+
   render() {
     const { classes, errors, loading } = this.props;
     const { content } = this.state;
@@ -82,20 +91,17 @@ class AddPost extends Component {
               name="content"
               margin="dense"
               id="content"
-              error={content === ""}
               value={content}
               type="text"
               onChange={this.handleChange}
-              inputProps={{
-                "aria-label": "What are your thoughts today?"
-              }}
             />
-            <FormHelperText
+            {/* <FormHelperText
               margin="dense"
+              className={classes.helperText}
               error={errors.content ? true : false}
               id="component-helper-text">
               {errors.content}
-            </FormHelperText>
+            </FormHelperText> */}
             <Button
               className={classes.button}
               variant="contained"
@@ -120,10 +126,14 @@ const mapStateToProps = state => ({
   errors: state.post.errors
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    { addPost }
-  ),
-  withStyles(styles)
-)(AddPost);
+AddPost.propTypes = {
+  isAuthenticated: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
+  post: PropTypes.object,
+  errors: PropTypes.object
+};
+
+export default connect(
+  mapStateToProps,
+  { addPost }
+)(withStyles(styles)(AddPost));
