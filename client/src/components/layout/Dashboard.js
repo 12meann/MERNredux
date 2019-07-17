@@ -1,19 +1,23 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+
 import Profile from "../profile/Profile";
 import PostFeed from "../post/PostFeed";
 import Message from "../layout/Message";
-
-// import store from "../../store/store";
 import { connect } from "react-redux";
 import { compose } from "redux";
-// import { openLoginModal } from "../../store/actions/modalActions";
-//
+//MUI Stuff
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
 const styles = {
   dashboard: {
-    margin: "0 20px"
+    margin: "0 auto",
+    padding: 20
+  },
+  gridItem: {
+    width: "100%",
+    margin: "0 auto"
   }
 };
 
@@ -22,12 +26,12 @@ class Dashboard extends Component {
     const { classes, msg } = this.props;
 
     return (
-      <Grid container spacing={6} className={classes.dashboard}>
+      <Grid container className={classes.dashboard}>
         {msg.success || msg.fail ? <Message /> : null}
-        <Grid item xs={12} sm={7}>
+        <Grid item sm={12} md={7} className={classes.gridItem}>
           <PostFeed />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item sm={6} md={4} lg={3} className={classes.gridItem}>
           <Profile />
         </Grid>
       </Grid>
@@ -38,6 +42,10 @@ class Dashboard extends Component {
 const mapStateToProps = state => ({
   msg: state.auth
 });
+Dashboard.propTypes = {
+  msg: PropTypes.object,
+  classes: PropTypes.object.isRequired
+};
 
 export default compose(
   connect(mapStateToProps),

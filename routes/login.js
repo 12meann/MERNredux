@@ -29,7 +29,7 @@ router.post("/", (req, res) => {
             .json({ msg: "Wrong credentials. Please try again." });
 
         jwt.sign(
-          { id: user.id, postedBy: user.username },
+          { id: user.id },
           process.env.JWT_SECRET,
           { expiresIn: 3600 }, //1 hour
           (err, token) => {

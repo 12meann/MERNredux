@@ -1,8 +1,6 @@
 import {
   REGISTER_SUCCESS,
   USER_LOADED,
-  REGISTER_FAIL,
-  LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   DELETE_ACCOUNT,
@@ -10,7 +8,9 @@ import {
   AUTH_ERROR,
   CLEAR_ERRORS,
   LOADING,
-  REMOVE_SUCCESS_MSG
+  REMOVE_SUCCESS_MSG,
+  UPDATE_USER_PROFILE,
+  UPDATE_USER_FAIL
 } from "../actions/types";
 
 const initialState = {
@@ -41,8 +41,6 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true
       };
     case AUTH_ERROR:
-    case REGISTER_FAIL:
-    case LOGIN_FAIL:
       localStorage.removeItem("token");
       return {
         ...state,
@@ -89,10 +87,18 @@ const authReducer = (state = initialState, action) => {
         success: action.payload.success
       };
     case DELETE_FAIL:
+    case UPDATE_USER_FAIL:
       return {
         ...state,
         loading: false,
         errors: action.payload
+      };
+    case UPDATE_USER_PROFILE:
+      return {
+        ...state,
+        success: action.payload.success,
+        loading: false
+        // user: action.payload.doc
       };
     default:
       return state;

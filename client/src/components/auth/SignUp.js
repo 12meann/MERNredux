@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { compose } from "redux";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import { registerUser } from "../../store/actions/authActions";
 import {
   openLoginModal,
@@ -30,19 +29,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import MuiLink from "@material-ui/core/Link";
 
 const styles = theme => ({
-  form: {
-    margin: "auto"
-  },
-  input: {
-    padding: "20px auto"
-  },
-  button: {
-    marginTop: "20px",
-    position: "relative"
-  },
-  adornment: {
-    marginBottom: "10px"
-  },
   actions: {
     padding: "20px 0"
   },
@@ -77,8 +63,6 @@ class SignUp extends Component {
     password: "",
     confirmPassword: "",
     errors: {},
-    // msg: {},
-    // open: false,
     showPassword: false
   };
   handleChange = e => {
@@ -94,21 +78,14 @@ class SignUp extends Component {
         errors: { confirmPassword: "Passwords must match" }
       });
     } else {
-      const { registerUser } = this.props;
       const newUser = {
         email,
         password,
         username
       };
-      registerUser(newUser);
+      this.props.registerUser(newUser);
     }
   };
-
-  // toggle = () => {
-  //   this.setState({
-  //     open: !this.state.open
-  //   });
-  // };
   handleClickShowPassword = () => {
     this.setState({
       showPassword: !this.state.showPassword
@@ -157,7 +134,6 @@ class SignUp extends Component {
         <Dialog
           open={registerModalOpen}
           onClose={closeRegisterModal}
-          // onClose={this.handleClose}
           aria-labelledby="form-dialog-title">
           <Tooltip title="Close">
             <IconButton
@@ -174,10 +150,7 @@ class SignUp extends Component {
             SignUp
           </DialogTitle>
           <DialogContent>
-            <form
-              noValidate
-              className={classes.form}
-              onSubmit={this.handleSubmit}>
+            <form noValidate onSubmit={this.handleSubmit}>
               <TextField
                 margin="dense"
                 id="email"
@@ -186,18 +159,18 @@ class SignUp extends Component {
                 type="email"
                 onChange={this.handleChange}
                 value={email}
+                autoComplete="email"
                 helperText={errors.email}
                 error={errors.email ? true : false}
                 fullWidth
                 required
-                className={classes.input}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment
                       position="end"
                       aria-label="User"
                       className={classes.adornment}>
-                      <AccountCircle />
+                      <AccountCircle color="primary" />
                     </InputAdornment>
                   )
                 }}
@@ -208,20 +181,20 @@ class SignUp extends Component {
                 name="username"
                 label="Username"
                 type="text"
+                autoComplete="username"
                 onChange={this.handleChange}
                 value={username}
                 helperText={errors.username}
                 error={errors.username ? true : false}
                 fullWidth
                 required
-                className={classes.input}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment
                       position="end"
                       aria-label="User"
                       className={classes.adornment}>
-                      <Face />
+                      <Face color="primary" />
                     </InputAdornment>
                   )
                 }}
@@ -237,18 +210,21 @@ class SignUp extends Component {
                 type={showPassword ? "text" : "password"}
                 onChange={this.handleChange}
                 fullWidth
+                autoComplete="current-password"
                 required
-                className={classes.input}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        className={classes.icon}
                         edge="end"
                         tabIndex="-1"
                         aria-label="Toggle password visibility"
                         onClick={this.handleClickShowPassword}>
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility color="primary" />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   )
@@ -260,23 +236,26 @@ class SignUp extends Component {
                 name="confirmPassword"
                 label="Confirm Password"
                 value={confirmPassword}
+                autoComplete="off"
                 helperText={errors.confirmPassword}
                 error={errors.confirmPassword ? true : false}
                 type={showPassword ? "text" : "password"}
                 onChange={this.handleChange}
                 fullWidth
                 required
-                className={classes.input}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        className={classes.icon}
                         edge="end"
                         tabIndex="-1"
                         aria-label="Toggle password visibility"
                         onClick={this.handleClickShowPassword}>
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility color="primary" />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   )
@@ -294,11 +273,9 @@ class SignUp extends Component {
                 <Button
                   variant="contained"
                   type="submit"
-                  className="button-dialog"
                   fullWidth
                   color="primary"
                   disabled={loading}
-                  // onClick={this.handleClose}
                   size="large">
                   Sign Up
                   {loading && (
@@ -330,15 +307,22 @@ const mapStateToProps = state => ({
   registerModalOpen: state.modal.registerModalOpen
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    {
-      registerUser,
-      openLoginModal,
-      openRegisterModal,
-      closeRegisterModal
-    }
-  ),
-  withStyles(styles)
-)(withRouter(SignUp));
+SignUp.propTypes = {
+  auth: PropTypes.object.isRequired,
+  registerModalOpen: PropTypes.bool.isRequired,
+  registerUser: PropTypes.func.isRequired,
+  openLoginModal: PropTypes.func.isRequired,
+  closeRegisterModal: PropTypes.func.isRequired,
+  openRegisterModal: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
+};
+
+export default connect(
+  mapStateToProps,
+  {
+    registerUser,
+    openLoginModal,
+    openRegisterModal,
+    closeRegisterModal
+  }
+)(withStyles(styles)(SignUp));

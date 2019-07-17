@@ -1,12 +1,12 @@
 import {
   GET_POSTS,
   GET_POST,
-  DELETE_POST,
   ADD_POST,
-  EDIT_POST,
+  // DELETE_POST,
+  // EDIT_POST,
+  // CLEAR_ERRORS,
   LOADING_POSTS,
-  POST_ERROR,
-  CLEAR_ERRORS
+  POST_ERROR
 } from "../actions/types";
 
 const initialState = {
@@ -31,7 +31,7 @@ const postReducer = (state = initialState, action) => {
       };
     case ADD_POST:
       return {
-        ...state,       
+        ...state,
         posts: [action.payload, ...state.posts],
         loading: false
       };

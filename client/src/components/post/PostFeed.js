@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+
 import { connect } from "react-redux";
 import { compose } from "redux";
 import PostItemCard from "./PostItemCard";
@@ -20,7 +20,6 @@ class PostFeed extends Component {
     this.props.getPostsFeed();
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     // if (nextProps.post.posts) {
     //   this.setState({
     //     posts: nextProps.post.posts
@@ -28,7 +27,6 @@ class PostFeed extends Component {
     // }
   }
   render() {
-    console.log(this.props.posts.length);
     // const { posts } = this.state;
     const { isAuthenticated, posts, loading } = this.props;
     return (

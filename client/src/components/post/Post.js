@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import { getPost } from "../../store/actions/postActions";
 
 //Mui
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+// import IconButton from "@material-ui/core/IconButton";
+// import Menu from "@material-ui/core/Menu";
+// import MenuItem from "@material-ui/core/MenuItem";
+// import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import PropTypes from "prop-types";
 

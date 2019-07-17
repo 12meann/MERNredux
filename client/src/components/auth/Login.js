@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { compose } from "redux";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import { loginUser } from "../../store/actions/authActions";
 import {
   openLoginModal,
@@ -29,26 +28,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import MuiLink from "@material-ui/core/Link";
 
 const styles = theme => ({
-  form: {
-    margin: "auto"
-  },
-  input: {
-    padding: "20px auto"
-  },
-  button: {
-    marginTop: "20px",
-    position: "relative"
-  },
-  adornment: {
-    marginBottom: "10px"
-  },
   actions: {
     padding: "20px 0"
-  },
-  errorMsg: {
-    color: "red",
-    fontSize: "0.8rem",
-    marginTop: "10px"
   },
   spinner: {
     position: "absolute"
@@ -98,6 +79,7 @@ class Login extends Component {
   };
   handleOpenRegisterModal = () => {
     this.props.closeLoginModal();
+
     this.props.openRegisterModal();
   };
   componentWillReceiveProps(nextProps) {
@@ -122,7 +104,6 @@ class Login extends Component {
         <Button color="inherit" onClick={openLoginModal}>
           Login
         </Button>
-
         <Dialog
           open={loginModalOpen}
           onClose={closeLoginModal}
@@ -138,13 +119,8 @@ class Login extends Component {
           <DialogTitle className={classes.title} id="Login" align="center">
             Login
           </DialogTitle>
-          {/* <DialogTitle id="form-dialog-subtitle">Mom's Daily Log</DialogTitle> */}
-
           <DialogContent>
-            <form
-              noValidate
-              className={classes.form}
-              onSubmit={this.handleSubmit}>
+            <form noValidate onSubmit={this.handleSubmit}>
               <TextField
                 margin="dense"
                 id="email"
@@ -155,16 +131,13 @@ class Login extends Component {
                 value={email}
                 helperText={errors.email}
                 error={errors.email ? true : false}
+                autoComplete="email"
                 fullWidth
                 required
-                className={classes.input}
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment
-                      position="end"
-                      aria-label="User"
-                      className={classes.adornment}>
-                      <AccountCircle />
+                    <InputAdornment position="end" aria-label="User">
+                      <AccountCircle color="primary" />
                     </InputAdornment>
                   )
                 }}
@@ -180,18 +153,21 @@ class Login extends Component {
                 type={showPassword ? "text" : "password"}
                 onChange={this.handleChange}
                 fullWidth
+                autoComplete="current-password"
                 required
-                className={classes.input}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        className={classes.icon}
                         edge="end"
                         tabIndex="-1"
                         aria-label="Toggle password visibility"
                         onClick={this.handleClickShowPassword}>
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility color="primary" />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   )
@@ -209,7 +185,6 @@ class Login extends Component {
                 <Button
                   variant="contained"
                   type="submit"
-                  className="button-dialog"
                   fullWidth
                   color="primary"
                   disabled={loading}
@@ -242,10 +217,17 @@ const mapStateToProps = state => ({
   loginModalOpen: state.modal.loginModalOpen
 });
 
-export default compose(
-  withStyles(styles),
-  connect(
-    mapStateToProps,
-    { loginUser, openLoginModal, closeLoginModal, openRegisterModal }
-  )
-)(withRouter(Login));
+Login.propTypes = {
+  auth: PropTypes.object.isRequired,
+  loginModalOpen: PropTypes.bool.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  openLoginModal: PropTypes.func.isRequired,
+  closeLoginModal: PropTypes.func.isRequired,
+  openRegisterModal: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
+};
+
+export default connect(
+  mapStateToProps,
+  { loginUser, openLoginModal, closeLoginModal, openRegisterModal }
+)(withStyles(styles)(Login));

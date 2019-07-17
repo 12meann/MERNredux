@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./store/store";
 import { loadUser } from "./store/actions/authActions";
 import PrivateRoute from "./utilities/PrivateRoute";
+import store from "./store/store";
 
+//links
 import Dashboard from "./components/layout/Dashboard";
 import Post from "./components/post/Post";
+import EditProfile from "./components/profile/EditProfile";
+import Navbar from "./components/layout/Navbar";
 //MUI
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import myTheme from "./utilities/theme";
-import Navbar from "./components/layout/Navbar";
 
 const theme = createMuiTheme(myTheme);
 
@@ -27,6 +29,7 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Dashboard} />
+                <PrivateRoute path="/users/:userid" component={EditProfile} />
                 <PrivateRoute path="/posts/:postid" component={Post} />
               </Switch>
             </div>

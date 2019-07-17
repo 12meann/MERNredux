@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { compose } from "redux";
+// import { compose } from "redux";
 import { deleteAccount } from "../../store/actions/authActions";
+import { Link } from "react-router-dom";
 
 //MUI
 import IconButton from "@material-ui/core/IconButton";
@@ -14,9 +15,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Divider from "@material-ui/core/Divider";
 
 import DialogActions from "@material-ui/core/DialogActions";
 import { withStyles } from "@material-ui/core";
+import DeleteDialog from "./DeleteDialog";
 
 const styles = theme => ({
   moreButton: {
@@ -39,17 +42,18 @@ const styles = theme => ({
   spinner: {}
 });
 
-export class EditProfileButton extends Component {
+export class MoreProfileButton extends Component {
   state = {
     anchorEl: null,
     openModal: false
   };
+
   handleClickMenu = e => {
     this.setState({
       anchorEl: e.currentTarget
     });
   };
-  handleCloseMenu = e => {
+  handleCloseMenu = () => {
     this.setState({
       anchorEl: null
     });
@@ -61,16 +65,20 @@ export class EditProfileButton extends Component {
     });
   };
   handleDelete = e => {
-    e.preventDefault();
     const userId = this.props.user._id;
     this.props.deleteAccount(userId);
     this.setState({
       openModal: false
     });
   };
+  // handleUpdate = () => {
+  //   this.props.openUpdateModal();
+
+  //   this.userDetailsToState(this.props.user);
+  // };
   render() {
     const { anchorEl, openModal } = this.state;
-    const { classes, loading, deleteAccount, user } = this.props;
+    const { classes, loading, user } = this.props;
     return (
       <div>
         <IconButton
@@ -87,8 +95,12 @@ export class EditProfileButton extends Component {
           keepMounted
           open={Boolean(anchorEl)}
           onClose={this.handleCloseMenu}>
-          <MenuItem>Edit Profile</MenuItem>
+          <MenuItem component={Link} to="/users/${user._id}">
+            Edit Profile
+          </MenuItem>
           <MenuItem>Edit Profile Image</MenuItem>
+          <MenuItem>Logout</MenuItem>
+          <Divider variant="middle" />
           <MenuItem onClick={this.handleModalDelete} className={classes.delete}>
             Delete Account
           </MenuItem>
@@ -98,10 +110,7 @@ export class EditProfileButton extends Component {
           onClose={this.handleModalDelete}
           aria-labelledby="Delete modal"
           className={classes.dialog}>
-          <DialogTitle
-            // className={classes.title}
-            id="Login"
-            align="center">
+          <DialogTitle className={classes.title} id="Login" align="center">
             Delete Account
           </DialogTitle>
           <DialogContent>
@@ -122,7 +131,7 @@ export class EditProfileButton extends Component {
                 onClick={this.handleDelete}
                 className={classes.deleteButton}
                 fullWidth
-                disabled={loading}
+                // disabled={loading}
                 size="large">
                 DELETE
                 {loading && (
@@ -150,10 +159,7 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    { deleteAccount }
-  ),
-  withStyles(styles)
-)(EditProfileButton);
+export default connect(
+  mapStateToProps,
+  { deleteAccount }
+)(withStyles(styles)(MoreProfileButton));

@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import noUserImg from "../../images/blankAvatar.png";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import moment from "moment";
-import EditProfileButton from "./EditProfileButton";
+import MoreProfileButton from "./MoreProfileButton";
 
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -32,13 +32,12 @@ const styles = theme => ({
 
 class Profile extends Component {
   render() {
-    console.log(this.props);
     const { user, classes, loading } = this.props;
     return (
       <div>
         {user ? (
           <Card className={classes.card}>
-            <EditProfileButton />
+            <MoreProfileButton />
             <CardMedia
               className={classes.img}
               component="img"

@@ -32,5 +32,12 @@ export default {
       disabled: "rgba(0, 0, 0, 0.38)",
       hint: "rgba(0, 0, 0, 0.38)"
     }
+  },
+  overrides: {
+    MuiInputAdornment: {
+      root: {
+        marginBottom: "10px"
+      }
+    }
   }
 };

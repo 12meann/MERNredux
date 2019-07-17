@@ -78,12 +78,15 @@ router.delete("/", auth, async (req, res, next) => {
 });
 
 //update user or edit user profile
-//UPDATE @ /api/users/:userid
+//UPDATE @ /api/users/
 //auth
-router.put("/:userid", auth, (req, res, next) => {
+router.put("/", auth, (req, res, next) => {
+  //validate input
+  const { valid, errors } = validateUserUpdate(req.body);
+  if (!valid) return res.status(400).json(errors);
+
   // check if username is taken
-  if (req.params.userid !== req.user.id)
-    return res.status(403).json({ fail: "You are not authorized to do that" });
+
   User.findOne({ username: req.body.username })
     .then(usernameTaken => {
       if (usernameTaken) {
@@ -92,7 +95,7 @@ router.put("/:userid", auth, (req, res, next) => {
         });
       } else {
         User.findByIdAndUpdate(
-          req.params.userid,
+          req.user.id,
           req.body,
           { new: true },
           (err, doc) => {

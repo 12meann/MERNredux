@@ -2,9 +2,9 @@ import axios from "axios";
 import {
   GET_POSTS,
   GET_POST,
-  DELETE_POST,
   ADD_POST,
-  EDIT_POST,
+  // DELETE_POST,
+  // EDIT_POST,
   LOADING_POSTS,
   POST_ERROR,
   CLEAR_ERRORS

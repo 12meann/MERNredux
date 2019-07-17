@@ -29,7 +29,7 @@ const styles = theme => ({
     fontSize: "1.5rem",
     lineHeight: "inherit",
     width: "20%",
-    padding: "20px",
+    // padding: "20px",
     margin: 0,
     padding: 0,
     position: "relative"
@@ -69,8 +69,7 @@ class AddPost extends Component {
   render() {
     const { classes, errors, loading } = this.props;
     const { content } = this.state;
-    console.log(this.state);
-    console.log(this.props);
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -83,7 +82,6 @@ class AddPost extends Component {
               name="content"
               margin="dense"
               id="content"
-              margin="dense"
               error={content === ""}
               value={content}
               type="text"
