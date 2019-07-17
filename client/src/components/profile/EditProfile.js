@@ -63,49 +63,49 @@ export class EditProfile extends Component {
     twitterLink: "",
     about: ""
   };
-  userDetailsToState = user => {
-    this.setState({
-      username: user.username ? user.username : "",
-      about: user.about ? user.about : "",
-      location: user.location ? user.location : "",
-      facebookLink: user.facebookLink ? user.facebookLink : "",
-      twitterLink: user.twitterLink ? user.twitterLink : ""
-    });
-  };
-  handleUpdate = () => {
-    console.log("hello");
-    this.props.openUpdateModal();
+  // userDetailsToState = user => {
+  //   this.setState({
+  //     username: user.username ? user.username : "",
+  //     about: user.about ? user.about : "",
+  //     location: user.location ? user.location : "",
+  //     facebookLink: user.facebookLink ? user.facebookLink : "",
+  //     twitterLink: user.twitterLink ? user.twitterLink : ""
+  //   });
+  // };
+  // handleUpdate = () => {
+  //   console.log("hello");
+  //   this.props.openUpdateModal();
 
-    this.userDetailsToState(this.props.user);
-  };
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
+  //   this.userDetailsToState(this.props.user);
+  // };
+  // handleChange = e => {
+  //   this.setState({
+  //     [e.target.name]: e.target.value
+  //   });
+  // };
 
-  handleSubmit = e => {
-    const { username, location, facebookLink, twitterLink, about } = this.state;
-    e.preventDefault();
-    const formData = {
-      username,
-      location,
-      facebookLink,
-      twitterLink,
-      about
-    };
-    console.log(formData);
-    this.props.editProfile(formData);
-    this.props.closeUpdateModal();
-  };
-  componentDidMount() {
-    loadCSS(
-      "https://use.fontawesome.com/releases/v5.1.0/css/all.css",
-      document.querySelector("#font-awesome-css")
-    );
-    const { user } = this.props;
-    this.userDetailsToState(user);
-  }
+  // handleSubmit = e => {
+  //   const { username, location, facebookLink, twitterLink, about } = this.state;
+  //   e.preventDefault();
+  //   const formData = {
+  //     username,
+  //     location,
+  //     facebookLink,
+  //     twitterLink,
+  //     about
+  //   };
+  //   console.log(formData);
+  //   this.props.editProfile(formData);
+  //   this.props.closeUpdateModal();
+  // };
+  // componentDidMount() {
+  //   loadCSS(
+  //     "https://use.fontawesome.com/releases/v5.1.0/css/all.css",
+  //     document.querySelector("#font-awesome-css")
+  //   );
+  //   const { user } = this.props;
+  //   this.userDetailsToState(user);
+  // }
 
   render() {
     let ref = React.createRef();
@@ -122,7 +122,7 @@ export class EditProfile extends Component {
           <Typography className={classes.title} variant="h2" align="center">
             Edit / Update Profile
           </Typography>
-
+          {/* 
           <form onSubmit={this.handleSubmit}>
             <TextField
               margin="dense"
@@ -277,7 +277,7 @@ export class EditProfile extends Component {
                 <CircularProgress size={30} className={classes.spinner} />
               )}
             </Button>
-          </form>
+          </form> */}
         </Grid>
       </Grid>
     );

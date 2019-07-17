@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Profile from "../profile/Profile";
+import ProfileFeed from "../profile/ProfileFeed";
 import PostFeed from "../post/PostFeed";
 import Message from "../layout/Message";
 import { connect } from "react-redux";
@@ -31,7 +31,7 @@ class Dashboard extends Component {
           <PostFeed />
         </Grid>
         <Grid item sm={6} md={4} lg={3} className={classes.gridItem}>
-          <Profile />
+          <ProfileFeed />
         </Grid>
       </Grid>
     );

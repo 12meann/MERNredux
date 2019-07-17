@@ -18,7 +18,7 @@ const initialState = {
   isAuthenticated: null,
   loading: false,
   user: null,
-  errors: null,
+  errors: {},
   success: null
 };
 

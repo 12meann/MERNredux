@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { withRouter } from "react-router-dom";
 import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
 import { logOut } from "../../store/actions/authActions";
@@ -29,7 +31,7 @@ const styles = {
 
 class Navbar extends Component {
   render() {
-    const { classes, isAuthenticated, user, logOut } = this.props;
+    const { classes, isAuthenticated, user, logOut, history } = this.props;
 
     const guestLinks = (
       <Fragment>
@@ -45,7 +47,11 @@ class Navbar extends Component {
             <Typography variant="body1">Hi, {user.username}</Typography>
           </Fragment>
         ) : null}
-        <Button color="inherit" onClick={logOut}>
+        <Button
+          color="inherit"
+          onClick={() => {
+            logOut(history);
+          }}>
           Logout
         </Button>
       </Fragment>
@@ -78,10 +84,14 @@ Navbar.propTypes = {
   user: PropTypes.object,
   classes: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool,
-  logOut: PropTypes.func.isRequired
+  logOut: PropTypes.func.isRequired,
+  history: PropTypes.object
 };
 
-export default connect(
-  mapStateToProps,
-  { logOut }
-)(withStyles(styles)(Navbar));
+export default compose(
+  connect(
+    mapStateToProps,
+    { logOut }
+  ),
+  withStyles(styles)
+)(withRouter(Navbar));

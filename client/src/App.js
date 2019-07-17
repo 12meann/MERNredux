@@ -9,6 +9,7 @@ import store from "./store/store";
 import Dashboard from "./components/layout/Dashboard";
 import EditPost from "./components/post/EditPost";
 import EditProfile from "./components/profile/EditProfile";
+import ProfilePosts from "./components/profile/ProfilePosts";
 import Navbar from "./components/layout/Navbar";
 //MUI
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
@@ -29,8 +30,21 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Dashboard} />
-                <PrivateRoute path="/users/:userid" component={EditProfile} />
-                <PrivateRoute path="/posts/:postid" component={EditPost} />
+                <PrivateRoute
+                  exact
+                  path="/users/:userid/edit"
+                  component={EditProfile}
+                />
+                <PrivateRoute
+                  exact
+                  path="/users/:userid"
+                  component={ProfilePosts}
+                />
+                <PrivateRoute
+                  exact
+                  path="/posts/:postid/edit"
+                  component={EditPost}
+                />
               </Switch>
             </div>
           </Router>

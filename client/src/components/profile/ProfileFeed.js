@@ -35,7 +35,7 @@ const styles = theme => ({
 
   icon: {
     position: "relative",
-    top: theme.spacing.unit,
+    top: theme.spacing(0.7),
     width: theme.typography.display3,
     height: theme.typography.display3,
     color: theme.palette.secondary.light

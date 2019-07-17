@@ -102,10 +102,11 @@ export const clearErrors = () => dispatch => {
   dispatch({ type: CLEAR_ERRORS });
 };
 
-export const logOut = () => dispatch => {
+export const logOut = history => dispatch => {
   dispatch({ type: LOADING });
   dispatch({ type: LOGOUT_SUCCESS });
   setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+  history.push("/");
 };
 
 export const deleteAccount = () => dispatch => {
