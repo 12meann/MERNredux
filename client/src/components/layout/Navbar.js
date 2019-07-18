@@ -16,44 +16,68 @@ import Typography from "@material-ui/core/Typography";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const styles = {
-  // root: {
-  //   flexGrow: 1
-  // },
+  root: {
+    flexGrow: 1
+  },
   brand: {
-    flexGrow: 1,
+    // flexGrow: 1,
     justifyContent: "flex-start",
     fontSize: "20px"
   },
   button: {
+    fontSize: "16px",
+    height: "100%"
+  },
+  username: {
+    textTransform: "none",
     fontSize: "16px"
+  },
+  links: {
+    marginLeft: "auto"
+  },
+  icon: {
+    position: "relative",
+    top: 10
   }
 };
 
 class Navbar extends Component {
   render() {
-    const { classes, isAuthenticated, user, logOut, history } = this.props;
+    const {
+      classes,
+      history,
+      logOut,
+      auth: { isAuthenticated, user, loading }
+    } = this.props;
 
     const guestLinks = (
-      <Fragment>
+      <div className={classes.links}>
         <Login />
         <SignUp />
-      </Fragment>
+      </div>
     );
     const authLinks = (
       <Fragment>
         {user ? (
-          <Fragment>
-            <AccountCircle />
-            <Typography variant="body1">Hi, {user.username}</Typography>
-          </Fragment>
+          <div className={classes.links}>
+            <AccountCircle fontSize="large" className={classes.icon} />
+            <Button
+              component={Link}
+              className={classes.username}
+              color="inherit"
+              to={`/users/${user._id}`}
+              variant="body1">
+              Hi, @{user.username}
+            </Button>
+            <Button
+              color="inherit"
+              onClick={() => {
+                logOut(history);
+              }}>
+              Logout
+            </Button>
+          </div>
         ) : null}
-        <Button
-          color="inherit"
-          onClick={() => {
-            logOut(history);
-          }}>
-          Logout
-        </Button>
       </Fragment>
     );
     return (
@@ -67,7 +91,9 @@ class Navbar extends Component {
               className={classes.brand}>
               Mom's diary
             </Button>
-            {isAuthenticated ? authLinks : guestLinks}
+            {!loading && (
+              <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+            )}
           </Toolbar>
         </AppBar>
       </div>
@@ -76,8 +102,7 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
-  isAuthenticated: state.auth.isAuthenticated
+  auth: state.auth
 });
 
 Navbar.propTypes = {

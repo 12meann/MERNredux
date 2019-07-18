@@ -1,12 +1,13 @@
 import {
   GET_POSTS,
-  GET_POST,
+  GET_USER_INFO,
   ADD_POST,
   // DELETE_POST,
   // EDIT_POST,
   CLEAR_ERRORS,
   LOADING_POSTS,
-  POST_ERROR
+  POST_ERROR,
+  RESET_POSTS
 } from "../actions/types";
 
 const initialState = {
@@ -32,14 +33,15 @@ const postReducer = (state = initialState, action) => {
     case ADD_POST:
       return {
         ...state,
+        loading: false,
         posts: [action.payload, ...state.posts],
-        loading: false
+        errors: {}
       };
-    case GET_POST:
+    case GET_USER_INFO:
       return {
         ...state,
-        loading: false,
-        post: action.payload
+        posts: action.payload.posts,
+        loading: false
       };
     case POST_ERROR:
       return {
@@ -53,6 +55,10 @@ const postReducer = (state = initialState, action) => {
         loading: false,
         errors: null,
         posts: [...state.posts]
+      };
+    case RESET_POSTS:
+      return {
+        initialState
       };
     default:
       return state;

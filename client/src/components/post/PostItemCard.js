@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -20,6 +21,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import AddCommentIcon from "@material-ui/icons/AddComment";
 import MuiLink from "@material-ui/core/Link";
+import { spawn } from "child_process";
 
 const styles = {
   card: {
@@ -61,7 +63,7 @@ class PostItem extends Component {
     });
   };
   render() {
-    const { classes, post } = this.props;
+    const { classes, loading, post } = this.props;
     const { expanded } = this.state;
     return (
       <Card className={classes.card}>
@@ -84,9 +86,9 @@ class PostItem extends Component {
             <MuiLink
               underline="none"
               component={Link}
-              to={`/posts/${post._id}`}>
+              to={`/users/${post.postedBy._id}`}>
               <Typography variant="h6" color="primary">
-                @ {post.postedBy.username}
+                @ {!loading ? post.postedBy.username : <span>...</span>}
               </Typography>
             </MuiLink>
           }
@@ -128,9 +130,13 @@ class PostItem extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  loading: state.post.loading
+});
 PostItem.propTypes = {
   classes: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(PostItem);
+export default connect(mapStateToProps)(withStyles(styles)(PostItem));

@@ -12,9 +12,11 @@ import {
   DELETE_ACCOUNT,
   DELETE_FAIL,
   UPDATE_USER_PROFILE,
-  UPDATE_USER_FAIL
+  UPDATE_USER_FAIL,
+  RESET_AUTH
 } from "./types";
 import { closeLoginModal, closeRegisterModal } from "./modalActions";
+import { getPostsFeed, resetPosts } from "./postActions";
 
 const config = {
   headers: {
@@ -106,6 +108,9 @@ export const logOut = history => dispatch => {
   dispatch({ type: LOADING });
   dispatch({ type: LOGOUT_SUCCESS });
   setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+  // dispatch(getPostsFeed());
+  // dispatch(resetPosts());
+  // dispatch(resetAuth());
   history.push("/");
 };
 
@@ -138,3 +143,7 @@ export const editProfile = formData => dispatch => {
       dispatch({ type: UPDATE_USER_FAIL });
     });
 };
+
+// export const resetAuth = () => dispatch => {
+//   dispatch({ type: RESET_AUTH });
+// };

@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import PostItemCard from "./PostItemCard";
 import AddPost from "./AddPost";
 import { getPostsFeed } from "../../store/actions/postActions";
+import { loadUser } from "../../store/actions/authActions";
 //MUI stuff
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 class PostFeed extends Component {
   state = {
@@ -18,20 +18,19 @@ class PostFeed extends Component {
 
   render() {
     const { isAuthenticated, posts, loading } = this.props;
+
     return (
-      <div>
+      <Fragment>
         {isAuthenticated && <AddPost />}
 
-        {!loading ? (
-          posts.length !== 0 ? (
-            posts.map(post => <PostItemCard post={post} key={post._id} />)
-          ) : (
-            <Typography align="center">No posts found yet.</Typography>
-          )
+        {loading ? (
+          <Typography align="center">Loading...</Typography>
+        ) : posts.length === 0 ? (
+          <Typography align="center">No post yet</Typography>
         ) : (
-          <CircularProgress size={250} />
+          posts.map(post => <PostItemCard post={post} key={post._id} />)
         )}
-      </div>
+      </Fragment>
     );
   }
 }
@@ -51,5 +50,5 @@ PostFeed.propTypes = {
 
 export default connect(
   mapStateToProps,
-  { getPostsFeed }
+  { getPostsFeed, loadUser }
 )(PostFeed);

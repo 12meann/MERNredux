@@ -17,7 +17,7 @@ const styles = theme => ({
     display: "flex",
     alignItems: "center",
     // width: 400,
-    height: 100,
+    minHeight: 100,
     marginBottom: 10,
     boxShadow: "1px 2px 3px 0px rgba(0,0,0,0.8)"
   },
@@ -85,15 +85,17 @@ class AddPost extends Component {
           <Paper className={classes.root}>
             <InputBase
               multiline
+              // rowsMax={20}
               autoFocus
               className={classes.input}
               placeholder="What are your thoughts today?"
               name="content"
-              margin="dense"
+              // margin="dense"
               id="content"
               value={content}
               type="text"
               onChange={this.handleChange}
+              inputProps={{ margin: "dense" }}
             />
             {/* <FormHelperText
               margin="dense"
@@ -104,7 +106,7 @@ class AddPost extends Component {
             </FormHelperText> */}
             <Button
               className={classes.button}
-              variant="contained"
+              variant="text"
               disabled={content.trim() === ""}
               type="submit"
               color="primary">

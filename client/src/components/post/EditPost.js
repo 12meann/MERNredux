@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getPost } from "../../store/actions/postActions";
 
 //Mui
 // import IconButton from "@material-ui/core/IconButton";
@@ -15,10 +14,7 @@ class Post extends Component {
     getPost: PropTypes.func
   };
 
-  componentDidMount() {
-    const postId = this.props.match.params.postid;
-    this.props.getPost(postId);
-  }
+  componentDidMount() {}
   render() {
     const { post } = this.props;
     return <div>{post ? post.postedBy.username : <p>loading</p>}</div>;
@@ -29,7 +25,4 @@ const mapStateToProps = state => ({
   post: state.post.post
 });
 
-export default connect(
-  mapStateToProps,
-  { getPost }
-)(Post);
+export default connect(mapStateToProps)(Post);

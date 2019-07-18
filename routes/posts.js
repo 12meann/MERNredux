@@ -13,14 +13,6 @@ router.get("/", (req, res, next) => {
   Post.find()
     .sort({ date: -1 })
     .populate("postedBy", "username")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "commentedBy",
-        select: "username -_id"
-      }
-    })
-    .populate("likes", "username -_id")
     .exec()
     .then(posts => {
       return res.json(posts);
@@ -52,42 +44,47 @@ router.post("/", auth, (req, res, next) => {
 
       newPost
         .save()
-        .then(post => {
-          res.json(post);
+        .then(doc => {
+          doc
+            .populate("postedBy", "username")
+            .execPopulate()
+            .then(post => {
+              res.json(post);
+            });
         })
         .catch(err => {
           if (err) {
             console.log(err);
-            res.status(500).json({ msg: "Something went wrong 1", err });
+            res.status(500).json({ fail: "Something went wrong 1", err });
           }
         });
     })
     .catch(err => {
       if (err) {
         console.log(err);
-        res.status(500).json({ msg: "Something went wrong 2", err });
+        res.status(500).json({ fail: "Something went wrong 2", err });
       }
     });
 });
 
-// get one post
-//GET @ /api/posts/:postid
-//public
-router.get("/:postid", (req, res, next) => {
-  Post.findOne({ _id: req.params.postid })
-    .populate("postedBy", "username _id")
-    .then(post => {
-      if (post === null) return res.json({ msg: "No post found" });
-      res.json(post);
-    })
-    .catch(err => {
-      if (err.kind === "ObjectId") {
-        return res.status(500).json({ msg: "No post found" });
-      } else {
-        res.status(500).json({ msg: "Server error", err });
-      }
-    });
-});
+// // get one post
+// //GET @ /api/posts/:postid
+// //public
+// router.get("/:postid", (req, res, next) => {
+//   Post.findOne({ _id: req.params.postid })
+//     .populate("postedBy", "username _id")
+//     .then(post => {
+//       if (post === null) return res.json({ msg: "No post found" });
+//       res.json(post);
+//     })
+//     .catch(err => {
+//       if (err.kind === "ObjectId") {
+//         return res.status(500).json({ msg: "No post found" });
+//       } else {
+//         res.status(500).json({ msg: "Server error", err });
+//       }
+//     });
+// });
 
 //delete post
 // DELETE @ /api/posts/:postid
@@ -226,4 +223,5 @@ router.put("/:postid/unlike", auth, (req, res, next) => {
       }
     });
 });
+
 module.exports = router;

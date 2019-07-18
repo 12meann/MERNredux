@@ -95,7 +95,7 @@ export class MoreProfileButton extends Component {
           keepMounted
           open={Boolean(anchorEl)}
           onClose={this.handleCloseMenu}>
-          <MenuItem component={Link} to={`/users/${user._id}/posts`}>
+          <MenuItem component={Link} to={`/users/${user._id}/`}>
             My posts
           </MenuItem>
           <MenuItem component={Link} to={`/users/${user._id}/edit`}>

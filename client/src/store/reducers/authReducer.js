@@ -10,7 +10,8 @@ import {
   LOADING,
   REMOVE_SUCCESS_MSG,
   UPDATE_USER_PROFILE,
-  UPDATE_USER_FAIL
+  UPDATE_USER_FAIL,
+  RESET_AUTH
 } from "../actions/types";
 
 const initialState = {
@@ -99,6 +100,10 @@ const authReducer = (state = initialState, action) => {
         success: action.payload.success,
         loading: false
         // user: action.payload.doc
+      };
+    case RESET_AUTH:
+      return {
+        initialState
       };
     default:
       return state;

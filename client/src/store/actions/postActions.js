@@ -1,13 +1,14 @@
 import axios from "axios";
 import {
   GET_POSTS,
-  GET_POST,
+  GET_USER_INFO,
   ADD_POST,
   // DELETE_POST,
   // EDIT_POST,
   LOADING_POSTS,
   POST_ERROR,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  RESET_POSTS
 } from "./types";
 
 export const addPost = newPost => dispatch => {
@@ -16,7 +17,6 @@ export const addPost = newPost => dispatch => {
     .post("/api/posts", newPost)
     .then(res => {
       dispatch({ type: ADD_POST, payload: res.data });
-      setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 5000);
     })
     .catch(err => {
       console.log(err);
@@ -45,14 +45,30 @@ export const getPostsFeed = () => dispatch => {
       }
     });
 };
-export const getPost = postId => dispatch => {
+// export const getPost = postId => dispatch => {
+//   dispatch({ type: LOADING_POSTS });
+//   axios
+//     .get(`/api/posts/${postId}`)
+//     .then(res => {
+//       dispatch({ type: GET_POST, payload: res.data });
+//     })
+//     .catch(err => {
+//       dispatch({ type: POST_ERROR, payload: err.response.data });
+//     });
+// };
+
+// export const resetPosts = () => dispatch => {
+//   dispatch({ type: RESET_POSTS });
+// };
+
+export const getUserInfo = userId => dispatch => {
   dispatch({ type: LOADING_POSTS });
   axios
-    .get(`/api/posts/${postId}`)
+    .get(`/api/users/${userId}/`)
     .then(res => {
-      dispatch({ type: GET_POST, payload: res.data });
+      dispatch({ type: GET_USER_INFO, payload: res.data });
     })
     .catch(err => {
-      dispatch({ type: POST_ERROR, payload: err.response.data });
+      dispatch({ type: POST_ERROR });
     });
 };

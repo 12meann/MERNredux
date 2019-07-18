@@ -10,7 +10,6 @@ const { validateUserUpdate } = require("../utilities/validators");
 // GET /api/users
 // private
 router.get("/", auth, (req, res, next) => {
-  console.log(req.user);
   User.find()
     .select("-password")
     .then(users => {
@@ -37,16 +36,45 @@ router.get("/user", auth, (req, res) => {
     });
 });
 
-// get single user info
+// // get static user info
+// // GET /api/users/:userid
+// // private
+
+// router.get("/:userid", auth, (req, res, next) => {
+//   User.findOne({ _id: req.params.userid })
+//     .select("-password")
+//     .then(user => {
+//       if (!user) return res.status(400).json({ fail: "No user found." });
+//       res.json(user);
+//     })
+//     .catch(err => {
+//       if (err) {
+//         if (err.kind === "ObjectId") {
+//           return res.status(500).json({ fail: "User not found" });
+//         }
+//         res.status(500).json({ fail: "Something went wrong.", err });
+//       }
+//     });
+// });
+
+// get static user info
 // GET /api/users/:userid
 // private
 
 router.get("/:userid", auth, (req, res, next) => {
+  let userData = {};
   User.findOne({ _id: req.params.userid })
     .select("-password")
     .then(user => {
       if (!user) return res.status(400).json({ fail: "No user found." });
-      res.json(user);
+      userData.user = user;
+      return Post.find({ postedBy: req.params.userid })
+        .sort({ date: -1 })
+        .populate("postedBy", "username");
+    })
+    .then(doc => {
+      userData.posts = doc;
+      res.json(userData);
     })
     .catch(err => {
       if (err) {
@@ -63,6 +91,7 @@ router.get("/:userid", auth, (req, res, next) => {
 // auth
 router.delete("/", auth, async (req, res, next) => {
   try {
+    //delete post by this user
     await Post.deleteMany({ postedBy: req.user.id });
     // remove comments by this user
     await Comment.deleteMany({ commentedBy: req.user.id });
@@ -116,28 +145,6 @@ router.put("/", auth, (req, res, next) => {
         return res
           .status(500)
           .json({ fail: "Something went wrong. Please try again." });
-    });
-});
-
-// get user's posts
-//GET /api/users/:userid/posts
-//public
-
-router.get("/:userid/posts", (req, res, next) => {
-  Post.find({ postedBy: req.params.userid })
-    .sort({ date: -1 }) // descending
-    .then(post => {
-      if (!post) return res.status(400).json({ msg: "No user or post found" });
-      return res.status(200).json(post);
-    })
-    .catch(err => {
-      if (err) {
-        if (err.kind === "ObjectId") {
-          return res.status(500).json({ msg: "User not found" });
-        } else {
-          res.status(500).json({ msg: "Something went wrong", err });
-        }
-      }
     });
 });
 

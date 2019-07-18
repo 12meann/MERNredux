@@ -9,7 +9,7 @@ import store from "./store/store";
 import Dashboard from "./components/layout/Dashboard";
 import EditPost from "./components/post/EditPost";
 import EditProfile from "./components/profile/EditProfile";
-import ProfilePosts from "./components/profile/ProfilePosts";
+import UserInfo from "./components/profile/UserInfo";
 import Navbar from "./components/layout/Navbar";
 //MUI
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
@@ -38,7 +38,7 @@ class App extends Component {
                 <PrivateRoute
                   exact
                   path="/users/:userid"
-                  component={ProfilePosts}
+                  component={UserInfo}
                 />
                 <PrivateRoute
                   exact

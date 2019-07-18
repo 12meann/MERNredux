@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { openLoginModal } from "../store/actions/modalActions";
@@ -10,13 +10,18 @@ const PrivateRoute = ({
   component: Component,
   isAuthenticated,
   loading,
+  loadingPost,
   modalOpen = true,
   ...rest
 }) => (
   <Route
     {...rest}
     render={props =>
-      !isAuthenticated && !loading ? openLoginModal() : <Component {...props} />
+      !loadingPost && !isAuthenticated && !loading ? (
+        openLoginModal()
+      ) : (
+        <Component {...props} />
+      )
     }
   />
 );
@@ -29,7 +34,8 @@ PrivateRoute.propTypes = {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  loading: state.auth.loading
+  loading: state.auth.loading,
+  loadingPost: state.post.loading
 });
 
 export default connect(
