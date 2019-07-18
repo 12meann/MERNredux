@@ -4,6 +4,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import noUserImg from "../../images/blankAvatar.png";
+import MorePostButton from "./MorePostButton";
 
 //MUI
 import { withStyles } from "@material-ui/styles";
@@ -18,10 +19,8 @@ import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import AddCommentIcon from "@material-ui/icons/AddComment";
 import MuiLink from "@material-ui/core/Link";
-import { spawn } from "child_process";
 
 const styles = {
   card: {
@@ -63,7 +62,7 @@ class PostItem extends Component {
     });
   };
   render() {
-    const { classes, loading, post } = this.props;
+    const { classes, post, user } = this.props;
     const { expanded } = this.state;
     return (
       <Card className={classes.card}>
@@ -78,9 +77,11 @@ class PostItem extends Component {
             />
           }
           action={
-            <IconButton aria-label="Settings">
-              <MoreVertIcon color="primary" />
-            </IconButton>
+            user
+              ? post.postedBy._id === user._id && (
+                  <MorePostButton postId={post._id} />
+                )
+              : null
           }
           title={
             <MuiLink
@@ -88,7 +89,7 @@ class PostItem extends Component {
               component={Link}
               to={`/users/${post.postedBy._id}`}>
               <Typography variant="h6" color="primary">
-                @ {!loading ? post.postedBy.username : <span>...</span>}
+                @ {post.postedBy.username}
               </Typography>
             </MuiLink>
           }
@@ -132,7 +133,8 @@ class PostItem extends Component {
 }
 
 const mapStateToProps = state => ({
-  loading: state.post.loading
+  loading: state.post.loading,
+  user: state.auth.user
 });
 PostItem.propTypes = {
   classes: PropTypes.object.isRequired,

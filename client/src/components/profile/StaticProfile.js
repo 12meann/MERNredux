@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import noUserImg from "../../images/blankAvatar.png";
 import { connect } from "react-redux";
-import { compose } from "redux";
 import moment from "moment";
 //MUI
 import { withStyles } from "@material-ui/core/styles";
@@ -149,17 +148,13 @@ class StaticProfile extends Component {
 }
 
 const mapStateToProps = state => ({
-  // user: state.auth.user,
   loading: state.auth.loading
 });
 
 StaticProfile.propTypes = {
-  // user: PropTypes.object,
   classes: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired
 };
 
-export default compose(
-  connect(mapStateToProps),
-  withStyles(styles)
-)(StaticProfile);
+export default connect(mapStateToProps)(withStyles(styles)(StaticProfile));

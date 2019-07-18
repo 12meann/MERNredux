@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deleteAccount, logOut } from "../../store/actions/authActions";
+import { deletePost } from "../../store/actions/postActions";
 import { Link } from "react-router-dom";
 
 //MUI
@@ -45,12 +45,11 @@ const styles = theme => ({
   }
 });
 
-export class MoreProfileButton extends Component {
+export class MorePostButton extends Component {
   state = {
     anchorEl: null,
     openModal: false
   };
-
   handleClickMenu = e => {
     this.setState({
       anchorEl: e.currentTarget
@@ -69,25 +68,23 @@ export class MoreProfileButton extends Component {
     });
   };
   handleDelete = e => {
-    const userId = this.props.user._id;
-    this.props.deleteAccount(userId);
+    const postId = this.props.postId;
+    this.props.deletePost(postId);
     this.setState({
       openModal: false
     });
   };
-
   render() {
     const { anchorEl, openModal } = this.state;
-    const { classes, loading, user, logOut } = this.props;
+    const { classes, loading } = this.props;
     return (
       <Fragment>
         <IconButton
           aria-label="More"
           aria-controls="long-menu"
           aria-haspopup="true"
-          onClick={this.handleClickMenu}
-          className={classes.moreButton}>
-          <MoreVertIcon fontSize="large" />
+          onClick={this.handleClickMenu}>
+          <MoreVertIcon color="primary" />
         </IconButton>
         <Menu
           id="simple-menu"
@@ -95,22 +92,11 @@ export class MoreProfileButton extends Component {
           keepMounted
           open={Boolean(anchorEl)}
           onClose={this.handleCloseMenu}>
-          <MenuItem component={Link} to={`/users/${user._id}/`}>
-            My posts
-          </MenuItem>
-          <MenuItem component={Link} to={`/users/${user._id}/edit`}>
-            Edit Profile
-          </MenuItem>
-          {/* <MenuItem>Edit Profile Image</MenuItem> */}
-          <MenuItem onClick={logOut}>Logout</MenuItem>
-          <Divider variant="middle" />
-          <MenuItem
-            onClick={this.handleModalDelete}
-            className={classes.deleteMenu}>
-            Delete Account
-          </MenuItem>
+          <MenuItem component={Link}>Edit post</MenuItem>
+          <MenuItem onClick={this.handleModalDelete}>Delete Post</MenuItem>
         </Menu>
-        {/* delete dialog */}
+
+        {/* Delete dialog */}
         <Dialog
           open={openModal}
           onClose={this.handleModalDelete}
@@ -119,17 +105,16 @@ export class MoreProfileButton extends Component {
           fullWidth
           maxWidth="sm">
           <DialogTitle id="Login" align="center">
-            Delete Account
+            Delete Post ?
           </DialogTitle>
           <DialogContent>
             <DialogContentText variant="h6">
               This is irreversable.
               <br />
               <br />
-              Are you sure you want to delete your account?
+              Are you sure you want to delete this post?
               <br />
               <br />
-              All your profile info will be deleted.
             </DialogContentText>
             <DialogActions>
               <Button
@@ -160,21 +145,17 @@ export class MoreProfileButton extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
-  loading: state.auth.loading,
-  user: state.auth.user
+  loading: state.post.loading
 });
 
-MoreProfileButton.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  user: PropTypes.object,
-  deleteAccount: PropTypes.func.isRequired,
-  logOut: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+MorePostButton.propTypes = {
+  deletePost: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 export default connect(
-  mapStateToProps,
-  { deleteAccount, logOut }
-)(withStyles(styles)(MoreProfileButton));
+  null,
+  { deletePost }
+)(withStyles(styles)(MorePostButton));

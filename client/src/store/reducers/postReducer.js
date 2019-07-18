@@ -2,12 +2,13 @@ import {
   GET_POSTS,
   GET_USER_INFO,
   ADD_POST,
-  // DELETE_POST,
+
   // EDIT_POST,
   CLEAR_ERRORS,
   LOADING_POSTS,
   POST_ERROR,
-  RESET_POSTS
+  RESET_POSTS,
+  DELETE_POST
 } from "../actions/types";
 
 const initialState = {
@@ -56,9 +57,13 @@ const postReducer = (state = initialState, action) => {
         errors: null,
         posts: [...state.posts]
       };
-    case RESET_POSTS:
+    case DELETE_POST:
       return {
-        initialState
+        ...state,
+        loading: false,
+        posts: state.posts.filter(
+          post => post._id !== action.payload.deletedPost._id
+        )
       };
     default:
       return state;

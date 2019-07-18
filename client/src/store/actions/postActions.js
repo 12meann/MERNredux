@@ -3,7 +3,7 @@ import {
   GET_POSTS,
   GET_USER_INFO,
   ADD_POST,
-  // DELETE_POST,
+  DELETE_POST,
   // EDIT_POST,
   LOADING_POSTS,
   POST_ERROR,
@@ -45,21 +45,6 @@ export const getPostsFeed = () => dispatch => {
       }
     });
 };
-// export const getPost = postId => dispatch => {
-//   dispatch({ type: LOADING_POSTS });
-//   axios
-//     .get(`/api/posts/${postId}`)
-//     .then(res => {
-//       dispatch({ type: GET_POST, payload: res.data });
-//     })
-//     .catch(err => {
-//       dispatch({ type: POST_ERROR, payload: err.response.data });
-//     });
-// };
-
-// export const resetPosts = () => dispatch => {
-//   dispatch({ type: RESET_POSTS });
-// };
 
 export const getUserInfo = userId => dispatch => {
   dispatch({ type: LOADING_POSTS });
@@ -70,5 +55,16 @@ export const getUserInfo = userId => dispatch => {
     })
     .catch(err => {
       dispatch({ type: POST_ERROR });
+    });
+};
+
+export const deletePost = postId => dispatch => {
+  axios
+    .delete(`/api/posts/${postId}`)
+    .then(res => {
+      dispatch({ type: DELETE_POST, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({ type: POST_ERROR, payload: err.response.data });
     });
 };

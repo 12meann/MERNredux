@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { withRouter } from "react-router-dom";
 import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
 import { logOut } from "../../store/actions/authActions";
@@ -12,7 +11,7 @@ import { withStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
+
 import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const styles = {
@@ -65,8 +64,7 @@ class Navbar extends Component {
               component={Link}
               className={classes.username}
               color="inherit"
-              to={`/users/${user._id}`}
-              variant="body1">
+              to={`/users/${user._id}`}>
               Hi, @{user.username}
             </Button>
             <Button

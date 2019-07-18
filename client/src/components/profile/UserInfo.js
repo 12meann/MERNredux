@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import PostItemCard from "../post/PostItemCard";
 import { connect } from "react-redux";
 import { getUserInfo } from "../../store/actions/postActions";
 import StaticProfile from "./StaticProfile";
-import ProfileFeed from "./ProfileFeed";
 import axios from "axios";
 //MUI
 import Grid from "@material-ui/core/Grid";
@@ -21,7 +21,7 @@ const styles = {
   }
 };
 
-class MyPosts extends Component {
+class UserInfo extends Component {
   state = {
     profile: null
   };
@@ -65,8 +65,14 @@ const mapStateToProps = state => ({
   posts: state.post.posts,
   loading: state.post.loading
 });
+UserInfo.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  classes: PropTypes.object.isRequired,
+  posts: PropTypes.object.isRequired,
+  getUserInfo: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,
   { getUserInfo }
-)(withStyles(styles)(MyPosts));
+)(withStyles(styles)(UserInfo));
