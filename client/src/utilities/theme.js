@@ -6,7 +6,7 @@ export default {
     },
     background: {
       paper: "#fff",
-      default: "#fafafa"
+      default: "#f8fcfd"
     },
     secondary: {
       light: "#7986cb",

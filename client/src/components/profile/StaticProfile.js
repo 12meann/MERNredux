@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import noUserImg from "../../images/blankAvatar.png";
 import { connect } from "react-redux";
 import moment from "moment";
+import MoreProfileButton from "./MoreProfileButton";
 //MUI
 import { withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -57,11 +58,12 @@ class StaticProfile extends Component {
     );
   }
   render() {
-    const { classes, loading, profile } = this.props;
+    const { classes, loading, profile, user } = this.props;
     return (
       <Fragment>
         {profile ? (
           <Card className={classes.card}>
+            {user._id === profile._id ? <MoreProfileButton /> : null}
             <CardMedia
               className={classes.img}
               component="img"
@@ -148,7 +150,8 @@ class StaticProfile extends Component {
 }
 
 const mapStateToProps = state => ({
-  loading: state.auth.loading
+  loading: state.auth.loading,
+  user: state.auth.user
 });
 
 StaticProfile.propTypes = {

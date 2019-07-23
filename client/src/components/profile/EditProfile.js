@@ -4,20 +4,13 @@ import { Link } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { editProfile } from "../../store/actions/authActions";
+import Message from "../layout/Message";
 
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
 import clsx from "clsx";
 import { loadCSS } from "fg-loadcss";
-import CloseIcon from "@material-ui/icons/Close";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
-import DialogActions from "@material-ui/core/DialogActions";
-import MenuItem from "@material-ui/core/MenuItem";
 import Icon from "@material-ui/core/Icon";
 import FaceIcon from "@material-ui/icons/Face";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -25,18 +18,23 @@ import AboutIcon from "@material-ui/icons/PermContactCalendar";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import { openLoginModal } from "../../store/actions/modalActions";
 
 const styles = theme => ({
   title: {
     marginTop: 30
   },
+  buttons: {
+    float: "right",
+    marginTop: 30
+  },
   skipButton: {
     fontSize: 12,
-
+    backgroundColor: "transparent",
     "&:hover": {
-      color: theme.palette.primary.main
+      color: theme.palette.primary.dark,
+      backgroundColor: "transparent"
     }
   },
   form: {
@@ -49,13 +47,6 @@ const styles = theme => ({
 });
 
 export class EditProfile extends Component {
-  static propTypes = {
-    editProfile: PropTypes.func,
-    openUpdateModal: PropTypes.func,
-    closeUpdateModal: PropTypes.func,
-    closeMenu: PropTypes.func,
-    updateModalOpen: PropTypes.bool
-  };
   state = {
     username: "",
     location: "",
@@ -63,67 +54,56 @@ export class EditProfile extends Component {
     twitterLink: "",
     about: ""
   };
-  // userDetailsToState = user => {
-  //   this.setState({
-  //     username: user.username ? user.username : "",
-  //     about: user.about ? user.about : "",
-  //     location: user.location ? user.location : "",
-  //     facebookLink: user.facebookLink ? user.facebookLink : "",
-  //     twitterLink: user.twitterLink ? user.twitterLink : ""
-  //   });
-  // };
-  // handleUpdate = () => {
-  //   console.log("hello");
-  //   this.props.openUpdateModal();
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
 
-  //   this.userDetailsToState(this.props.user);
-  // };
-  // handleChange = e => {
-  //   this.setState({
-  //     [e.target.name]: e.target.value
-  //   });
-  // };
-
-  // handleSubmit = e => {
-  //   const { username, location, facebookLink, twitterLink, about } = this.state;
-  //   e.preventDefault();
-  //   const formData = {
-  //     username,
-  //     location,
-  //     facebookLink,
-  //     twitterLink,
-  //     about
-  //   };
-  //   console.log(formData);
-  //   this.props.editProfile(formData);
-  //   this.props.closeUpdateModal();
-  // };
-  // componentDidMount() {
-  //   loadCSS(
-  //     "https://use.fontawesome.com/releases/v5.1.0/css/all.css",
-  //     document.querySelector("#font-awesome-css")
-  //   );
-  //   const { user } = this.props;
-  //   this.userDetailsToState(user);
-  // }
+  handleSubmit = e => {
+    const { username, location, facebookLink, twitterLink, about } = this.state;
+    const { history } = this.props;
+    e.preventDefault();
+    const formData = {
+      username,
+      location,
+      facebookLink,
+      twitterLink,
+      about
+    };
+    console.log("formdata", formData);
+    this.props.editProfile(formData, history);
+  };
+  componentDidMount() {
+    console.log(this.props.user, "as it mounts");
+    loadCSS(
+      "https://use.fontawesome.com/releases/v5.1.0/css/all.css",
+      document.querySelector("#font-awesome-css")
+    );
+    const { user } = this.props;
+    user
+      ? this.setState({
+          username: user.username ? user.username : "",
+          about: user.about ? user.about : "",
+          location: user.location ? user.location : "",
+          facebookLink: user.facebookLink ? user.facebookLink : "",
+          twitterLink: user.twitterLink ? user.twitterLink : ""
+        })
+      : openLoginModal();
+  }
 
   render() {
-    let ref = React.createRef();
-    const {
-      classes,
-      loading,
-
-      errors
-    } = this.props;
+    console.log(this.props);
+    const { classes, loading, errors } = this.props;
     const { username, location, facebookLink, twitterLink, about } = this.state;
     return (
       <Grid>
-        <Grid item sm={12} md={8} className={classes.form}>
+        {errors ? errors.error ? <Message /> : null : null}
+        <Grid item sm={12} md={6} className={classes.form}>
           <Typography className={classes.title} variant="h2" align="center">
             Edit / Update Profile
           </Typography>
-          {/* 
-          <form onSubmit={this.handleSubmit}>
+          <form noValidate onSubmit={this.handleSubmit}>
             <TextField
               margin="dense"
               id="username"
@@ -131,12 +111,8 @@ export class EditProfile extends Component {
               label="Username"
               type="text"
               onChange={this.handleChange}
-              defaultValue={username}
-              // helperText={errors.username}
-              // error={errors.username ? true : false}
+              value={username}
               fullWidth
-              required
-              // className={classes.input}
               InputProps={{
                 endAdornment: (
                   <InputAdornment
@@ -156,12 +132,8 @@ export class EditProfile extends Component {
               type="text"
               tabIndex="0"
               onChange={this.handleChange}
-              defaultValue={location}
-              // helperText={errors.location}
-              // error={errors.location ? true : false}
+              value={location}
               fullWidth
-              required
-              // className={classes.input}
               InputProps={{
                 endAdornment: (
                   <InputAdornment
@@ -182,12 +154,8 @@ export class EditProfile extends Component {
               multiline
               tabIndex="0"
               onChange={this.handleChange}
-              defaultValue={about}
-              // helperText={errors.about}
-              // error={errors.about ? true : false}
+              value={about}
               fullWidth
-              required
-              // className={classes.input}
               InputProps={{
                 endAdornment: (
                   <InputAdornment
@@ -207,13 +175,14 @@ export class EditProfile extends Component {
               type="text"
               tabIndex="0"
               onChange={this.handleChange}
-              defaultValue={facebookLink}
-              // helperText={errors.facebookLink}
-              // error={errors.facebookLink ? true : false}
+              value={facebookLink}
               fullWidth
-              required
-              // className={classes.input}
               InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    https://facebook.com/
+                  </InputAdornment>
+                ),
                 endAdornment: (
                   <InputAdornment
                     position="end"
@@ -235,13 +204,14 @@ export class EditProfile extends Component {
               type="text"
               tabIndex="0"
               onChange={this.handleChange}
-              defaultValue={twitterLink}
-              // helperText={errors.twitterLink}
-              // error={errors.twitterLink ? true : false}
+              value={twitterLink}
               fullWidth
-              required
-              // className={classes.input}
               InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    https://twitter.com/
+                  </InputAdornment>
+                ),
                 endAdornment: (
                   <InputAdornment
                     position="end"
@@ -255,29 +225,30 @@ export class EditProfile extends Component {
                 )
               }}
             />
-
-            <Button
-              variant="text"
-              className={classes.skipButton}
-              component={Link}
-              to="/"
-              color="secondary"
-              size="large">
-              Skip for now
-            </Button>
-            <Button
-              variant="contained"
-              onClick={this.handleSubmit}
-              // className={classes.deleteButton}
-              color="primary"
-              disabled={loading}
-              size="large">
-              Update Profile
-              {loading && (
-                <CircularProgress size={30} className={classes.spinner} />
-              )}
-            </Button>
-          </form> */}
+            <div className={classes.buttons}>
+              <Button
+                variant="text"
+                className={classes.skipButton}
+                component={Link}
+                to="/"
+                color="primary"
+                size="large">
+                Skip for now
+              </Button>
+              <Button
+                variant="contained"
+                type="submit"
+                // className={classes.deleteButton}
+                color="primary"
+                disabled={loading}
+                size="large">
+                Update Profile
+                {loading && (
+                  <CircularProgress size={30} className={classes.spinner} />
+                )}
+              </Button>
+            </div>
+          </form>
         </Grid>
       </Grid>
     );
@@ -286,9 +257,17 @@ export class EditProfile extends Component {
 
 const mapStateToProps = state => ({
   updateModalOpen: state.modal.updateModalOpen,
-  auth: state.auth,
+  errors: state.auth.errors,
   user: state.auth.user
 });
+
+EditProfile.propTypes = {
+  editProfile: PropTypes.func,
+  openUpdateModal: PropTypes.func,
+  closeUpdateModal: PropTypes.func,
+  closeMenu: PropTypes.func,
+  updateModalOpen: PropTypes.bool
+};
 
 export default compose(
   connect(

@@ -13,10 +13,13 @@ import {
   DELETE_FAIL,
   UPDATE_USER_PROFILE,
   UPDATE_USER_FAIL,
+  REGISTER_FAIL,
+  LOGIN_FAIL,
   RESET_AUTH
 } from "./types";
 import { closeLoginModal, closeRegisterModal } from "./modalActions";
 import { getPostsFeed, resetPosts } from "./postActions";
+import { BottomNavigationAction } from "@material-ui/core";
 
 const config = {
   headers: {
@@ -41,7 +44,8 @@ export const loadUser = () => dispatch => {
     })
     .catch(err => {
       dispatch({
-        type: AUTH_ERROR
+        type: AUTH_ERROR,
+        payload: err.response.data
       });
     });
 };
@@ -64,17 +68,17 @@ export const registerUser = newUserData => dispatch => {
       dispatch(closeRegisterModal());
     })
     .catch(err => {
-      console.log(err);
-      if (err) {
-        dispatch({
-          type: AUTH_ERROR,
-          payload: err.response.data
-        });
-      }
+      console.log(err.response.data);
+      // if (err) {
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: err.response.data
+      });
+      // }
     });
 };
 
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData, history) => dispatch => {
   dispatch({ type: LOADING });
   const body = JSON.stringify(userData);
   axios
@@ -88,15 +92,16 @@ export const loginUser = userData => dispatch => {
       dispatch({ type: CLEAR_ERRORS });
       setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
       dispatch(closeLoginModal());
+      history.push("/");
     })
     .catch(err => {
-      console.log(err);
-      if (err.response) {
-        dispatch({
-          type: AUTH_ERROR,
-          payload: err.response.data
-        });
-      }
+      // console.log(err);
+      // if (err.response) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data
+      });
+      // }
     });
 };
 
@@ -108,9 +113,6 @@ export const logOut = history => dispatch => {
   dispatch({ type: LOADING });
   dispatch({ type: LOGOUT_SUCCESS });
   setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
-  // dispatch(getPostsFeed());
-  // dispatch(resetPosts());
-  // dispatch(resetAuth());
   history.push("/");
 };
 
@@ -129,18 +131,23 @@ export const deleteAccount = () => dispatch => {
     });
 };
 
-export const editProfile = formData => dispatch => {
+export const editProfile = (formData, history) => dispatch => {
   dispatch({ type: LOADING });
+  const body = JSON.stringify(formData);
   axios
-    .put(`api/users/`, formData)
+    .put(`/api/users/`, body, config)
     .then(res => {
       dispatch({ type: UPDATE_USER_PROFILE, payload: res.data });
       dispatch(loadUser());
       dispatch({ type: CLEAR_ERRORS });
       setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+      history.push("/");
     })
     .catch(err => {
-      dispatch({ type: UPDATE_USER_FAIL });
+      if (err.response) {
+        dispatch({ type: UPDATE_USER_FAIL, payload: err.response.data });
+        // dispatch(clearErrors())
+      }
     });
 };
 

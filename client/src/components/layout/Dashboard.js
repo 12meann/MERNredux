@@ -39,7 +39,9 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  msg: state.auth
+  msg: state.auth,
+  postMsg: state.post.success,
+  errorMsg: state.post.errors
 });
 Dashboard.propTypes = {
   msg: PropTypes.object,

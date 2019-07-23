@@ -15,7 +15,8 @@ const initialState = {
   loading: false,
   errors: {},
   posts: [],
-  post: null
+  post: null,
+  success: null
 };
 
 const postReducer = (state = initialState, action) => {
@@ -63,7 +64,8 @@ const postReducer = (state = initialState, action) => {
         loading: false,
         posts: state.posts.filter(
           post => post._id !== action.payload.deletedPost._id
-        )
+        ),
+        success: action.payload.msg
       };
     default:
       return state;

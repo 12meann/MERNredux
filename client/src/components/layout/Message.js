@@ -53,7 +53,7 @@ class Message extends Component {
           }}
           message={
             <span id="message-id">
-              {msg.success || msg.fail || msg.errors.error.message}
+              {msg.success || msg.fail || msg.errors.error}
             </span>
           }
           action={[

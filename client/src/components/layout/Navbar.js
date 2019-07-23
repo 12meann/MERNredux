@@ -19,7 +19,6 @@ const styles = {
     flexGrow: 1
   },
   brand: {
-    // flexGrow: 1,
     justifyContent: "flex-start",
     fontSize: "20px"
   },

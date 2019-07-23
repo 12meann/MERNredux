@@ -4,7 +4,6 @@ const auth = require("../middleware/auth");
 const User = require("../models/User");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
-const { validateUserUpdate } = require("../utilities/validators");
 
 // get all users
 // GET /api/users
@@ -17,7 +16,7 @@ router.get("/", auth, (req, res, next) => {
     })
     .catch(err => {
       if (err) {
-        res.status(500).json({ fail: "Something went wrong." });
+        res.status(500).json({ error: "Something went wrong." });
       }
     });
 });
@@ -32,30 +31,9 @@ router.get("/user", auth, (req, res) => {
       res.json(user);
     })
     .catch(err => {
-      res.status(500).json({ fail: "Something went wrong." });
+      res.status(500).json({ error: "Something went wrong." });
     });
 });
-
-// // get static user info
-// // GET /api/users/:userid
-// // private
-
-// router.get("/:userid", auth, (req, res, next) => {
-//   User.findOne({ _id: req.params.userid })
-//     .select("-password")
-//     .then(user => {
-//       if (!user) return res.status(400).json({ fail: "No user found." });
-//       res.json(user);
-//     })
-//     .catch(err => {
-//       if (err) {
-//         if (err.kind === "ObjectId") {
-//           return res.status(500).json({ fail: "User not found" });
-//         }
-//         res.status(500).json({ fail: "Something went wrong.", err });
-//       }
-//     });
-// });
 
 // get static user info
 // GET /api/users/:userid
@@ -79,9 +57,9 @@ router.get("/:userid", auth, (req, res, next) => {
     .catch(err => {
       if (err) {
         if (err.kind === "ObjectId") {
-          return res.status(500).json({ fail: "User not found" });
+          return res.status(500).json({ error: "User not found" });
         }
-        res.status(500).json({ fail: "Something went wrong.", err });
+        res.status(500).json({ error: "Something went wrong.", err });
       }
     });
 });
@@ -102,7 +80,7 @@ router.delete("/", auth, async (req, res, next) => {
     res.json({ success: "User deleted" });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ fail: "Server Error" });
+    res.status(500).json({ error: "Server Error" });
   }
 });
 
@@ -110,42 +88,23 @@ router.delete("/", auth, async (req, res, next) => {
 //UPDATE @ /api/users/
 //auth
 router.put("/", auth, (req, res, next) => {
-  //validate input
-  const { valid, errors } = validateUserUpdate(req.body);
-  if (!valid) return res.status(400).json(errors);
-
-  // check if username is taken
-
-  User.findOne({ username: req.body.username })
-    .then(usernameTaken => {
-      if (usernameTaken) {
-        return res.status(400).json({
-          username: "That username is already taken. Try other name."
-        });
-      } else {
-        User.findByIdAndUpdate(
-          req.user.id,
-          req.body,
-          { new: true },
-          (err, doc) => {
-            if (err)
-              return res.status(500).json({ fail: "Something went wrong" });
-            return res.json({
-              success: `You have succesfully updated your profile, ${
-                doc.username
-              }.`,
-              doc
-            });
-          }
-        );
-      }
-    })
-    .catch(err => {
-      if (err)
+  User.findByIdAndUpdate(req.user.id, req.body, { new: true }, (err, doc) => {
+    if (err) {
+      if (err.name === "MongoError" && err.code === 11000) {
         return res
-          .status(500)
-          .json({ fail: "Something went wrong. Please try again." });
+          .status(400)
+          .json({ error: "That username is already taken. Try other name." });
+      }
+      return res.status(500).json({
+        error: "Something went wrong. Please try again later.",
+        err
+      });
+    }
+    return res.json({
+      success: `You have succesfully updated your profile, ${doc.username}.`,
+      doc
     });
+  });
 });
 
 //add like to a user
@@ -170,15 +129,15 @@ router.put("/:userid/like", auth, (req, res, next) => {
         })
         .catch(err => {
           if (err) {
-            return res.status(500).json({ fail: "Something went wrong." });
+            return res.status(500).json({ error: "Something went wrong." });
           }
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ fail: "No post found" });
+        return res.status(500).json({ error: "No post found" });
       } else {
-        res.status(500).json({ fail: "Server error", err });
+        res.status(500).json({ error: "Server error", err });
       }
     });
 });
@@ -205,15 +164,15 @@ router.put("/:userid/unlike", auth, (req, res, next) => {
         })
         .catch(err => {
           if (err) {
-            return res.status(500).json({ fail: "Something went wrong." });
+            return res.status(500).json({ error: "Something went wrong." });
           }
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ fail: "No post found" });
+        return res.status(500).json({ error: "No post found" });
       } else {
-        res.status(500).json({ msg: "Server error", err });
+        res.status(500).json({ error: "Server error", err });
       }
     });
 });

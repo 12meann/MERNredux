@@ -22,6 +22,7 @@ import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import LinkIcon from "@material-ui/icons/Link";
 import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
+import MuiLink from "@material-ui/core/Link";
 
 const styles = theme => ({
   card: {
@@ -49,6 +50,11 @@ const styles = theme => ({
   about: {
     textAlign: "justify",
     lineHeight: "1.85rem"
+  },
+  link: {
+    "&:hover": {
+      color: theme.palette.secondary.light
+    }
   }
 });
 
@@ -82,7 +88,8 @@ class Profile extends Component {
             <CardContent className={classes.content}>
               <Typography variant="h6" color="textSecondary" component="p">
                 <AccountBoxIcon className={classes.icon} />{" "}
-                <strong>@ {user.username ? user.username : null} </strong>
+                <strong>@ {user.username} </strong>
+                <span>{user.likes ? user.likes.length : 0} likes</span>
               </Typography>
               <Typography
                 variant="subtitle1"
@@ -118,7 +125,14 @@ class Profile extends Component {
                   <Icon
                     className={clsx("fab fa-facebook-square", classes.icon)}
                   />{" "}
-                  {user.facebookLink}
+                  <MuiLink
+                    href={`https://www.facebook.com/${user.facebookLink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="none"
+                    className={classes.link}>
+                    facebook.com/{user.facebookLink}
+                  </MuiLink>
                 </Typography>
               ) : null}
               {user.twitterLink ? (
@@ -126,7 +140,14 @@ class Profile extends Component {
                   <Icon
                     className={clsx("fab fa-twitter-square", classes.icon)}
                   />{" "}
-                  {user.twitterLink}
+                  <MuiLink
+                    href={`https://www.twitter.com/${user.twitterLink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="none"
+                    className={classes.link}>
+                    twitter.com/{user.twitterLink}
+                  </MuiLink>
                 </Typography>
               ) : null}
               <br />

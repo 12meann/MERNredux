@@ -11,6 +11,8 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const USER_LOADED = "USER_LOADED";
 export const DELETE_ACCOUNT = "DELETE_ACCOUNT";
 export const DELETE_FAIL = "DELETE_FAIL";
+export const REGISTER_FAIL = "REGISTER_FAIL";
+export const LOGIN_FAIL = "LOGIN_FAIL";
 
 export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
 export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";

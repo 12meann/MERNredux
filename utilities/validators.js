@@ -58,30 +58,30 @@ exports.validateLogin = data => {
   };
 };
 
-exports.validateUserUpdate = data => {
-  let errors = {};
-  if (data.email) {
-    if (isEmpty(data.email)) {
-      errors.email = "Must not be empty";
-    } else if (!isEmail(data.email)) {
-      errors.email = "Must be a valid email address";
-    }
-  }
+// exports.validateUserUpdate = data => {
+//   let errors = {};
+//   if (data.email) {
+//     if (isEmpty(data.email)) {
+//       errors.email = "Must not be empty";
+//     } else if (!isEmail(data.email)) {
+//       errors.email = "Must be a valid email address";
+//     }
+//   }
 
-  if (data.username) {
-    if (isEmpty(data.username)) {
-      errors.username = "Must not be empty";
-    } else if (!isUsername(data.username)) {
-      errors.username =
-        "Only characters from a-z, 0-9, underscore and hyphen are allowed. Must be 3 to 25 characters.";
-    }
-  }
+//   if (data.username) {
+//     if (isEmpty(data.username)) {
+//       errors.username = "Must not be empty";
+//     } else if (!isUsername(data.username)) {
+//       errors.username =
+//         "Only characters from a-z, 0-9, underscore and hyphen are allowed. Must be 3 to 25 characters.";
+//     }
+//   }
 
-  return {
-    errors,
-    valid: Object.keys(errors).length === 0 ? true : false
-  };
-};
+//   return {
+//     errors,
+//     valid: Object.keys(errors).length === 0 ? true : false
+//   };
+// };
 
 exports.validatePost = data => {
   let errors = {};

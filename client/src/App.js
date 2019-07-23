@@ -13,6 +13,7 @@ import UserInfo from "./components/profile/UserInfo";
 import Navbar from "./components/layout/Navbar";
 //MUI
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import myTheme from "./utilities/theme";
 
 const theme = createMuiTheme(myTheme);
@@ -24,6 +25,7 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
+        <CssBaseline />
         <Provider store={store}>
           <Router>
             <Navbar />

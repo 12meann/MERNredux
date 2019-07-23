@@ -91,19 +91,34 @@ class SignUp extends Component {
       showPassword: !this.state.showPassword
     });
   };
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.errors) {
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(nextProps);
+  //   if (nextProps.auth.errors) {
+  //     this.setState({
+  //       errors: nextProps.auth.errors
+  //     });
+  //   }
+  // }
+
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.auth.errors !== state.errors) {
+  //     return {
+  //       errors: props.auth.errors
+  //     };
+  //   }
+  //   return null;
+  // }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.auth.errors);
+    if (prevProps.auth.errors !== this.props.auth.errors) {
       this.setState({
-        errors: nextProps.auth.errors
+        errors: this.props.auth.errors
       });
     }
-    if (this.state.open) {
-      if (nextProps.auth.isAuthenticated === true) {
-        this.setState({
-          open: false
-        });
-      }
-    }
+    console.log(prevProps.auth);
+    console.log(this.props.auth.errors);
+    console.log(this.state.errors);
   }
   handleOpenLoginModal = () => {
     this.props.closeRegisterModal();
@@ -126,6 +141,8 @@ class SignUp extends Component {
       classes,
       auth: { loading }
     } = this.props;
+    console.log(this.props.auth.errors);
+    console.log(this.state.errors);
     return (
       <Fragment>
         <Button color="inherit" onClick={openRegisterModal}>
@@ -160,8 +177,10 @@ class SignUp extends Component {
                 onChange={this.handleChange}
                 value={email}
                 autoComplete="email"
-                helperText={errors.email}
-                error={errors.email ? true : false}
+                helperText={
+                  errors ? (errors.email ? errors.email : null) : null
+                }
+                error={errors ? (errors.email ? true : false) : false}
                 fullWidth
                 required
                 InputProps={{

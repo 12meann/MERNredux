@@ -11,6 +11,8 @@ import {
   REMOVE_SUCCESS_MSG,
   UPDATE_USER_PROFILE,
   UPDATE_USER_FAIL,
+  REGISTER_FAIL,
+  LOGIN_FAIL,
   RESET_AUTH
 } from "../actions/types";
 
@@ -19,8 +21,8 @@ const initialState = {
   isAuthenticated: null,
   loading: false,
   user: null,
-  errors: {},
-  success: null
+  success: null,
+  errors: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -41,16 +43,28 @@ const authReducer = (state = initialState, action) => {
         loading: false,
         isAuthenticated: true
       };
+    case REGISTER_FAIL:
+    case LOGIN_FAIL:
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        errors: action.payload,
+        user: null,
+        token: null,
+        isAuthenticated: false,
+        loading: false
+      };
     case AUTH_ERROR:
       localStorage.removeItem("token");
       return {
         ...state,
+        // errors: null,
         user: null,
         token: null,
         isAuthenticated: false,
-        loading: false,
-        errors: action.payload
+        loading: false
       };
+
     case CLEAR_ERRORS:
       return {
         ...state,
@@ -101,10 +115,10 @@ const authReducer = (state = initialState, action) => {
         loading: false
         // user: action.payload.doc
       };
-    case RESET_AUTH:
-      return {
-        initialState
-      };
+    // case RESET_AUTH:
+    //   return {
+    //     initialState
+    //   };
     default:
       return state;
   }

@@ -76,7 +76,7 @@ export class MorePostButton extends Component {
   };
   render() {
     const { anchorEl, openModal } = this.state;
-    const { classes, loading } = this.props;
+    const { classes } = this.props;
     return (
       <Fragment>
         <IconButton
@@ -92,7 +92,7 @@ export class MorePostButton extends Component {
           keepMounted
           open={Boolean(anchorEl)}
           onClose={this.handleCloseMenu}>
-          <MenuItem component={Link}>Edit post</MenuItem>
+          <MenuItem>Edit post</MenuItem>
           <MenuItem onClick={this.handleModalDelete}>Delete Post</MenuItem>
         </Menu>
 
@@ -122,13 +122,8 @@ export class MorePostButton extends Component {
                 onClick={this.handleDelete}
                 className={classes.deleteButton}
                 fullWidth
-                disabled={loading}
-                classes={{ disabled: classes.disabledButton }}
                 size="large">
                 DELETE
-                {loading && (
-                  <CircularProgress size={30} className={classes.spinner} />
-                )}
               </Button>
               <Button
                 variant="contained"
@@ -145,14 +140,10 @@ export class MorePostButton extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  loading: state.post.loading
-});
 
 MorePostButton.propTypes = {
   deletePost: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default connect(

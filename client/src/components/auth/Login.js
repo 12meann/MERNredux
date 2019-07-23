@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { compose } from "redux";
 import { loginUser } from "../../store/actions/authActions";
 import {
   openLoginModal,
@@ -65,11 +67,12 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { email, password } = this.state;
+    const { history } = this.props;
     const userData = {
       email,
       password
     };
-    this.props.loginUser(userData);
+    this.props.loginUser(userData, history);
   };
 
   handleClickShowPassword = () => {
@@ -213,6 +216,12 @@ const mapStateToProps = state => ({
   auth: state.auth,
   loginModalOpen: state.modal.loginModalOpen
 });
+const mapDispatchToProps = dispatch => ({
+  loginUser,
+  openLoginModal,
+  closeLoginModal,
+  openRegisterModal
+});
 
 Login.propTypes = {
   auth: PropTypes.object.isRequired,
@@ -224,7 +233,14 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  { loginUser, openLoginModal, closeLoginModal, openRegisterModal }
-)(withStyles(styles)(Login));
+export default // connect(
+//   mapStateToProps,
+//   { loginUser, openLoginModal, closeLoginModal, openRegisterModal }
+// )(withStyles(styles)(Login));
+compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    { loginUser, openLoginModal, closeLoginModal, openRegisterModal }
+  )
+)(withRouter(Login));
