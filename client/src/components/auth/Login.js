@@ -86,11 +86,17 @@ class Login extends Component {
     this.props.openRegisterModal();
   };
   componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.errors) {
+    console.log(nextProps);
+    if (!nextProps.auth.errors && !nextProps.auth.loading) {
       this.setState({
-        errors: nextProps.auth.errors
+        errors: {}
       });
     }
+  }
+  componentDidMount() {
+    this.setState({
+      errors: this.props.auth.errors
+    });
   }
 
   render() {
@@ -132,8 +138,10 @@ class Login extends Component {
                 type="email"
                 onChange={this.handleChange}
                 value={email}
-                helperText={errors.email}
-                error={errors.email ? true : false}
+                helperText={
+                  errors ? (errors.email ? errors.email : null) : null
+                }
+                error={errors ? (errors.email ? true : false) : null}
                 autoComplete="email"
                 fullWidth
                 required
@@ -151,8 +159,10 @@ class Login extends Component {
                 name="password"
                 label="Password"
                 value={password}
-                helperText={errors.password}
-                error={errors.password ? true : false}
+                helperText={
+                  errors ? (errors.password ? errors.password : null) : null
+                }
+                error={errors ? (errors.password ? true : false) : null}
                 type={showPassword ? "text" : "password"}
                 onChange={this.handleChange}
                 fullWidth
@@ -176,11 +186,13 @@ class Login extends Component {
                   )
                 }}
               />
-              {errors.msg && (
-                <Typography variant="body2" align="center" color="error">
-                  {errors.msg}
-                </Typography>
-              )}
+              {errors
+                ? errors.msg && (
+                    <Typography variant="body2" align="center" color="error">
+                      {errors.msg}
+                    </Typography>
+                  )
+                : null}
               <DialogActions className={classes.actions}>
                 <Button
                   variant="contained"
@@ -216,12 +228,6 @@ const mapStateToProps = state => ({
   auth: state.auth,
   loginModalOpen: state.modal.loginModalOpen
 });
-const mapDispatchToProps = dispatch => ({
-  loginUser,
-  openLoginModal,
-  closeLoginModal,
-  openRegisterModal
-});
 
 Login.propTypes = {
   auth: PropTypes.object.isRequired,
@@ -233,11 +239,7 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default // connect(
-//   mapStateToProps,
-//   { loginUser, openLoginModal, closeLoginModal, openRegisterModal }
-// )(withStyles(styles)(Login));
-compose(
+export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,

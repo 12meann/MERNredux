@@ -2,7 +2,8 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { deleteAccount, logOut } from "../../store/actions/authActions";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { compose } from "redux";
 
 //MUI
 import { withStyles } from "@material-ui/core";
@@ -77,8 +78,9 @@ export class MoreProfileButton extends Component {
   };
 
   render() {
+    console.log(this.props);
     const { anchorEl, openModal } = this.state;
-    const { classes, loading, user, logOut } = this.props;
+    const { classes, loading, user, logOut, history } = this.props;
     return (
       <Fragment>
         <IconButton
@@ -174,7 +176,10 @@ MoreProfileButton.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  { deleteAccount, logOut }
-)(withStyles(styles)(MoreProfileButton));
+export default compose(
+  connect(
+    mapStateToProps,
+    { deleteAccount, logOut }
+  ),
+  withStyles(styles)
+)(withRouter(MoreProfileButton));

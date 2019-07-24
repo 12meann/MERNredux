@@ -44,8 +44,7 @@ export const loadUser = () => dispatch => {
     })
     .catch(err => {
       dispatch({
-        type: AUTH_ERROR,
-        payload: err.response.data
+        type: AUTH_ERROR
       });
     });
 };
@@ -82,7 +81,7 @@ export const loginUser = (userData, history) => dispatch => {
   dispatch({ type: LOADING });
   const body = JSON.stringify(userData);
   axios
-    .post("/api/login", userData, body)
+    .post("/api/login", body, config)
     .then(res => {
       dispatch({
         type: LOGIN_SUCCESS,
@@ -96,12 +95,12 @@ export const loginUser = (userData, history) => dispatch => {
     })
     .catch(err => {
       // console.log(err);
-      // if (err.response) {
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: err.response.data
-      });
-      // }
+      if (err.response) {
+        dispatch({
+          type: LOGIN_FAIL,
+          payload: err.response.data
+        });
+      }
     });
 };
 
@@ -113,7 +112,6 @@ export const logOut = history => dispatch => {
   dispatch({ type: LOADING });
   dispatch({ type: LOGOUT_SUCCESS });
   setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
-  history.push("/");
 };
 
 export const deleteAccount = () => dispatch => {

@@ -40,6 +40,11 @@ const styles = {
 };
 
 class Navbar extends Component {
+  handleLogOut = () => {
+    const { history, logOut } = this.props;
+    logOut();
+    history.push("/");
+  };
   render() {
     const {
       classes,
@@ -66,11 +71,7 @@ class Navbar extends Component {
               to={`/users/${user._id}`}>
               Hi, @{user.username}
             </Button>
-            <Button
-              color="inherit"
-              onClick={() => {
-                logOut(history);
-              }}>
+            <Button color="inherit" onClick={this.handleLogOut}>
               Logout
             </Button>
           </div>

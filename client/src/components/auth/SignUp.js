@@ -91,34 +91,19 @@ class SignUp extends Component {
       showPassword: !this.state.showPassword
     });
   };
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps);
-  //   if (nextProps.auth.errors) {
-  //     this.setState({
-  //       errors: nextProps.auth.errors
-  //     });
-  //   }
-  // }
-
-  // static getDerivedStateFromProps(props, state) {
-  //   if (props.auth.errors !== state.errors) {
-  //     return {
-  //       errors: props.auth.errors
-  //     };
-  //   }
-  //   return null;
-  // }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.props.auth.errors);
-    if (prevProps.auth.errors !== this.props.auth.errors) {
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (!nextProps.auth.errors && !nextProps.auth.loading) {
       this.setState({
-        errors: this.props.auth.errors
+        errors: {}
       });
     }
-    console.log(prevProps.auth);
-    console.log(this.props.auth.errors);
-    console.log(this.state.errors);
+  }
+
+  componentDidMount() {
+    this.setState({
+      errors: this.props.auth.errors
+    });
   }
   handleOpenLoginModal = () => {
     this.props.closeRegisterModal();
@@ -141,8 +126,7 @@ class SignUp extends Component {
       classes,
       auth: { loading }
     } = this.props;
-    console.log(this.props.auth.errors);
-    console.log(this.state.errors);
+
     return (
       <Fragment>
         <Button color="inherit" onClick={openRegisterModal}>
@@ -180,7 +164,7 @@ class SignUp extends Component {
                 helperText={
                   errors ? (errors.email ? errors.email : null) : null
                 }
-                error={errors ? (errors.email ? true : false) : false}
+                error={errors ? (errors.email ? true : false) : null}
                 fullWidth
                 required
                 InputProps={{
@@ -203,8 +187,10 @@ class SignUp extends Component {
                 autoComplete="username"
                 onChange={this.handleChange}
                 value={username}
-                helperText={errors.username}
-                error={errors.username ? true : false}
+                helperText={
+                  errors ? (errors.username ? errors.username : null) : null
+                }
+                error={errors ? (errors.username ? true : false) : null}
                 fullWidth
                 required
                 InputProps={{
@@ -224,9 +210,10 @@ class SignUp extends Component {
                 name="password"
                 label="Password"
                 value={password}
-                helperText={errors.password}
-                error={errors.password ? true : false}
-                type={showPassword ? "text" : "password"}
+                helperText={
+                  errors ? (errors.password ? errors.password : null) : null
+                }
+                error={errors ? (errors.password ? true : false) : null}
                 onChange={this.handleChange}
                 fullWidth
                 autoComplete="current-password"
@@ -256,8 +243,14 @@ class SignUp extends Component {
                 label="Confirm Password"
                 value={confirmPassword}
                 autoComplete="off"
-                helperText={errors.confirmPassword}
-                error={errors.confirmPassword ? true : false}
+                helperText={
+                  errors
+                    ? errors.confirmPassword
+                      ? errors.confirmPassword
+                      : null
+                    : null
+                }
+                error={errors ? (errors.confirmPassword ? true : false) : null}
                 type={showPassword ? "text" : "password"}
                 onChange={this.handleChange}
                 fullWidth
@@ -280,14 +273,16 @@ class SignUp extends Component {
                   )
                 }}
               />
-              {errors.msg && (
-                <Typography
-                  variant="body2"
-                  align="center"
-                  className={classes.errorMsg}>
-                  {errors.msg}
-                </Typography>
-              )}
+              {errors
+                ? errors.msg && (
+                    <Typography
+                      variant="body2"
+                      align="center"
+                      className={classes.errorMsg}>
+                      {errors.msg}
+                    </Typography>
+                  )
+                : null}
               <DialogActions className={classes.actions}>
                 <Button
                   variant="contained"
@@ -305,13 +300,13 @@ class SignUp extends Component {
                 <br />
               </DialogActions>
               <Typography variant="body2" align="center" gutterBottom>
-                Already have an account? Login{" "}
+                Already have an account?{" "}
                 <MuiLink
                   color="secondary"
                   underline="none"
                   className={classes.link}
                   onClick={this.handleOpenLoginModal}>
-                  here
+                  Login here
                 </MuiLink>
               </Typography>
             </form>
@@ -321,10 +316,12 @@ class SignUp extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  auth: state.auth,
-  registerModalOpen: state.modal.registerModalOpen
-});
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+    registerModalOpen: state.modal.registerModalOpen
+  };
+};
 
 SignUp.propTypes = {
   auth: PropTypes.object.isRequired,
