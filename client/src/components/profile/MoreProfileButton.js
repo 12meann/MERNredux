@@ -78,9 +78,8 @@ export class MoreProfileButton extends Component {
   };
 
   render() {
-    console.log(this.props);
     const { anchorEl, openModal } = this.state;
-    const { classes, loading, user, logOut, history } = this.props;
+    const { classes, loading, user, logOut } = this.props;
     return (
       <Fragment>
         <IconButton

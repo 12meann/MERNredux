@@ -21,6 +21,7 @@ export const LOADING = "LOADING";
 export const LOADING_POSTS = "LOADING_POSTS";
 
 export const GET_POSTS = "GET_POSTS";
+export const GET_POST = "GET_POST";
 export const GET_USER_INFO = "GET_USER_INFO";
 export const ADD_POST = "ADD_POST";
 export const RESET_POSTS = "RESET_POSTS";

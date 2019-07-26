@@ -9,6 +9,7 @@ import MorePostButton from "./MorePostButton";
 //MUI
 import { withStyles } from "@material-ui/styles";
 import Card from "@material-ui/core/Card";
+import Badge from "@material-ui/core/Badge";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
@@ -17,12 +18,11 @@ import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import AddCommentIcon from "@material-ui/icons/AddComment";
 import MuiLink from "@material-ui/core/Link";
+import Comments from "./Comments";
 
-const styles = {
+const styles = theme => ({
   card: {
     marginBottom: "20px"
   },
@@ -48,8 +48,15 @@ const styles = {
   comments: {
     padding: "0 10px",
     margin: "0 30px"
+  },
+  // heart: {
+  //   marginRight: "auto"
+  // },
+  commentTitle: {
+    margin: "0 10px",
+    right: "-10px"
   }
-};
+});
 
 //from the feed
 class PostItem extends Component {
@@ -63,6 +70,7 @@ class PostItem extends Component {
   };
   render() {
     const { classes, post, user } = this.props;
+
     const { expanded } = this.state;
     return (
       <Card className={classes.card}>
@@ -78,10 +86,10 @@ class PostItem extends Component {
           }
           action={
             user
-              ? post.postedBy._id === user._id && (
-                  <MorePostButton postId={post._id} />
-                )
+              ? // ? post.postedBy
+                post.postedBy._id === user._id && <MorePostButton post={post} />
               : null
+            // : null
           }
           title={
             <MuiLink
@@ -106,26 +114,33 @@ class PostItem extends Component {
         </CardContent>
         <CardActions className={classes.comments}>
           <Fragment>
-            <AddCommentIcon color="primary" />
-            <Typography variant="body2">
-              Comments{" "}
-              <IconButton
-                aria-expanded={expanded}
-                aria-label="Show more"
-                onClick={this.handleExpandClick}>
-                <ExpandMoreIcon color="primary" />
-              </IconButton>
-            </Typography>
+            <IconButton aria-label="Add to favorites" className={classes.heart}>
+              <FavoriteIcon color="primary" />
+            </IconButton>
+            <small>{post.likes.length > 0 ? post.likes.length : 0} likes</small>
+
+            {post.comments.length > 0 ? (
+              <Badge
+                className={classes.badge}
+                badgeContent={post.comments.length}
+                color="primary">
+                <Typography variant="body2" className={classes.commentTitle}>
+                  Comments
+                </Typography>
+              </Badge>
+            ) : (
+              <Typography variant="body2">Comments</Typography>
+            )}
+            <IconButton
+              aria-expanded={expanded}
+              aria-label="Show more"
+              onClick={this.handleExpandClick}>
+              <ExpandMoreIcon color="primary" />
+            </IconButton>
           </Fragment>
-          <IconButton aria-label="Add to favorites">
-            <FavoriteIcon color="primary" />
-          </IconButton>
-          <IconButton aria-label="Share">
-            <ShareIcon />
-          </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>where comments will go</CardContent>
+          <Comments />
         </Collapse>
       </Card>
     );

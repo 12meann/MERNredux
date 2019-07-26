@@ -1,13 +1,12 @@
 import {
   GET_POSTS,
+  GET_POST,
   GET_USER_INFO,
   ADD_POST,
-
-  // EDIT_POST,
+  EDIT_POST,
   CLEAR_ERRORS,
   LOADING_POSTS,
   POST_ERROR,
-  RESET_POSTS,
   DELETE_POST
 } from "../actions/types";
 
@@ -66,6 +65,19 @@ const postReducer = (state = initialState, action) => {
           post => post._id !== action.payload.deletedPost._id
         ),
         success: action.payload.msg
+      };
+    case EDIT_POST:
+      return {
+        ...state,
+        loading: false,
+        // post: action.payload.updatedContent,
+        success: action.payload.success
+      };
+    case GET_POST:
+      return {
+        ...state,
+        loading: false,
+        post: action.payload
       };
     default:
       return state;

@@ -7,8 +7,6 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
-import Textfield from "@material-ui/core/Textfield";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = theme => ({
@@ -76,7 +74,7 @@ class AddPost extends Component {
   };
 
   render() {
-    const { classes, errors, loading } = this.props;
+    const { classes, loading } = this.props;
     const { content } = this.state;
 
     return (

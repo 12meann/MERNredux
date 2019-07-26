@@ -48,8 +48,6 @@ class Navbar extends Component {
   render() {
     const {
       classes,
-      history,
-      logOut,
       auth: { isAuthenticated, user, loading }
     } = this.props;
 

@@ -12,8 +12,7 @@ import {
   UPDATE_USER_PROFILE,
   UPDATE_USER_FAIL,
   REGISTER_FAIL,
-  LOGIN_FAIL,
-  RESET_AUTH
+  LOGIN_FAIL
 } from "../actions/types";
 
 const initialState = {

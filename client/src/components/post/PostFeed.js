@@ -28,7 +28,9 @@ class PostFeed extends Component {
         ) : posts.length === 0 ? (
           <Typography align="center">No post yet</Typography>
         ) : (
-          posts.map(post => <PostItemCard post={post} key={post._id} />)
+          posts.map(post =>
+            post ? <PostItemCard post={post} key={post._id} /> : null
+          )
         )}
       </Fragment>
     );

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { compose } from "redux";
@@ -71,11 +71,10 @@ export class EditProfile extends Component {
       twitterLink,
       about
     };
-    console.log("formdata", formData);
+
     this.props.editProfile(formData, history);
   };
   componentDidMount() {
-    console.log(this.props.user, "as it mounts");
     loadCSS(
       "https://use.fontawesome.com/releases/v5.1.0/css/all.css",
       document.querySelector("#font-awesome-css")
@@ -93,7 +92,6 @@ export class EditProfile extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { classes, loading, errors } = this.props;
     const { username, location, facebookLink, twitterLink, about } = this.state;
     return (

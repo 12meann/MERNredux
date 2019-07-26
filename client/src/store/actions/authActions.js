@@ -14,12 +14,9 @@ import {
   UPDATE_USER_PROFILE,
   UPDATE_USER_FAIL,
   REGISTER_FAIL,
-  LOGIN_FAIL,
-  RESET_AUTH
+  LOGIN_FAIL
 } from "./types";
 import { closeLoginModal, closeRegisterModal } from "./modalActions";
-import { getPostsFeed, resetPosts } from "./postActions";
-import { BottomNavigationAction } from "@material-ui/core";
 
 const config = {
   headers: {
