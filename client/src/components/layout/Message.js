@@ -35,7 +35,8 @@ class Message extends Component {
     });
   };
   render() {
-    const { classes, msg } = this.props;
+    const { classes, auth, post, comment } = this.props;
+    console.log(post.success);
     return (
       <div>
         <Snackbar
@@ -48,12 +49,17 @@ class Message extends Component {
           ContentProps={{
             "aria-describedby": "message-id",
             classes: {
-              root: msg.success ? classes.success : classes.root
+              root:
+                auth.success || post.success ? classes.success : classes.root
             }
           }}
           message={
             <span id="message-id">
-              {msg.success || msg.fail || msg.errors.error}
+              {auth.success ||
+                auth.fail ||
+                post.success ||
+                comment.error.msg ||
+                comment.error.fail}
             </span>
           }
           action={[
@@ -71,11 +77,13 @@ class Message extends Component {
   }
 }
 const mapStateToProps = state => ({
-  msg: state.auth
+  auth: state.auth,
+  post: state.post,
+  comment: state.comment
 });
 
 Message.propTypes = {
-  msg: PropTypes.object,
+  auth: PropTypes.object,
   classes: PropTypes.object.isRequired
 };
 

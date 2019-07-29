@@ -4,6 +4,7 @@ import {
   GET_USER_INFO,
   ADD_POST,
   DELETE_POST,
+  REMOVE_POST_MSG,
   // EDIT_POST,
   LOADING_POSTS,
   POST_ERROR,
@@ -91,6 +92,7 @@ export const editPost = (updatedPost, postId) => dispatch => {
     .then(res => {
       dispatch({ type: EDIT_POST, payload: res.data });
       dispatch(getPostsFeed());
+      setTimeout(() => dispatch({ type: REMOVE_POST_MSG }), 5000);
     })
     .catch(err => {
       if (err) {

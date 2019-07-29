@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 import PropTypes from "prop-types";
+import Comments from "../comment/Comments";
 import { Link } from "react-router-dom";
 import noUserImg from "../../images/blankAvatar.png";
 import MorePostButton from "./MorePostButton";
@@ -20,7 +21,6 @@ import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiLink from "@material-ui/core/Link";
-import Comments from "./Comments";
 
 const styles = theme => ({
   card: {
@@ -114,11 +114,6 @@ class PostItem extends Component {
         </CardContent>
         <CardActions className={classes.comments}>
           <Fragment>
-            <IconButton aria-label="Add to favorites" className={classes.heart}>
-              <FavoriteIcon color="primary" />
-            </IconButton>
-            <small>{post.likes.length > 0 ? post.likes.length : 0} likes</small>
-
             {post.comments.length > 0 ? (
               <Badge
                 className={classes.badge}
@@ -137,10 +132,14 @@ class PostItem extends Component {
               onClick={this.handleExpandClick}>
               <ExpandMoreIcon color="primary" />
             </IconButton>
+            <IconButton aria-label="like" className={classes.heart}>
+              <FavoriteIcon color="primary" />
+            </IconButton>
+            <small>{post.likes.length > 0 ? post.likes.length : 0} likes</small>
           </Fragment>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <Comments />
+          <Comments comments={post.comments} />
         </Collapse>
       </Card>
     );

@@ -3,6 +3,7 @@ export const OPEN_REGISTER_MODAL = "OPEN_REGISTER_MODAL";
 export const CLOSE_LOGIN_MODAL = "CLOSE_LOGIN_MODAL";
 export const CLOSE_REGISTER_MODAL = "CLOSE_REGISTER_MODAL";
 export const REMOVE_SUCCESS_MSG = "REMOVE_SUCCESS_MSG";
+export const REMOVE_POST_MSG = "REMOVE_POST_MSG";
 
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -24,20 +25,21 @@ export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
 export const GET_USER_INFO = "GET_USER_INFO";
 export const ADD_POST = "ADD_POST";
-export const RESET_POSTS = "RESET_POSTS";
-export const RESET_AUTH = "RESET_AUTH";
-
 export const DELETE_POST = "DELETE_POST";
 export const EDIT_POST = "EDIT_POST";
+export const POST_ERROR = "POST_ERROR";
 
-export const SET_ALERT = "SET_ALERT";
-
+export const SHOW_COMMENTS = "SHOW_COMMENTS";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
+export const COMMENT_ERROR = "COMMENT_ERROR";
+
+export const RESET_POSTS = "RESET_POSTS";
+export const RESET_AUTH = "RESET_AUTH";
+export const SET_ALERT = "SET_ALERT";
 
 export const USER_PROFILE_ERROR = "USER_PROFILE_ERROR";
-export const POST_ERROR = "POST_ERROR";
 
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 

@@ -19,7 +19,7 @@ router.post("/", auth, (req, res, next) => {
       const newComment = new Comment({
         content: req.body.content,
         commentedBy: req.user.id,
-        postItem: req.params.postid
+        post: req.params.postid
       });
 
       //save comment to Comment
@@ -68,6 +68,28 @@ router.get("/:commentid", auth, (req, res, next) => {
           }
         });
     })
+    .catch(err => {
+      if (err) {
+        if (err.kind === "ObjectId") {
+          return res.status(400).json({ msg: "Post not found" });
+        } else {
+          res.status(500).json({ msg: "Something went wrong", err });
+        }
+      }
+    });
+});
+
+// show comments from 1 post
+//GET /api/posts/:postid/comment/
+//auth
+router.get("/", auth, (req, res, next) => {
+  Comment.find({ post: req.params.postid })
+    .populate("commentedBy", "username")
+    .exec()
+    .then(doc => {
+      res.json(doc);
+    })
+
     .catch(err => {
       if (err) {
         if (err.kind === "ObjectId") {

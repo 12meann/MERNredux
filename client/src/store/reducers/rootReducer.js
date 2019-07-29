@@ -2,12 +2,14 @@ import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import postReducer from "./postReducer";
 import modalReducer from "./modalReducer";
+import commentReducer from "./commentReducer";
 // import { LOGOUT_SUCCESS } from "../actions/types";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   post: postReducer,
-  modal: modalReducer
+  modal: modalReducer,
+  comment: commentReducer
 });
 
 // const rootReducer = (state, action) => {

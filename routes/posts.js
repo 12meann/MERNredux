@@ -13,6 +13,10 @@ router.get("/", (req, res, next) => {
   Post.find()
     .sort({ date: -1 })
     .populate("postedBy", "username")
+    .populate({
+      path: "comments",
+      populate: { path: "commentedBy", select: "username" }
+    })
     .exec()
     .then(posts => {
       return res.json(posts);

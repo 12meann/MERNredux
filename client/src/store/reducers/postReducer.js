@@ -7,7 +7,8 @@ import {
   CLEAR_ERRORS,
   LOADING_POSTS,
   POST_ERROR,
-  DELETE_POST
+  DELETE_POST,
+  REMOVE_POST_MSG
 } from "../actions/types";
 
 const initialState = {
@@ -72,6 +73,11 @@ const postReducer = (state = initialState, action) => {
         loading: false,
         // post: action.payload.updatedContent,
         success: action.payload.success
+      };
+    case REMOVE_POST_MSG:
+      return {
+        ...state,
+        success: null
       };
     case GET_POST:
       return {
