@@ -78,44 +78,42 @@ class AddPost extends Component {
     const { content } = this.state;
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <Paper className={classes.root}>
-            <InputBase
-              multiline
-              // rowsMax={20}
-              autoFocus
-              className={classes.input}
-              placeholder="What are your thoughts today?"
-              name="content"
-              // margin="dense"
-              id="content"
-              value={content}
-              type="text"
-              onChange={this.handleChange}
-              inputProps={{ margin: "dense" }}
-            />
-            {/* <FormHelperText
+      <form onSubmit={this.handleSubmit}>
+        <Paper className={classes.root}>
+          <InputBase
+            multiline
+            // rowsMax={20}
+            autoFocus
+            className={classes.input}
+            placeholder="What are your thoughts today?"
+            name="content"
+            // margin="dense"
+            id="content"
+            value={content}
+            type="text"
+            onChange={this.handleChange}
+            inputProps={{ margin: "dense" }}
+          />
+          {/* <FormHelperText
               margin="dense"
               className={classes.helperText}
               error={errors.content ? true : false}
               id="component-helper-text">
               {errors.content}
             </FormHelperText> */}
-            <Button
-              className={classes.button}
-              variant="text"
-              disabled={content.trim() === ""}
-              type="submit"
-              color="primary">
-              Add <br /> Post
-              {loading ? (
-                <CircularProgress size={40} className={classes.spinner} />
-              ) : null}
-            </Button>
-          </Paper>
-        </form>
-      </div>
+          <Button
+            className={classes.button}
+            variant="text"
+            disabled={content.trim() === ""}
+            type="submit"
+            color="primary">
+            Add <br /> Post
+            {loading ? (
+              <CircularProgress size={40} className={classes.spinner} />
+            ) : null}
+          </Button>
+        </Paper>
+      </form>
     );
   }
 }

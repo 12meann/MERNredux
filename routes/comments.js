@@ -21,15 +21,23 @@ router.post("/", auth, (req, res, next) => {
         commentedBy: req.user.id,
         post: req.params.postid
       });
-
       //save comment to Comment
       newComment
         .save()
         .then(comment => {
           //add comment to post.comments array
           post.comments.push(comment);
-          post.save().then(() => {
-            res.json(post.comments);
+          post.save().then(doc => {
+            doc
+              .populate("postedBy", "username")
+              .populate({
+                path: "comments",
+                populate: { path: "commentedBy", select: "username" }
+              })
+              .execPopulate()
+              .then(() => {
+                res.json(post.comments[post.comments.length - 1]);
+              });
           });
         })
         .catch(err => {

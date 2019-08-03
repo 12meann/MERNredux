@@ -66,12 +66,7 @@ class Profile extends Component {
     );
   }
   render() {
-    const {
-      user,
-
-      classes,
-      loading
-    } = this.props;
+    const { user, classes, loading } = this.props;
     return (
       <div>
         {user ? (

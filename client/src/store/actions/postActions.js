@@ -5,13 +5,9 @@ import {
   ADD_POST,
   DELETE_POST,
   REMOVE_POST_MSG,
-  // EDIT_POST,
   LOADING_POSTS,
   POST_ERROR,
-  // CLEAR_ERRORS,
-  // RESET_POSTS,
   EDIT_POST
-  // GET_POST
 } from "./types";
 
 export const addPost = newPost => dispatch => {
@@ -71,19 +67,6 @@ export const deletePost = postId => dispatch => {
       dispatch({ type: POST_ERROR, payload: err.response.data });
     });
 };
-// export const getPost = postId => dispatch => {
-//   axios
-//     .get(`/api/posts/${postId}`)
-//     .then(res => {
-//       console.log(res.data);
-//       dispatch({ type: GET_POST, payload: res.data });
-//     })
-//     .catch(err => {
-//       if (err) {
-//         dispatch({ type: POST_ERROR });
-//       }
-//     });
-// };
 
 export const editPost = (updatedPost, postId) => dispatch => {
   dispatch({ type: LOADING_POSTS });

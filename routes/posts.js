@@ -55,7 +55,7 @@ router.post("/", auth, (req, res, next) => {
             .then(post => {
               res.json(post);
             });
-        })
+        }) 
         .catch(err => {
           if (err) {
             console.log(err);

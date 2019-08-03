@@ -86,7 +86,6 @@ class Login extends Component {
     this.props.openRegisterModal();
   };
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (!nextProps.auth.errors && !nextProps.auth.loading) {
       this.setState({
         errors: {}

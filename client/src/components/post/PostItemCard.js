@@ -2,10 +2,11 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 import PropTypes from "prop-types";
-import Comments from "../comment/Comments";
 import { Link } from "react-router-dom";
 import noUserImg from "../../images/blankAvatar.png";
 import MorePostButton from "./MorePostButton";
+import { openLoginModal } from "../../store/actions/modalActions";
+import { clearComments } from "../../store/actions/commentsAction";
 
 //MUI
 import { withStyles } from "@material-ui/styles";
@@ -14,13 +15,12 @@ import Badge from "@material-ui/core/Badge";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MuiLink from "@material-ui/core/Link";
+import PostModal from "./PostModal";
 
 const styles = theme => ({
   card: {
@@ -41,7 +41,7 @@ const styles = theme => ({
   post: {
     borderColor: "rgba(40, 167, 69, 1)",
     borderLeftStyle: "solid",
-    border: "4px",
+    border: `4px`,
     padding: "0 10px",
     margin: "0 30px"
   },
@@ -49,29 +49,50 @@ const styles = theme => ({
     padding: "0 10px",
     margin: "0 30px"
   },
-  // heart: {
-  //   marginRight: "auto"
-  // },
+  heart: {
+    marginLeft: "auto"
+  },
   commentTitle: {
     margin: "0 10px",
     right: "-10px"
+  },
+  link: {
+    "&:hover": {
+      color: theme.palette.secondary.light
+    }
+  },
+  postLink: {
+    "&:hover": {
+      cursor: "pointer"
+    },
+    "& p:hover": {
+      color: theme.palette.secondary.light
+    }
   }
 });
 
 //from the feed
 class PostItem extends Component {
   state = {
-    expanded: false
+    openPostModal: false
   };
-  handleExpandClick = () => {
+  handleOpenPostModal = () => {
+    this.props.user
+      ? this.setState({
+          openPostModal: true
+        })
+      : this.props.openLoginModal();
+  };
+  handleClosePostModal = () => {
     this.setState({
-      expanded: !this.state.expanded
+      openPostModal: false
     });
+    this.props.clearComments();
   };
   render() {
     const { classes, post, user } = this.props;
 
-    const { expanded } = this.state;
+    const { openPostModal } = this.state;
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -96,14 +117,16 @@ class PostItem extends Component {
               underline="none"
               component={Link}
               to={`/users/${post.postedBy._id}`}>
-              <Typography variant="h6" color="primary">
+              <Typography variant="h6" color="primary" className={classes.link}>
                 @ {post.postedBy.username}
               </Typography>
             </MuiLink>
           }
           subheader={moment(post.date.toString()).fromNow()}
         />
-        <CardContent>
+        <CardContent
+          onClick={this.handleOpenPostModal}
+          className={classes.postLink}>
           <Typography
             variant="body1"
             color="textSecondary"
@@ -123,24 +146,22 @@ class PostItem extends Component {
                   Comments
                 </Typography>
               </Badge>
-            ) : (
-              <Typography variant="body2">Comments</Typography>
-            )}
-            <IconButton
-              aria-expanded={expanded}
-              aria-label="Show more"
-              onClick={this.handleExpandClick}>
-              <ExpandMoreIcon color="primary" />
-            </IconButton>
-            <IconButton aria-label="like" className={classes.heart}>
+            ) : null}
+
+            <small className={classes.heart}>
+              {post.likes.length > 0 ? post.likes.length : 0} likes
+            </small>
+            <IconButton aria-label="like">
               <FavoriteIcon color="primary" />
             </IconButton>
-            <small>{post.likes.length > 0 ? post.likes.length : 0} likes</small>
           </Fragment>
         </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <Comments comments={post.comments} />
-        </Collapse>
+        <PostModal
+          openPostModal={openPostModal}
+          handleOpenPostModal={this.handleOpenPostModal}
+          handleClosePostModal={this.handleClosePostModal}
+          post={post}
+        />
       </Card>
     );
   }
@@ -155,4 +176,7 @@ PostItem.propTypes = {
   post: PropTypes.object.isRequired
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(PostItem));
+export default connect(
+  mapStateToProps,
+  { openLoginModal, clearComments }
+)(withStyles(styles)(PostItem));

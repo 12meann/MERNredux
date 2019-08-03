@@ -16,6 +16,7 @@ import Avatar from "@material-ui/core/Avatar";
 import MuiLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import { Divider } from "@material-ui/core";
+import AddComment from "./AddComment";
 
 const styles = theme => ({
   root: {
@@ -40,14 +41,20 @@ const styles = theme => ({
 });
 
 class Comments extends Component {
+  componentDidMount() {
+    this.props.showComments(this.props.postId);
+  }
   render() {
-    const { classes, comments, user } = this.props;
-    console.log(user ? user._id : null);
+    const { classes, comments, user, postId, loading } = this.props;
+    console.log(this.props.postId);
     return (
       <CardContent className={classes.commentSection}>
         <Divider color="primary" classes={{ root: classes.root }} />
+        <AddComment postId={postId} />
         {comments ? (
-          comments.length === 0 ? (
+          loading ? (
+            <p>loading...</p>
+          ) : comments.length === 0 ? (
             <Typography align="center" variant="caption">
               <em>No comment yet.</em>
             </Typography>
@@ -107,7 +114,9 @@ class Comments extends Component {
 Comments.propTypes = {};
 
 const mapStateToProps = state => ({
-  user: state.auth.user
+  user: state.auth.user,
+  comments: state.comment.comments,
+  loading: state.comment.loading
 });
 export default connect(
   mapStateToProps,

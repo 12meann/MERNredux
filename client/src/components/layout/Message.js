@@ -36,7 +36,7 @@ class Message extends Component {
   };
   render() {
     const { classes, auth, post, comment } = this.props;
-    console.log(post.success);
+
     return (
       <div>
         <Snackbar

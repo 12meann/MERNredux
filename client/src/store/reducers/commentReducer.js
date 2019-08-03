@@ -1,10 +1,11 @@
 import {
   ADD_COMMENT,
-  EDIT_COMMENT,
-  DELETE_COMMENT,
+  // EDIT_COMMENT,
+  // DELETE_COMMENT,
+  // CLEAR_ERRORS,
   COMMENT_ERROR,
   SHOW_COMMENTS,
-  CLEAR_ERRORS,
+  CLEAR_COMMENTS,
   LOADING
 } from "../actions/types";
 
@@ -32,17 +33,18 @@ const commentReducer = (state = initialState, action) => {
     case ADD_COMMENT:
       return {
         ...state,
-        comments: [action.payload, ...state.comments]
+        comments: [...state.comments, action.payload],
+        loading: false
       };
     case COMMENT_ERROR:
       return {
         ...state,
         error: action.payload
       };
-    case CLEAR_ERRORS:
+    case CLEAR_COMMENTS:
       return {
         ...state,
-        error: null
+        comments: null
       };
     default:
       return state;

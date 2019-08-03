@@ -156,7 +156,7 @@ const mapStateToProps = state => ({
 
 StaticProfile.propTypes = {
   classes: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
+  profile: PropTypes.object,
   loading: PropTypes.bool.isRequired
 };
 

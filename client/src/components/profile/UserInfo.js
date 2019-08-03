@@ -68,7 +68,7 @@ const mapStateToProps = state => ({
 UserInfo.propTypes = {
   loading: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
-  posts: PropTypes.object.isRequired,
+  posts: PropTypes.array.isRequired,
   getUserInfo: PropTypes.func.isRequired
 };
 

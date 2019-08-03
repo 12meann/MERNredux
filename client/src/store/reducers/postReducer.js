@@ -1,6 +1,5 @@
 import {
   GET_POSTS,
-  GET_POST,
   GET_USER_INFO,
   ADD_POST,
   EDIT_POST,
@@ -15,7 +14,6 @@ const initialState = {
   loading: false,
   errors: {},
   posts: [],
-  post: null,
   success: null
 };
 
@@ -78,12 +76,6 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         success: null
-      };
-    case GET_POST:
-      return {
-        ...state,
-        loading: false,
-        post: action.payload
       };
     default:
       return state;
