@@ -50,7 +50,9 @@ class Message extends Component {
             "aria-describedby": "message-id",
             classes: {
               root:
-                auth.success || post.success ? classes.success : classes.root
+                auth.success || post.success || comment.success
+                  ? classes.success
+                  : classes.root
             }
           }}
           message={
@@ -58,6 +60,7 @@ class Message extends Component {
               {auth.success ||
                 auth.fail ||
                 post.success ||
+                comment.success ||
                 post.fail ||
                 comment.error.msg ||
                 comment.error.fail}

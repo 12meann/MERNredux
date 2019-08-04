@@ -1,5 +1,6 @@
 import {
   GET_POSTS,
+  GET_POST,
   GET_USER_INFO,
   ADD_POST,
   EDIT_POST,
@@ -15,7 +16,8 @@ const initialState = {
   errors: {},
   posts: [],
   success: null,
-  fail: null
+  fail: null,
+  post: null
 };
 
 const postReducer = (state = initialState, action) => {
@@ -30,6 +32,12 @@ const postReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         posts: action.payload
+      };
+    case GET_POST:
+      return {
+        ...state,
+        loading: false,
+        post: action.payload
       };
     case ADD_POST:
       return {
@@ -71,7 +79,6 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        // post: action.payload.updatedContent,
         success: action.payload.success
       };
     case REMOVE_POST_MSG:
@@ -79,6 +86,15 @@ const postReducer = (state = initialState, action) => {
         ...state,
         success: null
       };
+    // case ADD_COMMENT_COUNT:
+    //   return {
+    //     ...state,
+    //     posts: state.posts.map(post => {
+    //       if (post.comments.length !== action.payload.post.comments.length) {
+    //         post.comments.length + 1;
+    //       }
+    //     })
+    //   };
     default:
       return state;
   }

@@ -36,7 +36,10 @@ router.post("/", auth, (req, res, next) => {
               })
               .execPopulate()
               .then(() => {
-                res.json(post.comments[post.comments.length - 1]);
+                res.json({
+                  success: "Comment succesfully added",
+                  comment: post.comments[post.comments.length - 1]
+                });
               });
           });
         })

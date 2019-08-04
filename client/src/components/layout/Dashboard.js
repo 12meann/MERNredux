@@ -29,6 +29,7 @@ class Dashboard extends Component {
         {msg.success ||
         msg.fail ||
         post.success ||
+        comment.success ||
         post.fail ||
         comment.error ? (
           <Message />

@@ -9,7 +9,12 @@ import AddCommentIcon from "@material-ui/icons/AddComment";
 import Textfield from "@material-ui/core/Textfield";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
-const styles = theme => {};
+const styles = theme => ({
+  input: {
+    width: "100%",
+    margin: "30px 0"
+  }
+});
 
 export class AddComment extends Component {
   state = {
@@ -34,7 +39,7 @@ export class AddComment extends Component {
   };
   render() {
     const { content } = this.state;
-    // const { classes } = this.props;
+    const { classes } = this.props;
     return (
       <form>
         <Textfield
@@ -48,6 +53,7 @@ export class AddComment extends Component {
           margin="dense"
           id="content"
           value={content}
+          className={classes.input}
           type="text"
           onChange={this.handleChange}
           InputProps={{

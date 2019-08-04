@@ -15,6 +15,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
 import { clearComments } from "../../store/actions/commentsAction";
+import { getPost } from "../../store/actions/postActions";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
@@ -45,6 +46,13 @@ const styles = theme => ({
   },
   heart: {
     marginLeft: "auto"
+  },
+  commentTitle: {
+    margin: "0 10px",
+    right: "-10px"
+  },
+  badge: {
+    right: "-8px"
   }
 });
 
@@ -57,6 +65,7 @@ export class PostModal extends Component {
       expanded: !this.state.expanded
     });
   };
+
   render() {
     const {
       handleClosePostModal,
@@ -87,12 +96,12 @@ export class PostModal extends Component {
               }
               action={
                 user
-                  ? // ? post.postedBy
-                    post.postedBy._id === user._id && (
-                      <MorePostButton post={post} />
-                    )
+                  ? post.postedBy
+                    ? post.postedBy._id === user._id && (
+                        <MorePostButton post={post} />
+                      )
+                    : null
                   : null
-                // : null
               }
               title={
                 <MuiLink
@@ -118,6 +127,8 @@ export class PostModal extends Component {
                 {post.content}
               </Typography>
             </CardContent>
+
+            {/* =================== */}
             <CardActions className={classes.comments}>
               {post.comments.length > 0 ? (
                 <Badge
@@ -145,6 +156,8 @@ export class PostModal extends Component {
                 <FavoriteIcon color="primary" />
               </IconButton>
             </CardActions>
+
+            {/* --------------- */}
           </Card>
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <Comments postId={post._id} />
@@ -156,7 +169,7 @@ export class PostModal extends Component {
 }
 
 const mapStateToProps = state => ({
-  // loading: state.post.loading,
+  commentCount: state.comment.commentCount,
   user: state.auth.user
 });
 PostModal.propTypes = {

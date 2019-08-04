@@ -20,6 +20,7 @@ export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";
 
 export const LOADING = "LOADING";
 export const LOADING_POSTS = "LOADING_POSTS";
+export const LOADING_COMMENTS = "LOADING_COMMENTS";
 
 export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";

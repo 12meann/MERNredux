@@ -78,7 +78,6 @@ class EditPostModal extends Component {
                 variant="contained"
                 onClick={handleModalEdit}
                 fullWidth
-                color="error"
                 className={classes.cancelButton}
                 size="large">
                 CANCEL

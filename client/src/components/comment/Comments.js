@@ -49,7 +49,6 @@ class Comments extends Component {
     console.log(this.props.postId);
     return (
       <CardContent className={classes.commentSection}>
-        <Divider color="primary" classes={{ root: classes.root }} />
         <AddComment postId={postId} />
         {comments ? (
           loading ? (

@@ -7,6 +7,7 @@ import noUserImg from "../../images/blankAvatar.png";
 import MorePostButton from "./MorePostButton";
 import { openLoginModal } from "../../store/actions/modalActions";
 import { clearComments } from "../../store/actions/commentsAction";
+import { getPost } from "../../store/actions/postActions";
 
 //MUI
 import { withStyles } from "@material-ui/styles";
@@ -74,7 +75,9 @@ const styles = theme => ({
 //from the feed
 class PostItem extends Component {
   state = {
-    openPostModal: false
+    openPostModal: false,
+    commentCount: 0,
+    likeCount: null
   };
   handleOpenPostModal = () => {
     this.props.user
@@ -89,10 +92,16 @@ class PostItem extends Component {
     });
     this.props.clearComments();
   };
+  componentDidMount() {
+    this.setState({
+      commentCount: this.props.post.comments.length
+    });
+  }
+
   render() {
     const { classes, post, user } = this.props;
 
-    const { openPostModal } = this.state;
+    const { openPostModal, commentCount } = this.state;
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -135,12 +144,14 @@ class PostItem extends Component {
             {post.content}
           </Typography>
         </CardContent>
+        {/* ============================= */}
+
         <CardActions className={classes.comments}>
           <Fragment>
-            {post.comments.length > 0 ? (
+            {commentCount > 0 ? (
               <Badge
                 className={classes.badge}
-                badgeContent={post.comments.length}
+                badgeContent={commentCount}
                 color="primary">
                 <Typography variant="body2" className={classes.commentTitle}>
                   Comments
