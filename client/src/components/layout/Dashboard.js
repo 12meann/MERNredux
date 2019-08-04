@@ -26,7 +26,11 @@ class Dashboard extends Component {
 
     return (
       <Grid container className={classes.dashboard}>
-        {msg.success || msg.fail || post.success || comment.error ? (
+        {msg.success ||
+        msg.fail ||
+        post.success ||
+        post.fail ||
+        comment.error ? (
           <Message />
         ) : null}
         <Grid item sm={12} md={7} className={classes.gridItem}>

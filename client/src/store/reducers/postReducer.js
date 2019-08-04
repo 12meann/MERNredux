@@ -14,7 +14,8 @@ const initialState = {
   loading: false,
   errors: {},
   posts: [],
-  success: null
+  success: null,
+  fail: null
 };
 
 const postReducer = (state = initialState, action) => {
@@ -47,7 +48,8 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        errors: action.payload
+        errors: action.payload,
+        fail: action.payload.msg
       };
     case CLEAR_ERRORS:
       return {

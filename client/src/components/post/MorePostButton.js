@@ -11,39 +11,21 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogActions from "@material-ui/core/DialogActions";
-import TextField from "@material-ui/core/TextField";
+import DeletePostModal from "./DeletePostModal";
 
 const styles = theme => ({
-  moreButton: {
-    float: "right"
-  },
-  deleteMenu: {
-    color: theme.palette.error.main
-  },
-  deleteButton: {
-    borderColor: theme.palette.error.dark,
-    color: "#000",
-    "&:hover": {
-      backgroundColor: theme.palette.error.main,
-      color: "#fff"
-    }
-  },
-  dialog: {
-    padding: "20px",
-    textAlign: "center"
-  },
-  spinner: {
-    position: "absolute"
-  },
-  disabledButton: {
-    backgroundColor: theme.palette.error.light
-  }
+  // moreButton: {
+  //   float: "right"
+  // },
+  // deleteMenu: {
+  //   color: theme.palette.error.main
+  // },
+  // spinner: {
+  //   position: "absolute"
+  // },
+  // disabledButton: {
+  //   backgroundColor: theme.palette.error.light
+  // }
 });
 
 export class MorePostButton extends Component {
@@ -73,11 +55,12 @@ export class MorePostButton extends Component {
     });
   };
   handleDelete = e => {
-    const postId = this.props.postId;
+    const postId = this.props.post._id;
     this.props.deletePost(postId);
     this.setState({
       openDeleteModal: false
     });
+    console.log(postId);
   };
   //edit modal
   handleModalEdit = () => {
@@ -136,45 +119,11 @@ export class MorePostButton extends Component {
         />
 
         {/* Delete dialog */}
-        <Dialog
-          open={openDeleteModal}
-          onClose={this.handleModalDelete}
-          aria-labelledby="Delete modal"
-          className={classes.dialog}
-          fullWidth
-          maxWidth="sm">
-          <DialogTitle id="Login" align="center">
-            Delete Post ?
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText variant="h6">
-              This is irreversable.
-              <br />
-              <br />
-              Are you sure you want to delete this post?
-              <br />
-              <br />
-            </DialogContentText>
-            <DialogActions>
-              <Button
-                variant="outlined"
-                onClick={this.handleDelete}
-                className={classes.deleteButton}
-                fullWidth
-                size="large">
-                DELETE
-              </Button>
-              <Button
-                variant="contained"
-                onClick={this.handleModalDelete}
-                fullWidth
-                color="secondary"
-                size="large">
-                CANCEL
-              </Button>
-            </DialogActions>
-          </DialogContent>
-        </Dialog>
+        <DeletePostModal
+          openDeleteModal={openDeleteModal}
+          handleModalDelete={this.handleModalDelete}
+          handleDelete={this.handleDelete}
+        />
       </Fragment>
     );
   }

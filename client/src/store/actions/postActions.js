@@ -62,6 +62,7 @@ export const deletePost = postId => dispatch => {
     .delete(`/api/posts/${postId}`)
     .then(res => {
       dispatch({ type: DELETE_POST, payload: res.data });
+      setTimeout(() => dispatch({ type: REMOVE_POST_MSG }), 5000);
     })
     .catch(err => {
       dispatch({ type: POST_ERROR, payload: err.response.data });

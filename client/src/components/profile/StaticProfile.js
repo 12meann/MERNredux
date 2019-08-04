@@ -76,6 +76,7 @@ class StaticProfile extends Component {
               <Typography variant="h6" color="textSecondary" component="p">
                 <AccountBoxIcon className={classes.icon} />{" "}
                 <strong>@ {profile.username ? profile.username : null} </strong>
+                <span>{profile.likes ? profile.likes.length : 0} likes</span>
               </Typography>
               <Typography
                 variant="subtitle1"

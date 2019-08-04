@@ -11,29 +11,23 @@ import DialogActions from "@material-ui/core/DialogActions";
 import TextField from "@material-ui/core/TextField";
 
 const styles = theme => ({
-  moreButton: {
-    float: "right"
+  button: {
+    padding: 0,
+    margin: "20px 0"
   },
-  deleteMenu: {
-    color: theme.palette.error.main
-  },
-  deleteButton: {
-    borderColor: theme.palette.error.dark,
-    color: "#000",
+  editButton: {
     "&:hover": {
-      backgroundColor: theme.palette.error.main,
+      backgroundColor: theme.palette.primary.main,
       color: "#fff"
     }
   },
-  dialog: {
-    padding: "20px",
-    textAlign: "center"
-  },
-  spinner: {
-    position: "absolute"
-  },
-  disabledButton: {
-    backgroundColor: theme.palette.error.light
+  cancelButton: {
+    backgroundColor: theme.palette.error.main,
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: theme.palette.error.dark,
+      color: "#fff"
+    }
   }
 });
 
@@ -52,7 +46,6 @@ class EditPostModal extends Component {
         open={openEditModal}
         onClose={handleModalEdit}
         aria-labelledby="Edit modal"
-        className={classes.dialog}
         fullWidth
         maxWidth="sm">
         <DialogTitle id="Edit" align="center">
@@ -71,10 +64,11 @@ class EditPostModal extends Component {
               value={content}
               fullWidth
             />
-            <DialogActions>
+            <DialogActions className={classes.button}>
               <Button
                 variant="outlined"
                 type="submit"
+                color="primary"
                 className={classes.editButton}
                 fullWidth
                 size="large">
@@ -82,9 +76,10 @@ class EditPostModal extends Component {
               </Button>
               <Button
                 variant="contained"
-                onClick={this.handleModalEdit}
+                onClick={handleModalEdit}
                 fullWidth
-                color="secondary"
+                color="error"
+                className={classes.cancelButton}
                 size="large">
                 CANCEL
               </Button>

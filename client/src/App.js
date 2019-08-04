@@ -7,7 +7,6 @@ import store from "./store/store";
 
 //links
 import Dashboard from "./components/layout/Dashboard";
-import EditPost from "./components/post/EditPost";
 import EditProfile from "./components/profile/EditProfile";
 import UserInfo from "./components/profile/UserInfo";
 import Navbar from "./components/layout/Navbar";
@@ -41,11 +40,6 @@ class App extends Component {
                   exact
                   path="/users/:userid"
                   component={UserInfo}
-                />
-                <PrivateRoute
-                  exact
-                  path="/posts/:postid/edit"
-                  component={EditPost}
                 />
               </Switch>
             </div>
