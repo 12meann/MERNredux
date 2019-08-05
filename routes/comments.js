@@ -198,10 +198,10 @@ router.put("/:commentid", auth, (req, res, next) => {
           } else if (updatedComment.commentedBy != req.user.id) {
             res.status(400).json({ msg: "You are not authorized to do that" });
           } else {
-            return res.json(updatedComment);
+            return res.json({updatedComment, success: "Comment succesfully updated."});
           }
         }
-      );
+      ); 
     })
     .catch(err => {
       if (err) {

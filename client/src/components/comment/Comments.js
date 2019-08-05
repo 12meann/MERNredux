@@ -73,7 +73,10 @@ class Comments extends Component {
                   action={
                     user
                       ? comment.commentedBy._id === user._id && (
-                          <MoreCommentButton commentId={comment._id} />
+                          <MoreCommentButton
+                            comment={comment}
+                            postId={postId}
+                          />
                         )
                       : null
                   }

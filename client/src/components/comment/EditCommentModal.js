@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { editPost } from "../../store/actions/postActions";
+import { editComment } from "../../store/actions/commentsAction";
 import PropTypes from "prop-types";
 
 //MUI stuff
@@ -40,36 +40,6 @@ const styles = theme => ({
 });
 
 class EditCommentModal extends Component {
-  state = {
-    openEditModal: false,
-    content: ""
-  };
-
-  //edit modal
-  handleModalEdit = () => {
-    const { openEditModal } = this.state;
-    this.setState({
-      openEditModal: !openEditModal,
-      anchorEl: null
-    });
-  };
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-  handleSubmit = e => {
-    e.preventDefault();
-    const editedComment = {
-      content: this.state.content
-    };
-    this.props.editComment(editedComment, this.props.post._id);
-  };
-  componentDidMount() {
-    this.setState({
-      content: this.props.comment.content
-    });
-  }
   render() {
     const {
       openEditModal,
@@ -88,7 +58,7 @@ class EditCommentModal extends Component {
         fullWidth
         maxWidth="sm">
         <DialogTitle id="Edit" align="center">
-          Edit / Update Post
+          Edit / Update Comment
         </DialogTitle>
         <DialogContent>
           <form noValidate onSubmit={handleSubmit}>
@@ -113,7 +83,7 @@ class EditCommentModal extends Component {
               </Button>
               <Button
                 variant="contained"
-                onClick={this.handleModalEdit}
+                onClick={handleModalEdit}
                 fullWidth
                 color="secondary"
                 size="large">
@@ -127,8 +97,8 @@ class EditCommentModal extends Component {
   }
 }
 
-EditPostModal.propTypes = {
-  editPost: PropTypes.func.isRequired,
+EditCommentModal.propTypes = {
+  editComment: PropTypes.func.isRequired,
   openEditModal: PropTypes.bool.isRequired,
   handleModalEdit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -139,5 +109,5 @@ EditPostModal.propTypes = {
 
 export default connect(
   null,
-  { editPost }
+  { editComment }
 )(withStyles(styles)(EditCommentModal));

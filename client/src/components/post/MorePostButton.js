@@ -89,7 +89,6 @@ export class MorePostButton extends Component {
   }
   render() {
     const { anchorEl, openDeleteModal, openEditModal, content } = this.state;
-    const { classes } = this.props;
     return (
       <Fragment>
         <IconButton

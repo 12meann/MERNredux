@@ -7,7 +7,8 @@ import {
   SHOW_COMMENTS,
   CLEAR_COMMENTS,
   LOADING_COMMENTS,
-  REMOVE_SUCCESS_MSG
+  REMOVE_SUCCESS_MSG,
+  EDIT_COMMENT
 } from "../actions/types";
 
 const initialState = {
@@ -44,8 +45,15 @@ const commentReducer = (state = initialState, action) => {
     case COMMENT_ERROR:
       return {
         ...state,
-        error: action.payload,
-        fail: action.payload.fail
+        // error: action.payload,
+        fail: action.payload.msg,
+        loading: false
+      };
+    case EDIT_COMMENT:
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.success
       };
     case CLEAR_COMMENTS:
       return {
