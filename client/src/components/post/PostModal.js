@@ -17,6 +17,8 @@ import Collapse from "@material-ui/core/Collapse";
 import { clearComments } from "../../store/actions/commentsAction";
 import { getPost } from "../../store/actions/postActions";
 
+import Tooltip from "@material-ui/core/Tooltip";
+import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -53,6 +55,11 @@ const styles = theme => ({
   },
   badge: {
     right: "-8px"
+  },
+  closeIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10
   }
 });
 
@@ -82,6 +89,14 @@ export class PostModal extends Component {
         aria-labelledby="Post Modal"
         fullWidth
         maxWidth="md">
+        <Tooltip title="Close">
+          <IconButton
+            aria-label="Close"
+            className={classes.closeIcon}
+            onClick={handleClosePostModal}>
+            <CloseIcon />
+          </IconButton>
+        </Tooltip>
         <DialogContent className={classes.dialog}>
           <Card className={classes.card}>
             <CardHeader

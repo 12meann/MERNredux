@@ -21,6 +21,7 @@ class App extends Component {
   componentDidMount() {
     store.dispatch(loadUser());
   }
+
   render() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -28,6 +29,7 @@ class App extends Component {
         <Provider store={store}>
           <Router>
             <Navbar />
+
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Dashboard} />

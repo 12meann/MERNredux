@@ -62,8 +62,8 @@ class Message extends Component {
                 post.success ||
                 comment.success ||
                 post.fail ||
-                comment.error.msg ||
-                comment.error.fail}
+                // comment.error.msg ||
+                comment.error}
             </span>
           }
           action={[

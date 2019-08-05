@@ -56,8 +56,8 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        errors: action.payload,
-        fail: action.payload.msg
+        errors: action.payload
+        // fail: action.payload
       };
     case CLEAR_ERRORS:
       return {

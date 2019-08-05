@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getUserInfo } from "../../store/actions/postActions";
 import StaticProfile from "./StaticProfile";
 import axios from "axios";
+import Message from "../layout/Message";
 //MUI
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -35,7 +36,7 @@ class UserInfo extends Component {
     });
   }
   render() {
-    const { loading, posts, classes } = this.props;
+    const { loading, posts, classes, msg, post, comment } = this.props;
     const { profile } = this.state;
     const userPosts = !loading ? (
       posts.length === 0 ? (
@@ -50,6 +51,14 @@ class UserInfo extends Component {
     );
     return (
       <Grid container className={classes.dashboard}>
+        {msg.success ||
+        msg.fail ||
+        post.success ||
+        comment.success ||
+        post.fail ||
+        comment.error ? (
+          <Message />
+        ) : null}
         <Grid item sm={12} md={7} className={classes.gridItem}>
           {userPosts}
         </Grid>
@@ -63,7 +72,11 @@ class UserInfo extends Component {
 
 const mapStateToProps = state => ({
   posts: state.post.posts,
-  loading: state.post.loading
+  loading: state.post.loading,
+  msg: state.auth,
+  post: state.post,
+  errorMsg: state.post.errors,
+  comment: state.comment
 });
 UserInfo.propTypes = {
   loading: PropTypes.bool.isRequired,

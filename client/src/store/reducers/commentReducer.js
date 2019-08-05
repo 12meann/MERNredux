@@ -44,7 +44,8 @@ const commentReducer = (state = initialState, action) => {
     case COMMENT_ERROR:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        fail: action.payload.fail
       };
     case CLEAR_COMMENTS:
       return {
