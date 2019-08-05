@@ -1,7 +1,6 @@
 import {
   ADD_COMMENT,
-  // EDIT_COMMENT,
-  // DELETE_COMMENT,
+  DELETE_COMMENT,
   // CLEAR_ERRORS,
   COMMENT_ERROR,
   SHOW_COMMENTS,
@@ -55,6 +54,16 @@ const commentReducer = (state = initialState, action) => {
         loading: false,
         success: action.payload.success
       };
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        loading: false,
+        success: action.payload.success,
+        comments: state.comments.filter(
+          comment => comment._id !== action.payload.deletedComment._id
+        )
+      };
+
     case CLEAR_COMMENTS:
       return {
         ...state,

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { editComment } from "../../store/actions/commentsAction";
+import { editComment, deleteComment } from "../../store/actions/commentsAction";
 import PropTypes from "prop-types";
 
 import IconButton from "@material-ui/core/IconButton";
@@ -23,8 +23,9 @@ export class MoreCommentButton extends Component {
     });
   };
   handleDelete = e => {
-    // const postId = this.props.post._id;
-    // this.props.deleteComment(postId, CommentId);
+    const { postId, comment, deleteComment } = this.props;
+    console.log(comment._id);
+    deleteComment(postId, comment._id);
     this.setState({
       openDeleteModal: false
     });
@@ -81,7 +82,11 @@ export class MoreCommentButton extends Component {
           handleChange={this.handleChange}
           content={content}
         />
-        <DeleteCommentModal />
+        <DeleteCommentModal
+          openDeleteModal={openDeleteModal}
+          handleModalDelete={this.handleModalDelete}
+          handleDelete={this.handleDelete}
+        />
       </Fragment>
     );
   }
@@ -93,5 +98,5 @@ MoreCommentButton.propTypes = {
 
 export default connect(
   null,
-  { editComment }
+  { editComment, deleteComment }
 )(MoreCommentButton);

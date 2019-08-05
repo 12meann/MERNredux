@@ -46,7 +46,7 @@ class Comments extends Component {
   }
   render() {
     const { classes, comments, user, postId, loading } = this.props;
-    console.log(this.props.postId);
+
     return (
       <CardContent className={classes.commentSection}>
         <AddComment postId={postId} />

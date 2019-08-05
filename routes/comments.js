@@ -119,18 +119,18 @@ router.delete("/:commentid", auth, (req, res, next) => {
   Post.findById(req.params.postid)
     .then(post => {
       //look for post if there
-      if (!post) return res.status(400).json({ msg: "Post not found" });
+      if (!post) return res.status(400).json({ fail: "Post not found" });
       // look comment
       Comment.findById(req.params.commentid)
         .then(comment => {
           //check comment if there
           if (!comment)
-            return res.status(400).json({ msg: "Comment not found" });
+            return res.status(400).json({ fail: "Comment not found" });
           //check if comment was created by the person deleting
           if (comment.commentedBy != req.user.id)
             return res
               .status(400)
-              .json({ msg: "You are not allowed to do that" });
+              .json({ fail: "You are not allowed to do that" });
           //remove comment from Comment
           comment
             .remove()
@@ -143,28 +143,31 @@ router.delete("/:commentid", auth, (req, res, next) => {
 
               post.comments.splice(removeIndex, 1);
               post.save();
-              res.json(post.comments);
+              res.json({
+                success: "Comment successfully deleted.",
+                deletedComment
+              });
             })
             .catch(err => {
               if (err) {
-                return res.status(500).json({ msg: "Server error", err });
+                return res.status(500).json({ fail: "Server error", err });
               }
             });
         })
 
         .catch(err => {
           if (err.kind === "ObjectId") {
-            return res.status(500).json({ msg: "Comment not found" });
+            return res.status(500).json({ fail: "Comment not found" });
           } else {
-            res.status(500).json({ msg: "Server error", err });
+            res.status(500).json({ fail: "Server error", err });
           }
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ msg: "Post not found" });
+        return res.status(500).json({ fail: "Post not found" });
       } else {
-        res.status(500).json({ msg: "Server error", err });
+        res.status(500).json({ fail: "Server error", err });
       }
     });
 });
@@ -198,10 +201,13 @@ router.put("/:commentid", auth, (req, res, next) => {
           } else if (updatedComment.commentedBy != req.user.id) {
             res.status(400).json({ msg: "You are not authorized to do that" });
           } else {
-            return res.json({updatedComment, success: "Comment succesfully updated."});
+            return res.json({
+              updatedComment,
+              success: "Comment succesfully updated."
+            });
           }
         }
-      ); 
+      );
     })
     .catch(err => {
       if (err) {

@@ -11,8 +11,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 
 const styles = theme => ({
   deleteButton: {
-    // borderColor: theme.palette.error.dark,
-    // color: "#000",
+    borderColor: theme.palette.error.dark,
+    color: "#000",
     "&:hover": {
       backgroundColor: theme.palette.error.main,
       color: "#fff"
@@ -56,7 +56,6 @@ const DeletePostModal = ({
             onClick={handleDelete}
             className={classes.deleteButton}
             fullWidth
-            color="error"
             size="large">
             DELETE
           </Button>
