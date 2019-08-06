@@ -61,7 +61,7 @@ class Message extends Component {
                 auth.fail ||
                 post.success ||
                 comment.success ||
-                post.fail ||
+                post.error ||
                 // comment.error.msg ||
                 comment.fail}
             </span>

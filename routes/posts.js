@@ -40,7 +40,7 @@ router.post("/", auth, (req, res, next) => {
       if (!user)
         return res
           .status(400)
-          .json({ msg: "You are not authorized to do that." });
+          .json({ fail: "You are not authorized to do that. Please Login." });
       const newPost = new Post({
         content,
         postedBy: req.user.id
@@ -55,18 +55,23 @@ router.post("/", auth, (req, res, next) => {
             .then(post => {
               res.json(post);
             });
-        }) 
+        })
         .catch(err => {
           if (err) {
             console.log(err);
-            res.status(500).json({ fail: "Something went wrong 1", err });
+            res.status(500).json({
+              fail: "Something went wrong. Please try again later.",
+              err
+            });
           }
         });
     })
     .catch(err => {
       if (err) {
         console.log(err);
-        res.status(500).json({ fail: "Something went wrong 2", err });
+        res
+          .status(500)
+          .json({ fail: "Server error. Please try again later.", err });
       }
     });
 });
@@ -78,14 +83,16 @@ router.get("/:postid", (req, res, next) => {
   Post.findOne({ _id: req.params.postid })
     .populate("postedBy", "username _id")
     .then(post => {
-      if (post === null) return res.json({ msg: "No post found" });
+      if (post === null) return res.json({ fail: "No post found." });
       res.json(post);
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ msg: "No post found" });
+        return res.status(500).json({ fail: "No post found." });
       } else {
-        res.status(500).json({ msg: "Server error", err });
+        res
+          .status(500)
+          .json({ fail: "Something went wrong. Please try again later.", err });
       }
     });
 });
@@ -97,33 +104,39 @@ router.delete("/:postid", auth, (req, res, next) => {
   Post.findById(req.params.postid)
     .then(post => {
       //check post if there
-      if (!post) return res.status(400).json({ msg: "Post not found" });
+      if (!post) return res.status(400).json({ fail: "Post not found." });
       //check if post was created by the person deleting
       if (post.postedBy != req.user.id)
-        return res.status(400).json({ msg: "You are not allowed to do that" });
+        return res
+          .status(400)
+          .json({ fail: "You are not allowed to do that." });
       //remove post
       post
         .remove()
         .then(deletedPost => {
           Comment.remove({ _id: { $in: post.comments } }, err => {
             if (err) {
-              return res.status(500).json({ msg: "Something went wrong" });
+              return res.status(500).json({
+                fail: "Something went wrong. Please try again later."
+              });
             }
           });
           res.status(200).json({
-            msg: "You have succesfully deleted the post",
+            success: "You have succesfully deleted your post.",
             deletedPost
           });
         })
         .catch(err => {
-          res.status(500).json({ msg: "Server error", err });
+          res
+            .status(500)
+            .json({ fail: "Server error. Please try again later.", err });
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ msg: "No post found" });
+        return res.status(500).json({ fail: "No post found." });
       } else {
-        res.status(500).json({ msg: "Server error", err });
+        res.status(500).json({ fail: "Server error. Please try again.", err });
       }
     });
 });
@@ -175,15 +188,18 @@ router.put("/:postid", auth, (req, res, next) => {
     { new: true },
     (err, updatedContent) => {
       if (!updatedContent)
-        return res.status(400).json({ msg: "Post not found" });
+        return res.status(400).json({ fail: "Post not found." });
       if (err) {
         if (err.kind === "ObjectId") {
-          return res.status(400).json({ msg: "Post not found" });
+          return res.status(400).json({ fail: "Post not found." });
         } else {
-          res.status(500).json({ msg: "Something went wrong", err });
+          res.status(500).json({
+            fail: "Something went wrong. Please try again later.",
+            err
+          });
         }
       } else if (updatedContent.postedBy != req.user.id) {
-        res.status(400).json({ msg: "You are not authorized to do that" });
+        res.status(400).json({ fail: "You are not authorized to do that" });
       } else {
         return updatedContent;
       }
@@ -196,13 +212,16 @@ router.put("/:postid", auth, (req, res, next) => {
         .then(editedPost => {
           res.json({
             editedPost,
-            success: "You have succesfully edited your post"
+            success: "You have succesfully edited your post."
           });
         });
     })
     .catch(err => {
       if (err) {
-        res.json(err);
+        res.json({
+          fail: "Something went wrong. Please try again later.",
+          err
+        });
       }
     });
 });
@@ -219,25 +238,29 @@ router.put("/:postid/like", auth, (req, res, next) => {
       if (
         post.likes.filter(like => like.toString() === req.user.id).length > 0
       ) {
-        return res.status(400).json({ msg: "You already liked the post." });
+        return res.status(400).json({ fail: "You already liked the post." });
       }
       post.likes.unshift(req.user.id);
       post
         .save()
         .then(() => {
-          res.json(post.likes);
+          res.json({ success: "Posts liked.", likes: post.likes });
         })
         .catch(err => {
           if (err) {
-            return res.status(500).json({ msg: "Something went wrong." });
+            return res
+              .status(500)
+              .json({ fail: "Something went wrong. Please try again later." });
           }
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ msg: "No post found" });
+        return res.status(500).json({ fail: "No post found" });
       } else {
-        res.status(500).json({ msg: "Server error", err });
+        res
+          .status(500)
+          .json({ fail: "Server error. Please try again later.", err });
       }
     });
 });
@@ -254,25 +277,29 @@ router.put("/:postid/unlike", auth, (req, res, next) => {
       if (
         post.likes.filter(like => like.toString() === req.user.id).length === 0
       ) {
-        return res.status(400).json({ msg: "You haven't like the post yet." });
+        return res.status(400).json({ fail: "You haven't like the post yet." });
       }
       post.likes.shift(req.user.id);
       post
         .save()
         .then(() => {
-          res.json(post.likes);
+          res.json({ success: "Unliked post.", likes: post.likes });
         })
         .catch(err => {
           if (err) {
-            return res.status(500).json({ msg: "Something went wrong." });
+            return res
+              .status(500)
+              .json({ fail: "Something went wrong. Please try again later." });
           }
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ msg: "No post found" });
+        return res.status(500).json({ fail: "No post found." });
       } else {
-        res.status(500).json({ msg: "Server error", err });
+        res
+          .status(500)
+          .json({ fail: "Server error. Please try again later.", err });
       }
     });
 });

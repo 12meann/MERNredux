@@ -23,6 +23,8 @@ import LinkIcon from "@material-ui/icons/Link";
 import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
 import MuiLink from "@material-ui/core/Link";
+import IconButton from "@material-ui/core/IconButton";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const styles = theme => ({
   card: {
@@ -55,6 +57,9 @@ const styles = theme => ({
     "&:hover": {
       color: theme.palette.secondary.light
     }
+  },
+  heart: {
+    color: theme.palette.secondary.light
   }
 });
 
@@ -81,10 +86,13 @@ class Profile extends Component {
               title="no user image"
             />
             <CardContent className={classes.content}>
+              <IconButton aria-label="like">
+                <FavoriteIcon className={classes.heart} />
+              </IconButton>
+              <small>{user.likes ? user.likes.length : 0} likes</small>
               <Typography variant="h6" color="textSecondary" component="p">
                 <AccountBoxIcon className={classes.icon} />{" "}
-                <strong>@ {user.username} </strong>
-                <span>{user.likes ? user.likes.length : 0} likes</span>
+                <strong>@{user.username} </strong>
               </Typography>
               <Typography
                 variant="subtitle1"

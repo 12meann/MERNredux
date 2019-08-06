@@ -8,7 +8,9 @@ import {
   REMOVE_POST_MSG,
   LOADING_POSTS,
   POST_ERROR,
-  EDIT_POST
+  EDIT_POST,
+  LIKE_POST,
+  CLEAR_ERRORS
 } from "./types";
 
 export const addPost = newPost => dispatch => {
@@ -100,6 +102,29 @@ export const editPost = (updatedPost, postId) => dispatch => {
     .catch(err => {
       if (err) {
         dispatch({ type: POST_ERROR });
+      }
+    });
+};
+
+export const likePost = postId => dispatch => {
+  axios
+    .put(`/api/posts/${postId}/like`)
+    .then(res => {
+      console.log(res.data, postId);
+      dispatch({
+        type: LIKE_POST,
+        payload: {
+          likes: res.data,
+          postId
+        }
+      });
+      setTimeout(() => dispatch({ type: REMOVE_POST_MSG }), 5000);
+    })
+    .catch(err => {
+      console.log(err);
+      if (err) {
+        dispatch({ type: POST_ERROR, payload: err.response.data });
+        setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 5000);
       }
     });
 };

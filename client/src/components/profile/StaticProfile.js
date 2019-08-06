@@ -20,6 +20,9 @@ import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import LinkIcon from "@material-ui/icons/Link";
 import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
+import MuiLink from "@material-ui/core/Link";
+import IconButton from "@material-ui/core/IconButton";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const styles = theme => ({
   card: {
@@ -47,6 +50,9 @@ const styles = theme => ({
   about: {
     textAlign: "justify",
     lineHeight: "1.85rem"
+  },
+  heart: {
+    color: theme.palette.secondary.light
   }
 });
 
@@ -73,10 +79,15 @@ class StaticProfile extends Component {
               title="no user image"
             />
             <CardContent className={classes.content}>
+              <IconButton aria-label="like">
+                <FavoriteIcon className={classes.heart} />
+              </IconButton>
+              <small>{profile.likes ? profile.likes.length : 0} likes</small>
+              <Divider />
+              <br />
               <Typography variant="h6" color="textSecondary" component="p">
                 <AccountBoxIcon className={classes.icon} />{" "}
-                <strong>@ {profile.username ? profile.username : null} </strong>
-                <span>{profile.likes ? profile.likes.length : 0} likes</span>
+                <strong>@{profile.username ? profile.username : null} </strong>
               </Typography>
               <Typography
                 variant="subtitle1"
@@ -112,7 +123,14 @@ class StaticProfile extends Component {
                   <Icon
                     className={clsx("fab fa-facebook-square", classes.icon)}
                   />{" "}
-                  {profile.facebookLink}
+                  <MuiLink
+                    href={`https://www.facebook.com/${profile.facebookLink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="none"
+                    className={classes.link}>
+                    facebook.com/{profile.facebookLink}
+                  </MuiLink>
                 </Typography>
               ) : null}
               {profile.twitterLink ? (
@@ -120,7 +138,14 @@ class StaticProfile extends Component {
                   <Icon
                     className={clsx("fab fa-twitter-square", classes.icon)}
                   />{" "}
-                  {profile.twitterLink}
+                  <MuiLink
+                    href={`https://www.twitter.com/${profile.twitterLink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="none"
+                    className={classes.link}>
+                    twitter.com/{profile.twitterLink}
+                  </MuiLink>
                 </Typography>
               ) : null}
               <br />

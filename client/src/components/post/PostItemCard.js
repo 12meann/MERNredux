@@ -7,7 +7,6 @@ import noUserImg from "../../images/blankAvatar.png";
 import MorePostButton from "./MorePostButton";
 import { openLoginModal } from "../../store/actions/modalActions";
 import { clearComments } from "../../store/actions/commentsAction";
-import { getPost } from "../../store/actions/postActions";
 
 //MUI
 import { withStyles } from "@material-ui/styles";
@@ -22,6 +21,7 @@ import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import MuiLink from "@material-ui/core/Link";
 import PostModal from "./PostModal";
+import LikePost from "./LikePost";
 
 const styles = theme => ({
   card: {
@@ -148,10 +148,10 @@ class PostItem extends Component {
 
         <CardActions className={classes.comments}>
           <Fragment>
-            {commentCount > 0 ? (
+            {post.comments.length > 0 ? (
               <Badge
                 className={classes.badge}
-                badgeContent={commentCount}
+                badgeContent={post.comments.length}
                 color="primary">
                 <Typography variant="body2" className={classes.commentTitle}>
                   Comments
@@ -159,12 +159,13 @@ class PostItem extends Component {
               </Badge>
             ) : null}
 
-            <small className={classes.heart}>
+            <LikePost postId={post._id} post={post} />
+            {/* <small className={classes.heart}>
               {post.likes.length > 0 ? post.likes.length : 0} likes
             </small>
             <IconButton aria-label="like">
               <FavoriteIcon color="primary" />
-            </IconButton>
+            </IconButton> */}
           </Fragment>
         </CardActions>
         <PostModal

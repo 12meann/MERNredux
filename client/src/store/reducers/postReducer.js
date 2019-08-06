@@ -8,15 +8,17 @@ import {
   LOADING_POSTS,
   POST_ERROR,
   DELETE_POST,
-  REMOVE_POST_MSG
+  REMOVE_POST_MSG,
+  LIKE_POST,
+  UNLIKE_POST
 } from "../actions/types";
 
 const initialState = {
   loading: false,
-  errors: {},
+  error: null,
   posts: [],
   success: null,
-  fail: null,
+  // fail: null,
   post: null
 };
 
@@ -43,8 +45,8 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        posts: [action.payload, ...state.posts],
-        errors: {}
+        posts: [action.payload, ...state.posts]
+        // error: null
       };
     case GET_USER_INFO:
       return {
@@ -55,15 +57,15 @@ const postReducer = (state = initialState, action) => {
     case POST_ERROR:
       return {
         ...state,
-        loading: false,
-        errors: action.payload
-        // fail: action.payload
+        error: action.payload.fail,
+        loading: false
+        // errors: action.payload,
       };
     case CLEAR_ERRORS:
       return {
         ...state,
         loading: false,
-        errors: null,
+        error: null,
         posts: [...state.posts]
       };
     case DELETE_POST:
@@ -73,7 +75,7 @@ const postReducer = (state = initialState, action) => {
         posts: state.posts.filter(
           post => post._id !== action.payload.deletedPost._id
         ),
-        success: action.payload.msg
+        success: action.payload.success
       };
     case EDIT_POST:
       return {
@@ -85,6 +87,19 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         success: null
+      };
+    case LIKE_POST:
+    case UNLIKE_POST:
+      return {
+        ...state,
+        success: action.payload.likes.success,
+        posts: state.posts.map(post => {
+          if (post._id === action.payload.postId)
+            post.likes = action.payload.likes.likes;
+          return {
+            ...post
+          };
+        })
       };
     // case ADD_COMMENT_COUNT:
     //   return {

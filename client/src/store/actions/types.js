@@ -45,4 +45,5 @@ export const USER_PROFILE_ERROR = "USER_PROFILE_ERROR";
 
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
-export const UPDATE_LIKES = "UPDATE_LIKES";
+export const LIKE_POST = "LIKE_POST";
+export const UNLIKE_POST = "UNLIKE_POST";
