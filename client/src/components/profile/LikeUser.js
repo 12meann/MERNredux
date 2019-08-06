@@ -17,7 +17,7 @@ const styles = theme => ({
   }
 });
 
-const LikePost = ({
+const LikeUser = ({
   classes,
   post,
   user,
@@ -67,7 +67,7 @@ const LikePost = ({
   // }
 };
 
-LikePost.propTypes = {
+LikeUser.propTypes = {
   classes: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   user: PropTypes.object,
@@ -84,4 +84,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { likePost, openLoginModal, unLikePost }
-)(withStyles(styles)(LikePost));
+)(withStyles(styles)(LikeUser));

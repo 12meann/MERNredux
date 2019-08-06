@@ -28,11 +28,11 @@ export class AddComment extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { postId } = this.props;
+    const { postId, addComment } = this.props;
     const newComment = {
       content: this.state.content
     };
-    this.props.addComment(newComment, postId);
+    addComment(newComment, postId);
     this.setState({
       content: ""
     });

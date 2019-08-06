@@ -16,7 +16,7 @@ router.get("/", auth, (req, res, next) => {
     })
     .catch(err => {
       if (err) {
-        res.status(500).json({ error: "Something went wrong." });
+        res.status(500).json({ fail: "Something went wrong." });
       }
     });
 });
@@ -31,7 +31,9 @@ router.get("/user", auth, (req, res) => {
       res.json(user);
     })
     .catch(err => {
-      res.status(500).json({ error: "Something went wrong." });
+      res
+        .status(500)
+        .json({ fail: "Something went wrong.Please try again later." });
     });
 });
 
@@ -57,9 +59,11 @@ router.get("/:userid", auth, (req, res, next) => {
     .catch(err => {
       if (err) {
         if (err.kind === "ObjectId") {
-          return res.status(500).json({ error: "User not found" });
+          return res.status(500).json({ fail: "User not found" });
         }
-        res.status(500).json({ error: "Something went wrong.", err });
+        res
+          .status(500)
+          .json({ fail: "Something went wrong. Please try again later.", err });
       }
     });
 });
@@ -80,7 +84,7 @@ router.delete("/", auth, async (req, res, next) => {
     res.json({ success: "User deleted" });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ error: "Server Error" });
+    res.status(500).json({ fail: "Server Error. Please try again later." });
   }
 });
 
@@ -93,10 +97,10 @@ router.put("/", auth, (req, res, next) => {
       if (err.name === "MongoError" && err.code === 11000) {
         return res
           .status(400)
-          .json({ error: "That username is already taken. Try other name." });
+          .json({ fail: "That username is already taken. Try other name." });
       }
       return res.status(500).json({
-        error: "Something went wrong. Please try again later.",
+        fail: "Something went wrong. Please try again later.",
         err
       });
     }
@@ -119,25 +123,29 @@ router.put("/:userid/like", auth, (req, res, next) => {
       if (
         user.likes.filter(like => like.toString() === req.user.id).length > 0
       ) {
-        return res.status(400).json({ msg: "You already liked the User." });
+        return res.status(400).json({ fail: "You already liked the User." });
       }
       user.likes.unshift(req.user.id);
       user
         .save()
         .then(() => {
-          res.json(user.likes);
+          res.json({ success: "Liked user.", likes: user.likes });
         })
         .catch(err => {
           if (err) {
-            return res.status(500).json({ error: "Something went wrong." });
+            return res
+              .status(500)
+              .json({ fail: "Something went wrong. Please try again later." });
           }
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ error: "No post found" });
+        return res.status(500).json({ fail: "No User found" });
       } else {
-        res.status(500).json({ error: "Server error", err });
+        res
+          .status(500)
+          .json({ fail: "Server error. Please try again later.", err });
       }
     });
 });
@@ -154,25 +162,29 @@ router.put("/:userid/unlike", auth, (req, res, next) => {
       if (
         user.likes.filter(like => like.toString() === req.user.id).length === 0
       ) {
-        return res.status(400).json({ msg: "You haven't like the post yet." });
+        return res.status(400).json({ fail: "You haven't like the user yet." });
       }
       user.likes.shift(req.user.id);
       user
         .save()
         .then(() => {
-          res.json(user.likes);
+          res.json({ success: "Unliked user.", likes: user.likes });
         })
         .catch(err => {
           if (err) {
-            return res.status(500).json({ error: "Something went wrong." });
+            return res
+              .status(500)
+              .json({ fail: "Something went wrong. Please try again later." });
           }
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ error: "No post found" });
+        return res.status(500).json({ fail: "No User found." });
       } else {
-        res.status(500).json({ error: "Server error", err });
+        res
+          .status(500)
+          .json({ fail: "Server error. Please try again later", err });
       }
     });
 });

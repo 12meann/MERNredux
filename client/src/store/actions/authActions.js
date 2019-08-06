@@ -14,7 +14,9 @@ import {
   UPDATE_USER_PROFILE,
   UPDATE_USER_FAIL,
   REGISTER_FAIL,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LIKE_USER,
+  UNLIKE_USER
 } from "./types";
 import { closeLoginModal, closeRegisterModal } from "./modalActions";
 
@@ -141,11 +143,48 @@ export const editProfile = (formData, history) => dispatch => {
     .catch(err => {
       if (err.response) {
         dispatch({ type: UPDATE_USER_FAIL, payload: err.response.data });
-        // dispatch(clearErrors())
       }
     });
 };
 
-// export const resetAuth = () => dispatch => {
-//   dispatch({ type: RESET_AUTH });
-// };
+export const likeUser = userId => dispatch => {
+  axios
+    .put(`/api/users/${userId}/like`)
+    .then(res => {
+      dispatch({
+        type: LIKE_USER,
+        payload: {
+          likes: res.data,
+          userId
+        }
+      });
+      setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+    })
+    .catch(err => {
+      if (err) {
+        dispatch({ type: UPDATE_USER_FAIL, payload: err.response.data });
+        setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 5000);
+      }
+    });
+};
+
+export const unLikeUser = userId => dispatch => {
+  axios
+    .put(`/api/users/${userId}/unlike`)
+    .then(res => {
+      dispatch({
+        type: UNLIKE_USER,
+        payload: {
+          likes: res.data,
+          userId
+        }
+      });
+      setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+    })
+    .catch(err => {
+      if (err) {
+        dispatch({ type: UPDATE_USER_FAIL, payload: err.response.data });
+        setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 5000);
+      }
+    });
+};

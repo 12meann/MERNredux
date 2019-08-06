@@ -47,3 +47,5 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
 export const LIKE_POST = "LIKE_POST";
 export const UNLIKE_POST = "UNLIKE_POST";
+export const LIKE_USER = "LIKE_USER";
+export const UNLIKE_USER = "UNLIKE_USER";

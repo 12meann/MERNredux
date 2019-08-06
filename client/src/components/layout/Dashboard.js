@@ -22,12 +22,12 @@ const styles = {
 
 class Dashboard extends Component {
   render() {
-    const { classes, msg, post, comment } = this.props;
+    const { classes, auth, post, comment } = this.props;
 
     return (
       <Grid container className={classes.dashboard}>
-        {msg.success ||
-        msg.fail ||
+        {auth.success ||
+        auth.fail ||
         post.success ||
         comment.success ||
         post.error ||
@@ -46,13 +46,13 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  msg: state.auth,
+  auth: state.auth,
   post: state.post,
   errorMsg: state.post.errors,
   comment: state.comment
 });
 Dashboard.propTypes = {
-  msg: PropTypes.object,
+  auth: PropTypes.object,
   classes: PropTypes.object.isRequired
 };
 

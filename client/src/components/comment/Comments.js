@@ -15,7 +15,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import MuiLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
-import { Divider } from "@material-ui/core";
 import AddComment from "./AddComment";
 
 const styles = theme => ({

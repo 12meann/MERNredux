@@ -44,6 +44,14 @@ export default {
       root: {
         marginTop: 1
       }
+    },
+    MuiTooltip: {
+      tooltip: {
+        fontSize: "0.6 rem",
+        // color: "yellow",
+        backgroundColor: "rgba(40, 167, 69, 1)",
+        letterSpacing: "0.09rem"
+      }
     }
   }
 };

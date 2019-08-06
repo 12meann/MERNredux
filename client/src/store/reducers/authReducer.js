@@ -12,7 +12,9 @@ import {
   UPDATE_USER_PROFILE,
   UPDATE_USER_FAIL,
   REGISTER_FAIL,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LIKE_USER,
+  UNLIKE_USER
 } from "../actions/types";
 
 const initialState = {
@@ -21,7 +23,8 @@ const initialState = {
   loading: false,
   user: null,
   success: null,
-  errors: null
+  errors: null,
+  fail: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -57,7 +60,6 @@ const authReducer = (state = initialState, action) => {
       localStorage.removeItem("token");
       return {
         ...state,
-
         user: null,
         token: null,
         isAuthenticated: false,
@@ -105,7 +107,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        errors: action.payload
+        fail: action.payload.fail
       };
     case UPDATE_USER_PROFILE:
       return {
@@ -113,6 +115,19 @@ const authReducer = (state = initialState, action) => {
         success: action.payload.success,
         loading: false
         // user: action.payload.doc
+      };
+    case LIKE_USER:
+    case UNLIKE_USER:
+      return {
+        ...state,
+        success: action.payload.likes.success,
+        posts: state.posts.map(post => {
+          if (post._id === action.payload.postId)
+            post.likes = action.payload.likes.likes;
+          return {
+            ...post
+          };
+        })
       };
     // case RESET_AUTH:
     //   return {

@@ -4,9 +4,11 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import noUserImg from "../../images/blankAvatar.png";
-import MorePostButton from "./MorePostButton";
 import { openLoginModal } from "../../store/actions/modalActions";
 import { clearComments } from "../../store/actions/commentsAction";
+import MorePostButton from "./MorePostButton";
+import PostModal from "./PostModal";
+import LikePost from "./LikePost";
 
 //MUI
 import { withStyles } from "@material-ui/styles";
@@ -16,12 +18,9 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import MuiLink from "@material-ui/core/Link";
-import PostModal from "./PostModal";
-import LikePost from "./LikePost";
+import AddCommentIcon from "@material-ui/icons/AddComment";
 
 const styles = theme => ({
   card: {
@@ -40,11 +39,16 @@ const styles = theme => ({
     transform: "rotate(180deg)"
   },
   post: {
-    borderColor: "rgba(40, 167, 69, 1)",
+    borderColor: theme.palette.primary.main,
     borderLeftStyle: "solid",
     border: `4px`,
     padding: "0 10px",
-    margin: "0 30px"
+    margin: "0 30px",
+    "&:hover": {
+      cursor: "pointer",
+      color: theme.palette.secondary.main,
+      borderColor: theme.palette.secondary.main
+    }
   },
   comments: {
     padding: "0 10px",
@@ -55,18 +59,14 @@ const styles = theme => ({
   },
   commentTitle: {
     margin: "0 10px",
-    right: "-10px"
+    right: "-10px",
+    "&:hover": {
+      cursor: "pointer",
+      color: theme.palette.secondary.main
+    }
   },
   link: {
     "&:hover": {
-      color: theme.palette.secondary.light
-    }
-  },
-  postLink: {
-    "&:hover": {
-      cursor: "pointer"
-    },
-    "& p:hover": {
       color: theme.palette.secondary.light
     }
   }
@@ -101,7 +101,7 @@ class PostItem extends Component {
   render() {
     const { classes, post, user } = this.props;
 
-    const { openPostModal, commentCount } = this.state;
+    const { openPostModal } = this.state;
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -149,23 +149,33 @@ class PostItem extends Component {
         <CardActions className={classes.comments}>
           <Fragment>
             {post.comments.length > 0 ? (
-              <Badge
-                className={classes.badge}
-                badgeContent={post.comments.length}
-                color="primary">
-                <Typography variant="body2" className={classes.commentTitle}>
-                  Comments
+              <Fragment>
+                <AddCommentIcon color="primary" />
+                <Badge
+                  // className={classes.badge}
+                  badgeContent={post.comments.length}
+                  color="primary">
+                  <Typography
+                    variant="body2"
+                    className={classes.commentTitle}
+                    onClick={this.handleOpenPostModal}>
+                    Comments
+                  </Typography>
+                </Badge>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <AddCommentIcon color="primary" />
+                <Typography
+                  variant="body2"
+                  className={classes.commentTitle}
+                  onClick={this.handleOpenPostModal}>
+                  Add Comment
                 </Typography>
-              </Badge>
-            ) : null}
+              </Fragment>
+            )}
 
             <LikePost postId={post._id} post={post} />
-            {/* <small className={classes.heart}>
-              {post.likes.length > 0 ? post.likes.length : 0} likes
-            </small>
-            <IconButton aria-label="like">
-              <FavoriteIcon color="primary" />
-            </IconButton> */}
           </Fragment>
         </CardActions>
         <PostModal

@@ -83,6 +83,7 @@ class StaticProfile extends Component {
                 <FavoriteIcon className={classes.heart} />
               </IconButton>
               <small>{profile.likes ? profile.likes.length : 0} likes</small>
+
               <Divider />
               <br />
               <Typography variant="h6" color="textSecondary" component="p">

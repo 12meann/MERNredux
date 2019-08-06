@@ -3,9 +3,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { clearComments } from "../../store/actions/commentsAction";
 import noUserImg from "../../images/blankAvatar.png";
-import MorePostButton from "./MorePostButton";
 import clsx from "clsx";
+
+import MorePostButton from "./MorePostButton";
+import Comments from "../comment/Comments";
+
+//MUI stuff
+import { withStyles } from "@material-ui/styles";
 import Dialog from "@material-ui/core/Dialog";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
@@ -14,19 +20,14 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
-import { clearComments } from "../../store/actions/commentsAction";
-import { getPost } from "../../store/actions/postActions";
-
 import Tooltip from "@material-ui/core/Tooltip";
 import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import Avatar from "@material-ui/core/Avatar";
 import MuiLink from "@material-ui/core/Link";
-import { DialogContent } from "@material-ui/core";
-import { withStyles } from "@material-ui/styles";
-import Comments from "../comment/Comments";
+import DialogContent from "@material-ui/core/DialogContent";
+import LikePost from "./LikePost";
 
 const styles = theme => ({
   card: {
@@ -45,9 +46,6 @@ const styles = theme => ({
   },
   expandOpen: {
     transform: "rotate(180deg)"
-  },
-  heart: {
-    marginLeft: "auto"
   },
   commentTitle: {
     margin: "0 10px",
@@ -164,12 +162,7 @@ export class PostModal extends Component {
                 aria-label="show more">
                 <ExpandMoreIcon />
               </IconButton>
-              <small className={classes.heart}>
-                {post.likes.length > 0 ? post.likes.length : 0} likes
-              </small>
-              <IconButton aria-label="like">
-                <FavoriteIcon color="primary" />
-              </IconButton>
+              <LikePost postId={post._id} post={post} />
             </CardActions>
 
             {/* --------------- */}
