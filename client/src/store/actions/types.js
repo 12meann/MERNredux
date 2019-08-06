@@ -17,6 +17,7 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 
 export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
 export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";
+export const CLEAR_PROFILE = "CLEAR_PROFILE";
 
 export const LOADING = "LOADING";
 export const LOADING_POSTS = "LOADING_POSTS";

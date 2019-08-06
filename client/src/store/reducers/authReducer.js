@@ -14,7 +14,9 @@ import {
   REGISTER_FAIL,
   LOGIN_FAIL,
   LIKE_USER,
-  UNLIKE_USER
+  UNLIKE_USER,
+  GET_USER_INFO,
+  CLEAR_PROFILE
 } from "../actions/types";
 
 const initialState = {
@@ -24,7 +26,8 @@ const initialState = {
   user: null,
   success: null,
   errors: null,
-  fail: null
+  fail: null,
+  profile: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -121,18 +124,23 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         success: action.payload.likes.success,
-        posts: state.posts.map(post => {
-          if (post._id === action.payload.postId)
-            post.likes = action.payload.likes.likes;
-          return {
-            ...post
-          };
-        })
+        profile: {
+          ...state.profile,
+          likes: action.payload.likes.likes
+        }
       };
-    // case RESET_AUTH:
-    //   return {
-    //     initialState
-    //   };
+    case GET_USER_INFO:
+      return {
+        ...state,
+        profile: action.payload.user,
+        loading: false
+      };
+    case CLEAR_PROFILE:
+      return {
+        ...state,
+        profile: null,
+        loading: false
+      };
     default:
       return state;
   }

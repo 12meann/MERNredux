@@ -16,7 +16,9 @@ import {
   REGISTER_FAIL,
   LOGIN_FAIL,
   LIKE_USER,
-  UNLIKE_USER
+  UNLIKE_USER,
+  GET_USER_INFO,
+  CLEAR_PROFILE
 } from "./types";
 import { closeLoginModal, closeRegisterModal } from "./modalActions";
 
@@ -187,4 +189,21 @@ export const unLikeUser = userId => dispatch => {
         setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 5000);
       }
     });
+};
+
+export const getUserInfo = userId => dispatch => {
+  dispatch({ type: LOADING });
+  axios
+    .get(`/api/users/${userId}/`)
+    .then(res => {
+      dispatch({ type: GET_USER_INFO, payload: res.data });
+    })
+    .catch(err => {
+      console.log(err);
+      // dispatch({ type: US });
+    });
+};
+
+export const clearProfile = () => dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
 };

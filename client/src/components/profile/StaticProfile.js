@@ -23,6 +23,7 @@ import Divider from "@material-ui/core/Divider";
 import MuiLink from "@material-ui/core/Link";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import LikeUser from "./LikeUser";
 
 const styles = theme => ({
   card: {
@@ -79,11 +80,11 @@ class StaticProfile extends Component {
               title="no user image"
             />
             <CardContent className={classes.content}>
-              <IconButton aria-label="like">
+              {/* <IconButton aria-label="like">
                 <FavoriteIcon className={classes.heart} />
               </IconButton>
-              <small>{profile.likes ? profile.likes.length : 0} likes</small>
-
+              <small>{profile.likes ? profile.likes.length : 0} likes</small> */}
+              <LikeUser userId={this.props.userId} />
               <Divider />
               <br />
               <Typography variant="h6" color="textSecondary" component="p">
@@ -178,7 +179,8 @@ class StaticProfile extends Component {
 
 const mapStateToProps = state => ({
   loading: state.auth.loading,
-  user: state.auth.user
+  user: state.auth.user,
+  profile: state.auth.profile
 });
 
 StaticProfile.propTypes = {

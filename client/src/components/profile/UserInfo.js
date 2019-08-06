@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import PostItemCard from "../post/PostItemCard";
 import { connect } from "react-redux";
 import { getUserInfo } from "../../store/actions/postActions";
+import { clearProfile } from "../../store/actions/authActions";
 import StaticProfile from "./StaticProfile";
 import axios from "axios";
 import Message from "../layout/Message";
@@ -29,15 +30,18 @@ class UserInfo extends Component {
   componentDidMount() {
     const userId = this.props.match.params.userid;
     this.props.getUserInfo(userId);
-    axios.get(`/api/users/${userId}`).then(res => {
-      this.setState({
-        profile: res.data.user
-      });
-    });
+    // axios.get(`/api/users/${userId}`).then(res => {
+    //   this.setState({
+    //     profile: res.data.user
+    //   });
+    // });
+  }
+  componentWillUnmount() {
+    // this.props.clearProfile();
   }
   render() {
-    const { loading, posts, classes, msg, post, comment } = this.props;
-    const { profile } = this.state;
+    const { loading, posts, classes, msg, post, comment, profile } = this.props;
+    // const { profile } = this.state;
     const userPosts = !loading ? (
       posts.length === 0 ? (
         <Typography align="center">No posts found yet.</Typography>
@@ -63,7 +67,7 @@ class UserInfo extends Component {
           {userPosts}
         </Grid>
         <Grid item sm={6} md={4} lg={3} className={classes.gridItem}>
-          <StaticProfile profile={profile} />
+          <StaticProfile userId={this.props.match.params.userid} />
         </Grid>
       </Grid>
     );
@@ -73,6 +77,7 @@ class UserInfo extends Component {
 const mapStateToProps = state => ({
   posts: state.post.posts,
   loading: state.post.loading,
+  profile: state.auth.profile,
   msg: state.auth,
   post: state.post,
   errorMsg: state.post.errors,
@@ -87,5 +92,5 @@ UserInfo.propTypes = {
 
 export default connect(
   mapStateToProps,
-  { getUserInfo }
+  { getUserInfo, clearProfile }
 )(withStyles(styles)(UserInfo));
