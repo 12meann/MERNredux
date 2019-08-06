@@ -10,6 +10,7 @@ import {
   POST_ERROR,
   EDIT_POST,
   LIKE_POST,
+  UNLIKE_POST,
   CLEAR_ERRORS
 } from "./types";
 
@@ -110,7 +111,6 @@ export const likePost = postId => dispatch => {
   axios
     .put(`/api/posts/${postId}/like`)
     .then(res => {
-      console.log(res.data, postId);
       dispatch({
         type: LIKE_POST,
         payload: {
@@ -121,7 +121,27 @@ export const likePost = postId => dispatch => {
       setTimeout(() => dispatch({ type: REMOVE_POST_MSG }), 5000);
     })
     .catch(err => {
-      console.log(err);
+      if (err) {
+        dispatch({ type: POST_ERROR, payload: err.response.data });
+        setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 5000);
+      }
+    });
+};
+
+export const unLikePost = postId => dispatch => {
+  axios
+    .put(`/api/posts/${postId}/unlike`)
+    .then(res => {
+      dispatch({
+        type: UNLIKE_POST,
+        payload: {
+          likes: res.data,
+          postId
+        }
+      });
+      setTimeout(() => dispatch({ type: REMOVE_POST_MSG }), 5000);
+    })
+    .catch(err => {
       if (err) {
         dispatch({ type: POST_ERROR, payload: err.response.data });
         setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 5000);
