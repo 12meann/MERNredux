@@ -86,7 +86,8 @@ const postReducer = (state = initialState, action) => {
     case REMOVE_POST_MSG:
       return {
         ...state,
-        success: null
+        success: null,
+        loading: false
       };
     case LIKE_POST:
     case UNLIKE_POST:
@@ -99,7 +100,8 @@ const postReducer = (state = initialState, action) => {
           return {
             ...post
           };
-        })
+        }),
+        loading: false
       };
     // case ADD_COMMENT_COUNT:
     //   return {

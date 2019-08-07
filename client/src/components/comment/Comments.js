@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import noUserImg from "../../images/blankAvatar.png";
 import { showComments } from "../../store/actions/commentsAction";
 import MoreCommentButton from "./MoreCommentButton";
@@ -16,6 +16,7 @@ import Avatar from "@material-ui/core/Avatar";
 import MuiLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import AddComment from "./AddComment";
+import LikeComment from "./LikeComment";
 
 const styles = theme => ({
   root: {
@@ -36,6 +37,9 @@ const styles = theme => ({
     borderLeft: `${theme.palette.secondary.light} 4px solid`,
     padding: "0 10px",
     margin: "10px"
+  },
+  heart: {
+    marginLeft: "auto"
   }
 });
 
@@ -95,13 +99,21 @@ class Comments extends Component {
                     </Fragment>
                   }
                   subheader={
-                    <Typography
-                      variant="subtitle2"
-                      color="textSecondary"
-                      // component="p"
-                      className={classes.comment}>
-                      {comment.content}
-                    </Typography>
+                    <Fragment>
+                      <Typography
+                        variant="subtitle2"
+                        color="textSecondary"
+                        // component="p"
+                        className={classes.comment}>
+                        {comment.content}
+                      </Typography>
+                      <LikeComment
+                        comment={comment}
+                        commentId={comment._id}
+                        postId={postId}
+                        className={classes.heart}
+                      />
+                    </Fragment>
                   }
                 />
               </Card>
@@ -112,7 +124,14 @@ class Comments extends Component {
     );
   }
 }
-Comments.propTypes = {};
+Comments.propTypes = {
+  user: PropTypes.object.isRequired,
+  comments: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  showComments: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired
+};
 
 const mapStateToProps = state => ({
   user: state.auth.user,

@@ -6,7 +6,9 @@ import {
   LOADING_COMMENTS,
   REMOVE_SUCCESS_MSG,
   EDIT_COMMENT,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  LIKE_COMMENT,
+  UNLIKE_COMMENT
 } from "./types";
 import axios from "axios";
 
@@ -74,4 +76,46 @@ export const deleteComment = (postId, commentId) => dispatch => {
 
 export const clearComments = () => dispatch => {
   dispatch({ type: CLEAR_COMMENTS });
+};
+
+export const likeComment = (postId, commentId) => dispatch => {
+  axios
+    .put(`/api/posts/${postId}/comment/${commentId}/like`)
+    .then(res => {
+      dispatch({
+        type: LIKE_COMMENT,
+        payload: {
+          likes: res.data,
+          postId,
+          commentId
+        }
+      });
+      setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+    })
+    .catch(err => {
+      if (err) {
+        dispatch({ type: COMMENT_ERROR, payload: err.response.data });
+      }
+    });
+};
+
+export const unLikeComment = (postId, commentId) => dispatch => {
+  axios
+    .put(`/api/posts/${postId}/comment/${commentId}/unlike`)
+    .then(res => {
+      dispatch({
+        type: UNLIKE_COMMENT,
+        payload: {
+          likes: res.data,
+          postId,
+          commentId
+        }
+      });
+      setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+    })
+    .catch(err => {
+      if (err) {
+        dispatch({ type: COMMENT_ERROR, payload: err.response.data });
+      }
+    });
 };

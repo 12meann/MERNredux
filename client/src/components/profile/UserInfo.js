@@ -37,10 +37,10 @@ class UserInfo extends Component {
     // });
   }
   componentWillUnmount() {
-    // this.props.clearProfile();
+    this.props.clearProfile();
   }
   render() {
-    const { loading, posts, classes, msg, post, comment, profile } = this.props;
+    const { loading, posts, classes, msg, post, comment } = this.props;
     // const { profile } = this.state;
     const userPosts = !loading ? (
       posts.length === 0 ? (

@@ -78,7 +78,8 @@ const authReducer = (state = initialState, action) => {
     case REMOVE_SUCCESS_MSG:
       return {
         ...state,
-        success: null
+        success: null,
+        loading: false
       };
     case LOADING:
       return {
@@ -127,7 +128,8 @@ const authReducer = (state = initialState, action) => {
         profile: {
           ...state.profile,
           likes: action.payload.likes.likes
-        }
+        },
+        loading: false
       };
     case GET_USER_INFO:
       return {

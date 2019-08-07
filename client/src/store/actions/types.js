@@ -50,3 +50,5 @@ export const LIKE_POST = "LIKE_POST";
 export const UNLIKE_POST = "UNLIKE_POST";
 export const LIKE_USER = "LIKE_USER";
 export const UNLIKE_USER = "UNLIKE_USER";
+export const LIKE_COMMENT = "LIKE_COMMENT";
+export const UNLIKE_COMMENT = "UNLIKE_COMMENT";

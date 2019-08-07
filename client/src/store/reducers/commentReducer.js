@@ -7,7 +7,9 @@ import {
   CLEAR_COMMENTS,
   LOADING_COMMENTS,
   REMOVE_SUCCESS_MSG,
-  EDIT_COMMENT
+  EDIT_COMMENT,
+  LIKE_COMMENT,
+  UNLIKE_COMMENT
 } from "../actions/types";
 
 const initialState = {
@@ -45,7 +47,7 @@ const commentReducer = (state = initialState, action) => {
       return {
         ...state,
         // error: action.payload,
-        fail: action.payload.msg,
+        fail: action.payload.fail,
         loading: false
       };
     case EDIT_COMMENT:
@@ -68,12 +70,28 @@ const commentReducer = (state = initialState, action) => {
       return {
         ...state,
         comments: null,
-        commentCount: null
+        commentCount: null,
+        loading: false
       };
     case REMOVE_SUCCESS_MSG:
       return {
         ...state,
-        success: null
+        success: null,
+        loading: false
+      };
+    case LIKE_COMMENT:
+    case UNLIKE_COMMENT:
+      return {
+        ...state,
+        success: action.payload.likes.success,
+        comments: state.comments.map(comment => {
+          if (comment._id === action.payload.commentId)
+            comment.likes = action.payload.likes.likes;
+          return {
+            ...comment
+          };
+        }),
+        loading: false
       };
     default:
       return state;

@@ -45,13 +45,20 @@ router.post("/", auth, (req, res, next) => {
         })
         .catch(err => {
           if (err) {
-            res.status(500).json({ fail: "Server error 1", err });
+            res
+              .status(500)
+              .json({
+                fail: "Something went wrong. Please try again later.",
+                err
+              });
           }
         });
     })
     .catch(err => {
       if (err) {
-        res.status(500).json({ fail: "Server error 2", err });
+        res
+          .status(500)
+          .json({ fail: "Server error. Please try again later.", err });
       }
     });
 });
@@ -72,9 +79,11 @@ router.get("/:commentid", auth, (req, res, next) => {
         .catch(err => {
           if (err) {
             if (err.kind === "ObjectId") {
-              return res.status(400).json({ msg: "Comment not found" });
+              return res.status(400).json({ fail: "Comment not found" });
             } else {
-              res.status(500).json({ msg: "Server error", err });
+              res
+                .status(500)
+                .json({ fail: "Server error. Please try again later.", err });
             }
           }
         });
@@ -82,9 +91,16 @@ router.get("/:commentid", auth, (req, res, next) => {
     .catch(err => {
       if (err) {
         if (err.kind === "ObjectId") {
-          return res.status(400).json({ msg: "Post not found" });
+          return res
+            .status(400)
+            .json({ fail: "Post not found. Please try again later." });
         } else {
-          res.status(500).json({ msg: "Something went wrong", err });
+          res
+            .status(500)
+            .json({
+              fail: "Something went wrong. Please try again later.",
+              err
+            });
         }
       }
     });
@@ -104,9 +120,14 @@ router.get("/", auth, (req, res, next) => {
     .catch(err => {
       if (err) {
         if (err.kind === "ObjectId") {
-          return res.status(400).json({ msg: "Post not found" });
+          return res.status(400).json({ fail: "Post not found" });
         } else {
-          res.status(500).json({ msg: "Something went wrong", err });
+          res
+            .status(500)
+            .json({
+              fail: "Something went wrong. Please try again later.",
+              err
+            });
         }
       }
     });
@@ -119,18 +140,18 @@ router.delete("/:commentid", auth, (req, res, next) => {
   Post.findById(req.params.postid)
     .then(post => {
       //look for post if there
-      if (!post) return res.status(400).json({ fail: "Post not found" });
+      if (!post) return res.status(400).json({ fail: "Post not found." });
       // look comment
       Comment.findById(req.params.commentid)
         .then(comment => {
           //check comment if there
           if (!comment)
-            return res.status(400).json({ fail: "Comment not found" });
+            return res.status(400).json({ fail: "Comment not found." });
           //check if comment was created by the person deleting
           if (comment.commentedBy != req.user.id)
             return res
               .status(400)
-              .json({ fail: "You are not allowed to do that" });
+              .json({ fail: "You are not allowed to do that." });
           //remove comment from Comment
           comment
             .remove()
@@ -150,7 +171,9 @@ router.delete("/:commentid", auth, (req, res, next) => {
             })
             .catch(err => {
               if (err) {
-                return res.status(500).json({ fail: "Server error", err });
+                return res
+                  .status(500)
+                  .json({ fail: "Server error. Please try again later.", err });
               }
             });
         })
@@ -159,7 +182,9 @@ router.delete("/:commentid", auth, (req, res, next) => {
           if (err.kind === "ObjectId") {
             return res.status(500).json({ fail: "Comment not found" });
           } else {
-            res.status(500).json({ fail: "Server error", err });
+            res
+              .status(500)
+              .json({ fail: "Server error. Please try again later.", err });
           }
         });
     })
@@ -167,7 +192,9 @@ router.delete("/:commentid", auth, (req, res, next) => {
       if (err.kind === "ObjectId") {
         return res.status(500).json({ fail: "Post not found" });
       } else {
-        res.status(500).json({ fail: "Server error", err });
+        res
+          .status(500)
+          .json({ fail: "Server error. Please try again later.", err });
       }
     });
 });
@@ -190,16 +217,21 @@ router.put("/:commentid", auth, (req, res, next) => {
         { new: true },
         (err, updatedComment) => {
           if (!updatedComment)
-            return res.status(400).json({ msg: "Comment not found" });
+            return res.status(400).json({ fail: "Comment not found" });
           if (err) {
             if (err.kind === "ObjectId") {
-              return res.status(400).json({ msg: "Comment not found" });
+              return res.status(400).json({ fail: "Comment not found" });
             } else {
-              res.status(500).json({ msg: "Something went wrong", err });
+              res
+                .status(500)
+                .json({
+                  fail: "Something went wrong. Please try again later.",
+                  err
+                });
             }
             //check if person updating is the one who created it
           } else if (updatedComment.commentedBy != req.user.id) {
-            res.status(400).json({ msg: "You are not authorized to do that" });
+            res.status(400).json({ fail: "You are not authorized to do that" });
           } else {
             return res.json({
               updatedComment,
@@ -212,9 +244,14 @@ router.put("/:commentid", auth, (req, res, next) => {
     .catch(err => {
       if (err) {
         if (err.kind === "ObjectId") {
-          return res.status(400).json({ msg: "Post not found" });
+          return res.status(400).json({ fail: "Post not found" });
         } else {
-          res.status(500).json({ msg: "Something went wrong", err });
+          res
+            .status(500)
+            .json({
+              fail: "Something went wrong. Please try again later.",
+              err
+            });
         }
       }
     });
@@ -236,33 +273,43 @@ router.put("/:commentid/like", auth, (req, res, next) => {
           ) {
             return res
               .status(400)
-              .json({ msg: "You already liked the comment." });
+              .json({ fail: "You already liked the comment." });
           }
           comment.likes.unshift(req.user.id);
           comment
             .save()
             .then(() => {
-              res.json(comment.likes);
+              res.json({ success: "Comment liked.", likes: comment.likes });
             })
             .catch(err => {
               if (err) {
-                return res.status(500).json({ msg: "Something went wrong." });
+                return res
+                  .status(500)
+                  .json({
+                    fail: "Something went wrong. Please try again later."
+                  });
               }
             });
         })
         .catch(err => {
           if (err.kind === "ObjectId") {
-            return res.status(500).json({ msg: "Comment not found" });
+            return res.status(500).json({ fail: "Comment not found" });
           } else {
-            res.status(500).json({ msg: "Server error", err });
+            res
+              .status(500)
+              .json({ fail: "Server error. Please try again later.", err });
           }
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ msg: "Post not found" });
+        return res
+          .status(500)
+          .json({ fail: "Post not found. Please try again later." });
       } else {
-        res.status(500).json({ msg: "Server error", err });
+        res
+          .status(500)
+          .json({ fail: "Server error. Please try again later.", err });
       }
     });
 });
@@ -283,33 +330,41 @@ router.put("/:commentid/unlike", auth, (req, res, next) => {
           ) {
             return res
               .status(400)
-              .json({ msg: "You haven't like the comment yet." });
+              .json({ fail: "You haven't like the comment yet." });
           }
           comment.likes.shift(req.user.id);
           comment
             .save()
             .then(() => {
-              res.json(comment.likes);
+              res.json({ success: "Comment unliked.", likes: comment.likes });
             })
             .catch(err => {
               if (err) {
-                return res.status(500).json({ msg: "Something went wrong." });
+                return res
+                  .status(500)
+                  .json({
+                    fail: "Something went wrong. Please try again later."
+                  });
               }
             });
         })
         .catch(err => {
           if (err.kind === "ObjectId") {
-            return res.status(500).json({ msg: "Comment not found" });
+            return res.status(500).json({ fail: "Comment not found." });
           } else {
-            res.status(500).json({ msg: "Server error", err });
+            res
+              .status(500)
+              .json({ fail: "Server error. Please try again later.", err });
           }
         });
     })
     .catch(err => {
       if (err.kind === "ObjectId") {
-        return res.status(500).json({ msg: "Post not found" });
+        return res.status(500).json({ fail: "Post not found." });
       } else {
-        res.status(500).json({ msg: "Server error", err });
+        res
+          .status(500)
+          .json({ fail: "Server error. Please try again later.", err });
       }
     });
 });

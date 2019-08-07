@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -9,6 +9,7 @@ import clsx from "clsx";
 
 import MorePostButton from "./MorePostButton";
 import Comments from "../comment/Comments";
+import LikePost from "./LikePost";
 
 //MUI stuff
 import { withStyles } from "@material-ui/styles";
@@ -27,7 +28,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 import MuiLink from "@material-ui/core/Link";
 import DialogContent from "@material-ui/core/DialogContent";
-import LikePost from "./LikePost";
+import AddCommentIcon from "@material-ui/icons/AddComment";
 
 const styles = theme => ({
   card: {
@@ -152,7 +153,17 @@ export class PostModal extends Component {
                     Comments
                   </Typography>
                 </Badge>
-              ) : null}
+              ) : (
+                <Fragment>
+                  <AddCommentIcon color="primary" />
+                  <Typography
+                    variant="body2"
+                    className={classes.commentTitle}
+                    onClick={this.handleExpandClick}>
+                    Add Comment
+                  </Typography>
+                </Fragment>
+              )}
               <IconButton
                 className={clsx(classes.expand, {
                   [classes.expandOpen]: expanded

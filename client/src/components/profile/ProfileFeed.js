@@ -73,7 +73,7 @@ class Profile extends Component {
   render() {
     const { user, classes, loading } = this.props;
     return (
-      <div>
+      <Fragment>
         {user ? (
           <Card className={classes.card}>
             <MoreProfileButton />
@@ -86,10 +86,17 @@ class Profile extends Component {
               title="no user image"
             />
             <CardContent className={classes.content}>
-              <IconButton aria-label="like">
-                <FavoriteIcon className={classes.heart} />
-              </IconButton>
-              <small>{user.likes ? user.likes.length : 0} likes</small>
+              <small className={classes.heart}>
+                {user.likes.length === 1
+                  ? `${user.likes.length} like`
+                  : user.likes.length > 0
+                  ? `${user.likes.length} likes`
+                  : `0 like`}
+              </small>
+              <br />
+              <br />
+              <Divider />
+              <br />
               <Typography variant="h6" color="textSecondary" component="p">
                 <AccountBoxIcon className={classes.icon} />{" "}
                 <strong>@{user.username} </strong>
@@ -175,7 +182,7 @@ class Profile extends Component {
         ) : loading ? (
           <CircularProgress size={250} className={classes.progress} />
         ) : null}
-      </div>
+      </Fragment>
     );
   }
 }
