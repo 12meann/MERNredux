@@ -23,9 +23,7 @@ import LinkIcon from "@material-ui/icons/Link";
 import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
 import MuiLink from "@material-ui/core/Link";
-import IconButton from "@material-ui/core/IconButton";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import LoadingProfile from "./LoadingProfile";
+import LoadingProfile from "../layout/LoadingProfile";
 
 const styles = theme => ({
   card: {
@@ -88,10 +86,12 @@ class Profile extends Component {
             />
             <CardContent className={classes.content}>
               <small className={classes.heart}>
-                {user.likes.length === 1
-                  ? `${user.likes.length} like`
-                  : user.likes.length > 0
-                  ? `${user.likes.length} likes`
+                {user.likes
+                  ? user.likes.length === 1
+                    ? `${user.likes.length} like`
+                    : user.likes.length > 0
+                    ? `${user.likes.length} likes`
+                    : `0 like`
                   : `0 like`}
               </small>
               <br />

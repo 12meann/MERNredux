@@ -7,6 +7,7 @@ import { getPostsFeed } from "../../store/actions/postActions";
 import { loadUser } from "../../store/actions/authActions";
 //MUI stuff
 import Typography from "@material-ui/core/Typography";
+import LoadingPost from "../layout/LoadingPost";
 
 class PostFeed extends Component {
   state = {
@@ -21,16 +22,22 @@ class PostFeed extends Component {
 
     return (
       <Fragment>
-        {isAuthenticated && <AddPost />}
-
         {loading ? (
-          <Typography align="center">Loading...</Typography>
+          // <Typography align="center">Loading...</Typography>
+          <LoadingPost />
         ) : posts.length === 0 ? (
-          <Typography align="center">No post yet</Typography>
+          <Fragment>
+            {isAuthenticated && <AddPost />}
+            <Typography align="center">No post yet</Typography>
+          </Fragment>
         ) : (
-          posts.map(post =>
-            post ? <PostItemCard post={post} key={post._id} /> : null
-          )
+          <Fragment>
+            {isAuthenticated && <AddPost />}
+
+            {posts.map(post =>
+              post ? <PostItemCard post={post} key={post._id} /> : null
+            )}
+          </Fragment>
         )}
       </Fragment>
     );
