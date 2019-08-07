@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { getUserInfo } from "../../store/actions/postActions";
 import { clearProfile } from "../../store/actions/authActions";
 import StaticProfile from "./StaticProfile";
-import axios from "axios";
 import Message from "../layout/Message";
+import Loading from "../layout/Loading";
 //MUI
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -24,39 +24,29 @@ const styles = {
 };
 
 class UserInfo extends Component {
-  state = {
-    profile: null
-  };
   componentDidMount() {
     const userId = this.props.match.params.userid;
     this.props.getUserInfo(userId);
-    // axios.get(`/api/users/${userId}`).then(res => {
-    //   this.setState({
-    //     profile: res.data.user
-    //   });
-    // });
   }
   componentWillUnmount() {
     this.props.clearProfile();
   }
   render() {
-    const { loading, posts, classes, msg, post, comment } = this.props;
-    // const { profile } = this.state;
+    const { loading, posts, classes, auth, post, comment } = this.props;
+
     const userPosts = !loading ? (
       posts.length === 0 ? (
-        <Typography align="center">No posts found yet.</Typography>
+        <Typography align="center">No post found.</Typography>
       ) : (
         posts.map(post => <PostItemCard post={post} key={post._id} />)
       )
     ) : (
-      <Typography component="p" align="center">
-        Loading...
-      </Typography>
+      <Loading />
     );
     return (
       <Grid container className={classes.dashboard}>
-        {msg.success ||
-        msg.fail ||
+        {auth.success ||
+        auth.fail ||
         post.success ||
         comment.success ||
         post.fail ||
@@ -78,7 +68,7 @@ const mapStateToProps = state => ({
   posts: state.post.posts,
   loading: state.post.loading,
   profile: state.auth.profile,
-  msg: state.auth,
+  auth: state.auth,
   post: state.post,
   errorMsg: state.post.errors,
   comment: state.comment
@@ -87,7 +77,11 @@ UserInfo.propTypes = {
   loading: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
   posts: PropTypes.array.isRequired,
-  getUserInfo: PropTypes.func.isRequired
+  getUserInfo: PropTypes.func.isRequired,
+  clearProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
+  comment: PropTypes.object.isRequired
 };
 
 export default connect(

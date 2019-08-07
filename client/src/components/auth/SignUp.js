@@ -213,6 +213,7 @@ class SignUp extends Component {
                   errors ? (errors.password ? errors.password : null) : null
                 }
                 error={errors ? (errors.password ? true : false) : null}
+                type={showPassword ? "text" : "password"}
                 onChange={this.handleChange}
                 fullWidth
                 autoComplete="current-password"

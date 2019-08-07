@@ -7,7 +7,7 @@ import { getPostsFeed } from "../../store/actions/postActions";
 import { loadUser } from "../../store/actions/authActions";
 //MUI stuff
 import Typography from "@material-ui/core/Typography";
-import LoadingPost from "../layout/LoadingPost";
+import Loading from "../layout/Loading";
 
 class PostFeed extends Component {
   state = {
@@ -24,7 +24,7 @@ class PostFeed extends Component {
       <Fragment>
         {loading ? (
           // <Typography align="center">Loading...</Typography>
-          <LoadingPost />
+          <Loading />
         ) : posts.length === 0 ? (
           <Fragment>
             {isAuthenticated && <AddPost />}

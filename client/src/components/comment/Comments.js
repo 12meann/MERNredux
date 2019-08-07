@@ -17,6 +17,7 @@ import MuiLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import AddComment from "./AddComment";
 import LikeComment from "./LikeComment";
+import Loading from "../layout/Loading";
 
 const styles = theme => ({
   root: {
@@ -55,7 +56,7 @@ class Comments extends Component {
         <AddComment postId={postId} />
         {comments ? (
           loading ? (
-            <p>loading...</p>
+            <Loading />
           ) : comments.length === 0 ? (
             <Typography align="center" variant="caption">
               <em>No comment yet.</em>

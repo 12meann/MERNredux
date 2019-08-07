@@ -12,7 +12,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import RoomIcon from "@material-ui/icons/Room";
@@ -21,9 +20,8 @@ import LinkIcon from "@material-ui/icons/Link";
 import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
 import MuiLink from "@material-ui/core/Link";
-import IconButton from "@material-ui/core/IconButton";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import LikeUser from "./LikeUser";
+import LoadingProfile from "../layout/LoadingProfile";
 
 const styles = theme => ({
   card: {
@@ -68,7 +66,9 @@ class StaticProfile extends Component {
     const { classes, loading, profile, user } = this.props;
     return (
       <Fragment>
-        {profile ? (
+        {loading ? (
+          <LoadingProfile />
+        ) : profile ? (
           <Card className={classes.card}>
             {user._id === profile._id ? <MoreProfileButton /> : null}
             <CardMedia
@@ -169,8 +169,6 @@ class StaticProfile extends Component {
               ) : null}
             </CardContent>
           </Card>
-        ) : loading ? (
-          <CircularProgress size={250} className={classes.progress} />
         ) : null}
       </Fragment>
     );

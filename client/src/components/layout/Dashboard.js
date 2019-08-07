@@ -23,7 +23,6 @@ const styles = {
 class Dashboard extends Component {
   render() {
     const { classes, auth, post, comment } = this.props;
-
     return (
       <Grid container className={classes.dashboard}>
         {auth.success ||
