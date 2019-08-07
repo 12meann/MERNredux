@@ -25,6 +25,7 @@ import Divider from "@material-ui/core/Divider";
 import MuiLink from "@material-ui/core/Link";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import LoadingProfile from "./LoadingProfile";
 
 const styles = theme => ({
   card: {
@@ -180,7 +181,8 @@ class Profile extends Component {
             </CardContent>
           </Card>
         ) : loading ? (
-          <CircularProgress size={250} className={classes.progress} />
+          // <CircularProgress size={250} className={classes.progress} />
+          <LoadingProfile />
         ) : null}
       </Fragment>
     );
