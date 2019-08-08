@@ -330,7 +330,8 @@ SignUp.propTypes = {
   openLoginModal: PropTypes.func.isRequired,
   closeRegisterModal: PropTypes.func.isRequired,
   openRegisterModal: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  errors: PropTypes.object
 };
 
 export default connect(

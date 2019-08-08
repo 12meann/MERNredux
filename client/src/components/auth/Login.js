@@ -16,18 +16,18 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
+import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import MuiLink from "@material-ui/core/Link";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const styles = theme => ({
   actions: {
@@ -82,7 +82,6 @@ class Login extends Component {
   };
   handleOpenRegisterModal = () => {
     this.props.closeLoginModal();
-
     this.props.openRegisterModal();
   };
   componentWillReceiveProps(nextProps) {
@@ -235,7 +234,8 @@ Login.propTypes = {
   openLoginModal: PropTypes.func.isRequired,
   closeLoginModal: PropTypes.func.isRequired,
   openRegisterModal: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  errors: PropTypes.object
 };
 
 export default compose(

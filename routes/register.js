@@ -64,7 +64,7 @@ router.post("/", (req, res) => {
         })
         .catch(err => {
           res.status(500).json({
-            fail: "Something went wrong. Please try again.",
+            msg: "Something went wrong. Please try again.",
             err: err
           });
         });

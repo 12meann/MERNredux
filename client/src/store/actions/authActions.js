@@ -68,13 +68,12 @@ export const registerUser = newUserData => dispatch => {
       dispatch(closeRegisterModal());
     })
     .catch(err => {
-      console.log(err.response.data);
-      // if (err) {
-      dispatch({
-        type: REGISTER_FAIL,
-        payload: err.response.data
-      });
-      // }
+      if (err) {
+        dispatch({
+          type: REGISTER_FAIL,
+          payload: err.response.data
+        });
+      }
     });
 };
 
