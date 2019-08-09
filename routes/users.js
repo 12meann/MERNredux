@@ -92,6 +92,15 @@ router.delete("/", auth, async (req, res, next) => {
 //UPDATE @ /api/users/
 //auth
 router.put("/", auth, (req, res, next) => {
+  const { username } = req.body;
+  const regEx = /^[a-z0-9_-]{3,25}$/;
+
+  if (!username.match(regEx))
+    return res.status(400).json({
+      fail:
+        "Username error: Only characters from a-z, 0-9, underscore and hyphen are allowed. Must be 3 to 25 characters."
+    });
+
   User.findByIdAndUpdate(req.user.id, req.body, { new: true }, (err, doc) => {
     if (err) {
       if (err.name === "MongoError" && err.code === 11000) {

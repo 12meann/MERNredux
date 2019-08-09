@@ -164,7 +164,6 @@ export const likeUser = userId => dispatch => {
     .catch(err => {
       if (err) {
         dispatch({ type: UPDATE_USER_FAIL, payload: err.response.data });
-        setTimeout(() => dispatch({ type: CLEAR_ERRORS }), 5000);
       }
     });
 };

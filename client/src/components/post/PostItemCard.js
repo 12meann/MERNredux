@@ -21,6 +21,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import MuiLink from "@material-ui/core/Link";
 import AddCommentIcon from "@material-ui/icons/AddComment";
+import { IconButton } from "@material-ui/core";
 
 const styles = theme => ({
   card: {
@@ -52,20 +53,27 @@ const styles = theme => ({
   },
   comments: {
     padding: "0 10px",
-    margin: "0 30px"
+    margin: "0 30px 0 0"
   },
   commentTitle: {
-    margin: "0 10px",
-    right: "-10px",
     "&:hover": {
       cursor: "pointer",
       color: theme.palette.secondary.main
+    }
+  },
+  button: {
+    padding: "12px 0 12px 12px",
+    "&:hover": {
+      backgroundColor: "transparent"
     }
   },
   link: {
     "&:hover": {
       color: theme.palette.secondary.light
     }
+  },
+  badge: {
+    right: "-8px"
   }
 });
 
@@ -105,10 +113,8 @@ class PostItemCard extends Component {
           }
           action={
             user
-              ? // ? post.postedBy
-                post.postedBy._id === user._id && <MorePostButton post={post} />
+              ? post.postedBy._id === user._id && <MorePostButton post={post} />
               : null
-            // : null
           }
           title={
             <MuiLink
@@ -138,8 +144,17 @@ class PostItemCard extends Component {
           <Fragment>
             {post.comments.length > 0 ? (
               <Fragment>
-                <AddCommentIcon color="primary" />
-                <Badge badgeContent={post.comments.length} color="primary">
+                <IconButton
+                  onClick={this.handleOpenPostModal}
+                  className={classes.button}>
+                  <AddCommentIcon color="primary" />
+                </IconButton>
+                <Badge
+                  badgeContent={post.comments.length}
+                  color="primary"
+                  classes={{
+                    badge: classes.badge
+                  }}>
                   <Typography
                     variant="body2"
                     className={classes.commentTitle}
@@ -150,7 +165,11 @@ class PostItemCard extends Component {
               </Fragment>
             ) : (
               <Fragment>
-                <AddCommentIcon color="primary" />
+                <IconButton
+                  onClick={this.handleOpenPostModal}
+                  className={classes.button}>
+                  <AddCommentIcon color="primary" />
+                </IconButton>
                 <Typography
                   variant="body2"
                   className={classes.commentTitle}

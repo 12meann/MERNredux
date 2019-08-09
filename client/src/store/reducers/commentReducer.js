@@ -47,7 +47,7 @@ const commentReducer = (state = initialState, action) => {
       return {
         ...state,
         // error: action.payload,
-        fail: action.payload.fail,
+        error: action.payload.fail,
         loading: false
       };
     case EDIT_COMMENT:

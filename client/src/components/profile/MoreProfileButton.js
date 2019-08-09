@@ -89,9 +89,6 @@ export class MoreProfileButton extends Component {
       about
     };
     editProfile(formData, history);
-    this.setState({
-      openEditModal: false
-    });
   };
   componentDidMount() {
     loadCSS(
@@ -110,6 +107,13 @@ export class MoreProfileButton extends Component {
       : openLoginModal();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.auth.fail && !nextProps.auth.loading) {
+      this.setState({
+        openEditModal: false
+      });
+    }
+  }
   render() {
     const {
       anchorEl,
@@ -141,9 +145,7 @@ export class MoreProfileButton extends Component {
           <MenuItem component={Link} to={`/users/${user._id}/`}>
             My posts
           </MenuItem>
-          {/* <MenuItem component={Link} to={`/users/${user._id}/edit`}>
-            Edit Profile
-          </MenuItem> */}
+
           <MenuItem
             onClick={this.handleModalEdit}
             className={classes.deleteMenu}>
@@ -183,7 +185,7 @@ export class MoreProfileButton extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  errors: state.auth.errors
+  auth: state.auth
 });
 
 MoreProfileButton.propTypes = {

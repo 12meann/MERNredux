@@ -147,7 +147,7 @@ const EditProfileModal = ({
             fullWidth
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="start" tabIndex="-1">
                   https://facebook.com/
                 </InputAdornment>
               ),
@@ -176,7 +176,7 @@ const EditProfileModal = ({
             fullWidth
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="start" tabIndex="-1">
                   https://twitter.com/
                 </InputAdornment>
               ),

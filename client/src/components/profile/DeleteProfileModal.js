@@ -58,9 +58,6 @@ const DeleteProfileModal = ({
             fullWidth
             size="large">
             DELETE
-            {/* {loading && (
-              <CircularProgress size={30} className={classes.spinner} />
-            )} */}
           </Button>
           <Button
             variant="contained"

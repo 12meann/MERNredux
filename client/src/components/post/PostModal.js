@@ -48,7 +48,11 @@ const styles = theme => ({
   },
   commentTitle: {
     margin: "0 10px",
-    right: "-10px"
+    right: "-10px",
+    "&:hover": {
+      cursor: "pointer",
+      color: theme.palette.secondary.main
+    }
   },
   badge: {
     right: "-8px"
@@ -147,7 +151,10 @@ export class PostModal extends Component {
                   className={classes.badge}
                   badgeContent={post.comments.length}
                   color="primary">
-                  <Typography variant="body2" className={classes.commentTitle}>
+                  <Typography
+                    variant="body2"
+                    onClick={this.handleExpandClick}
+                    className={classes.commentTitle}>
                     Comments
                   </Typography>
                 </Badge>

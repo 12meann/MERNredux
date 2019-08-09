@@ -12,9 +12,9 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import Tooltip from "@material-ui/core/Tooltip";
 
 const styles = theme => ({
-  // heart: {
-  //   marginLeft: "auto"
-  // }
+  heart: {
+    marginLeft: "auto"
+  }
 });
 
 const LikeComment = ({
@@ -34,6 +34,7 @@ const LikeComment = ({
           <Tooltip title="unlike comment" placement="top-end">
             <IconButton
               aria-label="unlike"
+              className={classes.heart}
               onClick={() => unLikeComment(postId, commentId)}>
               <FavoriteIcon color="primary" />
             </IconButton>
@@ -41,6 +42,7 @@ const LikeComment = ({
         ) : (
           <Tooltip title="like comment" placement="top-end">
             <IconButton
+              className={classes.heart}
               aria-label="like"
               onClick={() => likeComment(postId, commentId)}>
               <FavoriteBorderIcon color="primary" />

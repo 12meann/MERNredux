@@ -1,18 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { addComment } from "../../store/actions/commentsAction";
+//MUI
 import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AddCommentIcon from "@material-ui/icons/AddComment";
 import Textfield from "@material-ui/core/Textfield";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import { Tooltip } from "@material-ui/core";
 
 const styles = theme => ({
   input: {
     width: "100%",
     margin: "30px 0"
+  },
+  button: {
+    margin: "-10px -10px -20px 20px"
   }
 });
 
@@ -45,7 +49,6 @@ export class AddComment extends Component {
         <Textfield
           multiline
           variant="outlined"
-          // rowsMax={20}
           autoFocus
           label="Add a comment"
           name="content"
@@ -59,13 +62,16 @@ export class AddComment extends Component {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" aria-label="User">
-                <IconButton
-                  aria-label="More"
-                  aria-controls="long-menu"
-                  aria-haspopup="true"
-                  onClick={this.handleSubmit}>
-                  <AddCommentIcon color="primary" />
-                </IconButton>
+                <Tooltip title="Add Comment" placement="top-end">
+                  <IconButton
+                    className={classes.button}
+                    aria-label="More"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={this.handleSubmit}>
+                    <AddCommentIcon color="primary" />
+                  </IconButton>
+                </Tooltip>
               </InputAdornment>
             )
           }}
@@ -74,6 +80,12 @@ export class AddComment extends Component {
     );
   }
 }
+
+AddComment.propTypes = {
+  addComment: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired
+};
 
 export default connect(
   null,

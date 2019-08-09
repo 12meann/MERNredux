@@ -4,10 +4,8 @@ import { Provider } from "react-redux";
 import { loadUser } from "./store/actions/authActions";
 import PrivateRoute from "./utilities/PrivateRoute";
 import store from "./store/store";
-
-//links
+//components
 import Dashboard from "./components/layout/Dashboard";
-import EditProfile from "./components/profile/EditProfile";
 import UserInfo from "./components/profile/UserInfo";
 import Navbar from "./components/layout/Navbar";
 //MUI
@@ -33,11 +31,7 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Dashboard} />
-                <PrivateRoute
-                  exact
-                  path="/users/:userid/edit"
-                  component={EditProfile}
-                />
+
                 <PrivateRoute
                   exact
                   path="/users/:userid"

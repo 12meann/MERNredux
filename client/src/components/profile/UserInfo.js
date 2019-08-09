@@ -49,7 +49,7 @@ class UserInfo extends Component {
         auth.fail ||
         post.success ||
         comment.success ||
-        post.fail ||
+        post.error ||
         comment.error ? (
           <Message />
         ) : null}

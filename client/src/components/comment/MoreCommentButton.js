@@ -62,14 +62,14 @@ export class MoreCommentButton extends Component {
     return (
       <Fragment>
         <IconButton
-          aria-label="More"
+          aria-label="Edit icon"
           aria-controls="long-menu"
           aria-haspopup="true"
           onClick={this.handleModalEdit}>
           <EditIcon color="primary" />
         </IconButton>
         <IconButton
-          aria-label="More"
+          aria-label="Delete icon"
           aria-controls="long-menu"
           aria-haspopup="true"
           onClick={this.handleModalDelete}>

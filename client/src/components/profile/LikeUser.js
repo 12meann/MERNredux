@@ -64,7 +64,6 @@ const LikeUser = ({
       </small>
     </div>
   );
-  // }
 };
 
 LikeUser.propTypes = {

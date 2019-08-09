@@ -4,6 +4,8 @@ import noUserImg from "../../images/blankAvatar.png";
 import { connect } from "react-redux";
 import moment from "moment";
 import MoreProfileButton from "./MoreProfileButton";
+import LikeUser from "./LikeUser";
+import LoadingProfile from "../layout/LoadingProfile";
 //MUI
 import { withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -12,16 +14,15 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
+import Icon from "@material-ui/core/Icon";
+import Divider from "@material-ui/core/Divider";
+import MuiLink from "@material-ui/core/Link";
+
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import RoomIcon from "@material-ui/icons/Room";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import LinkIcon from "@material-ui/icons/Link";
-import Icon from "@material-ui/core/Icon";
-import Divider from "@material-ui/core/Divider";
-import MuiLink from "@material-ui/core/Link";
-import LikeUser from "./LikeUser";
-import LoadingProfile from "../layout/LoadingProfile";
 
 const styles = theme => ({
   card: {
@@ -29,10 +30,6 @@ const styles = theme => ({
     textAlign: "center",
     padding: 20
   },
-  progress: {
-    postion: "absolute"
-  },
-
   icon: {
     position: "relative",
     top: theme.spacing(0.7),
@@ -75,15 +72,10 @@ class StaticProfile extends Component {
               className={classes.img}
               component="img"
               alt="no user image"
-              // height="140"
               image={noUserImg}
               title="no user image"
             />
             <CardContent className={classes.content}>
-              {/* <IconButton aria-label="like">
-                <FavoriteIcon className={classes.heart} />
-              </IconButton>
-              <small>{profile.likes ? profile.likes.length : 0} likes</small> */}
               <LikeUser userId={this.props.userId} />
               <Divider />
               <br />
@@ -184,6 +176,7 @@ const mapStateToProps = state => ({
 StaticProfile.propTypes = {
   classes: PropTypes.object.isRequired,
   profile: PropTypes.object,
+  user: PropTypes.object,
   loading: PropTypes.bool.isRequired
 };
 

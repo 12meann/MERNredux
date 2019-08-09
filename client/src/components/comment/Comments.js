@@ -104,7 +104,6 @@ class Comments extends Component {
                       <Typography
                         variant="subtitle2"
                         color="textSecondary"
-                        // component="p"
                         className={classes.comment}>
                         {comment.content}
                       </Typography>

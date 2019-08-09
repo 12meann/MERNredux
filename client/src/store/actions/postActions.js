@@ -80,6 +80,7 @@ export const getUserInfo = userId => dispatch => {
 };
 
 export const deletePost = postId => dispatch => {
+  dispatch({ type: LOADING_POSTS });
   axios
     .delete(`/api/posts/${postId}`)
     .then(res => {
@@ -97,7 +98,6 @@ export const editPost = (updatedPost, postId) => dispatch => {
     .put(`/api/posts/${postId}`, updatedPost)
     .then(res => {
       dispatch({ type: EDIT_POST, payload: res.data });
-      dispatch(getPostsFeed());
       setTimeout(() => dispatch({ type: REMOVE_POST_MSG }), 5000);
     })
     .catch(err => {

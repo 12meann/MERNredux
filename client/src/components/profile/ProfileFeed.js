@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import moment from "moment";
 import MoreProfileButton from "./MoreProfileButton";
+import LoadingProfile from "../layout/LoadingProfile";
 
 //MUI
 import { withStyles } from "@material-ui/core/styles";
@@ -14,26 +15,22 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import MuiLink from "@material-ui/core/Link";
+
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import RoomIcon from "@material-ui/icons/Room";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import LinkIcon from "@material-ui/icons/Link";
 import Icon from "@material-ui/core/Icon";
-import Divider from "@material-ui/core/Divider";
-import MuiLink from "@material-ui/core/Link";
-import LoadingProfile from "../layout/LoadingProfile";
 
 const styles = theme => ({
   card: {
-    position: "relative",
+    // position: "relative",
     textAlign: "center",
     padding: 20
   },
-  progress: {
-    postion: "absolute"
-  },
-
   icon: {
     position: "relative",
     top: theme.spacing(0.7),
@@ -79,7 +76,6 @@ class Profile extends Component {
               className={classes.img}
               component="img"
               alt="no user image"
-              // height="140"
               image={noUserImg}
               title="no user image"
             />

@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 //MUI stuff
 import Button from "@material-ui/core/Button";
@@ -71,6 +72,13 @@ const DeletePostModal = ({
       </DialogContent>
     </Dialog>
   );
+};
+
+DeletePostModal.propTypes = {
+  openDeleteModal: PropTypes.bool.isRequired,
+  handleModalDelete: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(DeletePostModal);

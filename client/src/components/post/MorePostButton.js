@@ -41,9 +41,9 @@ export class MorePostButton extends Component {
     const postId = this.props.post._id;
     e.preventDefault();
     this.props.deletePost(postId);
-    this.setState({
-      openDeleteModal: false
-    });
+    // this.setState({
+    //   openDeleteModal: false
+    // });
   };
   //edit modal
   handleModalEdit = () => {
@@ -69,6 +69,14 @@ export class MorePostButton extends Component {
     this.setState({
       content: this.props.post.content
     });
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (!nextProps.post.error && !nextProps.post.loading) {
+      this.setState({
+        openDeleteModal: false
+      });
+    }
   }
   render() {
     const { anchorEl, openDeleteModal, openEditModal, content } = this.state;
@@ -113,7 +121,8 @@ export class MorePostButton extends Component {
 
 MorePostButton.propTypes = {
   deletePost: PropTypes.func.isRequired,
-  editPost: PropTypes.func.isRequired
+  editPost: PropTypes.func.isRequired,
+  post: PropTypes.object.isRequired
 };
 
 export default connect(

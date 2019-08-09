@@ -59,7 +59,6 @@ const postReducer = (state = initialState, action) => {
         ...state,
         error: action.payload.fail,
         loading: false
-        // errors: action.payload,
       };
     case CLEAR_ERRORS:
       return {
@@ -81,7 +80,14 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        success: action.payload.success
+        success: action.payload.success,
+        posts: state.posts.map(post => {
+          if (post._id === action.payload.editedPost._id)
+            post = action.payload.editedPost;
+          return {
+            ...post
+          };
+        })
       };
     case REMOVE_POST_MSG:
       return {

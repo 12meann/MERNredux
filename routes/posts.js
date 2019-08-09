@@ -3,7 +3,6 @@ const router = express.Router();
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Comment = require("../models/Comment");
-const { validatePost, isEmpty } = require("../utilities/validators");
 const auth = require("../middleware/auth");
 
 // get all posts
@@ -76,26 +75,26 @@ router.post("/", auth, (req, res, next) => {
     });
 });
 
-// get one post
-//GET @ /api/posts/:postid
-//public
-router.get("/:postid", (req, res, next) => {
-  Post.findOne({ _id: req.params.postid })
-    .populate("postedBy", "username _id")
-    .then(post => {
-      if (post === null) return res.json({ fail: "No post found." });
-      res.json(post);
-    })
-    .catch(err => {
-      if (err.kind === "ObjectId") {
-        return res.status(500).json({ fail: "No post found." });
-      } else {
-        res
-          .status(500)
-          .json({ fail: "Something went wrong. Please try again later.", err });
-      }
-    });
-});
+// // get one post
+// //GET @ /api/posts/:postid
+// //public
+// router.get("/:postid", (req, res, next) => {
+//   Post.findOne({ _id: req.params.postid })
+//     .populate("postedBy", "username _id")
+//     .then(post => {
+//       if (post === null) return res.json({ fail: "No post found." });
+//       res.json(post);
+//     })
+//     .catch(err => {
+//       if (err.kind === "ObjectId") {
+//         return res.status(500).json({ fail: "No post found." });
+//       } else {
+//         res
+//           .status(500)
+//           .json({ fail: "Something went wrong. Please try again later.", err });
+//       }
+//     });
+// });
 
 //delete post
 // DELETE @ /api/posts/:postid
@@ -140,39 +139,6 @@ router.delete("/:postid", auth, (req, res, next) => {
       }
     });
 });
-
-// //update post
-// //PUT @ /api/posts/:postid
-// //auth
-// router.put("/:postid", auth, (req, res, next) => {
-//   //check fields if empty
-//   const { valid, errors } = validatePost(req.body);
-//   if (!valid) return res.status(400).json(errors);
-
-//   Post.findByIdAndUpdate(
-//     req.params.postid,
-//     req.body,
-//     { new: true },
-//     (err, updatedContent) => {
-//       if (!updatedContent)
-//         return res.status(400).json({ msg: "Post not found" });
-//       if (err) {
-//         if (err.kind === "ObjectId") {
-//           return res.status(400).json({ msg: "Post not found" });
-//         } else {
-//           res.status(500).json({ msg: "Something went wrong", err });
-//         }
-//       } else if (updatedContent.postedBy != req.user.id) {
-//         res.status(400).json({ msg: "You are not authorized to do that" });
-//       } else {
-//         return res.json({
-//           updatedContent,
-//           success: "You have succesfully updated your post."
-//         });
-//       }
-//     }
-//   );
-// });
 
 //update post
 //PUT @ /api/posts/:postid

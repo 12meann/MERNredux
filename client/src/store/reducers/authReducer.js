@@ -37,7 +37,8 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         user: action.payload,
-        loading: false
+        loading: false,
+        fail: null
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -46,7 +47,8 @@ const authReducer = (state = initialState, action) => {
         ...state,
         ...action.payload,
         loading: false,
-        isAuthenticated: true
+        isAuthenticated: true,
+        fail: null
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
@@ -57,7 +59,8 @@ const authReducer = (state = initialState, action) => {
         user: null,
         token: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
+        fail: null
       };
     case AUTH_ERROR:
       localStorage.removeItem("token");
@@ -73,6 +76,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         errors: null,
+        fail: null,
         loading: false
       };
     case REMOVE_SUCCESS_MSG:
@@ -118,7 +122,6 @@ const authReducer = (state = initialState, action) => {
         ...state,
         success: action.payload.success,
         loading: false
-        // user: action.payload.doc
       };
     case LIKE_USER:
     case UNLIKE_USER:
