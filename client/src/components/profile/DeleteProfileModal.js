@@ -8,6 +8,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const styles = theme => ({
   deleteButton: {
@@ -20,6 +21,9 @@ const styles = theme => ({
   dialog: {
     padding: "20px",
     textAlign: "center"
+  },
+  spinner: {
+    marginLeft: "10px"
   }
 });
 
@@ -27,7 +31,8 @@ const DeleteProfileModal = ({
   openDeleteModal,
   handleModalDelete,
   handleDelete,
-  classes
+  classes,
+  loading
 }) => {
   return (
     <Dialog
@@ -56,8 +61,12 @@ const DeleteProfileModal = ({
             onClick={handleDelete}
             className={classes.deleteButton}
             fullWidth
+            disabled={loading}
             size="large">
             DELETE
+            {loading && (
+              <CircularProgress size={30} className={classes.spinner} />
+            )}
           </Button>
           <Button
             variant="contained"

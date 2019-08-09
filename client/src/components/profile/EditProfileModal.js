@@ -42,6 +42,9 @@ const styles = theme => ({
   },
   dialog: {
     padding: "20px"
+  },
+  spinner: {
+    marginLeft: "10px"
   }
 });
 

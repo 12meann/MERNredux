@@ -125,7 +125,7 @@ export class MoreProfileButton extends Component {
       twitterLink,
       about
     } = this.state;
-    const { classes, user, logOut } = this.props;
+    const { classes, user, logOut, loading } = this.props;
     return (
       <Fragment>
         <IconButton
@@ -162,12 +162,14 @@ export class MoreProfileButton extends Component {
         </Menu>
         {/* delete dialog */}
         <DeleteProfileModal
+          loading={loading}
           openDeleteModal={openDeleteModal}
           handleModalDelete={this.handleModalDelete}
           handleDelete={this.handleDelete}
         />
         {/* Edit dialog */}
         <EditProfileModal
+          loading={loading}
           openEditModal={openEditModal}
           handleModalEdit={this.handleModalEdit}
           handleSubmit={this.handleSubmit}
@@ -185,6 +187,7 @@ export class MoreProfileButton extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
+  loading: state.auth.loading,
   auth: state.auth
 });
 
