@@ -3,7 +3,7 @@ const router = express.Router();
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Comment = require("../models/Comment");
-const { validatePost } = require("../utilities/validators");
+const { validatePost, isEmpty } = require("../utilities/validators");
 const auth = require("../middleware/auth");
 
 // get all posts
@@ -29,9 +29,9 @@ router.get("/", (req, res, next) => {
 router.post("/", auth, (req, res, next) => {
   const { content } = req.body;
 
-  //check fields if empty
-  const { valid, errors } = validatePost(req.body);
-  if (!valid) return res.status(400).json(errors);
+  if (content.trim() === "") {
+    res.status(400).json({ fail: "Post must not be empty." });
+  }
 
   // look for user
   User.findById(req.user.id)
@@ -179,9 +179,9 @@ router.delete("/:postid", auth, (req, res, next) => {
 //auth
 router.put("/:postid", auth, (req, res, next) => {
   //check fields if empty
-  const { valid, errors } = validatePost(req.body);
-  if (!valid) return res.status(400).json(errors);
-
+  if (req.body.content.trim() === "") {
+    res.status(400).json({ fail: "Post must not be empty." });
+  }
   Post.findByIdAndUpdate(
     req.params.postid,
     req.body,

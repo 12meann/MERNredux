@@ -4,58 +4,47 @@ import { connect } from "react-redux";
 import { addPost } from "../../store/actions/postActions";
 ///MUI
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import Textfield from "@material-ui/core/Textfield";
+import Tooltip from "@material-ui/core/Tooltip";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
 
 const styles = theme => ({
   root: {
-    // padding: 0,
     display: "flex",
     alignItems: "center",
-    // width: 400,
     minHeight: 100,
     marginBottom: 10,
     boxShadow: "1px 2px 3px 0px rgba(0,0,0,0.8)"
   },
+  margin: {
+    margin: theme.spacing(2)
+  },
   input: {
-    marginLeft: 8,
+    marginLeft: "8px",
     flex: 1,
-    padding: 15
+    padding: "15px"
   },
   button: {
-    height: "100%",
-    fontSize: "1.5rem",
+    fontSize: "1 rem",
     lineHeight: "inherit",
     width: "20%",
+    marginRight: "auto",
+    padding: 0
+  },
+  label: {
+    padding: "15px"
+  },
+  tooltip: {
     margin: 0,
-    padding: 0,
-    position: "relative"
-  },
-  spinner: {
-    position: "absolute"
-  },
-  // error: {
-  //   display: "flex",
-  //   alignItems: "center",
-  //   height: 100,
-  //   boxShadow: "1px 2px 3px 0px rgba(0,0,0,0.8)",
-  //   borderColor: theme.palette.error.light,
-  //   borderStyle: "solid",
-  //   borderWidth: "2px",
-  //   marginBottom: "5%"
-  // },
-  helperText: {
-    position: "absolute",
-    top: "29%"
+    padding: 0
   }
 });
 
 class AddPost extends Component {
   state = {
-    content: "",
-    errors: {}
+    content: ""
   };
   handleChange = e => {
     this.setState({
@@ -74,64 +63,51 @@ class AddPost extends Component {
   };
 
   render() {
-    const { classes, loading } = this.props;
+    const { classes } = this.props;
     const { content } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form>
         <Paper className={classes.root}>
-          <InputBase
+          <Textfield
             multiline
-            // rowsMax={20}
             autoFocus
             className={classes.input}
-            placeholder="What are your thoughts today?"
+            label="What are your thoughts today?"
             name="content"
-            // margin="dense"
+            margin="dense"
             id="content"
             value={content}
             type="text"
             onChange={this.handleChange}
-            inputProps={{ margin: "dense" }}
+            InputLabelProps={{
+              className: classes.label
+            }}
           />
-          {/* <FormHelperText
-              margin="dense"
-              className={classes.helperText}
-              error={errors.content ? true : false}
-              id="component-helper-text">
-              {errors.content}
-            </FormHelperText> */}
-          <Button
-            className={classes.button}
-            variant="text"
-            disabled={content.trim() === ""}
-            type="submit"
-            color="primary">
-            Add <br /> Post
-            {loading ? (
-              <CircularProgress size={40} className={classes.spinner} />
-            ) : null}
-          </Button>
+          <Tooltip title="Add post" placement="top-end">
+            <div className={classes.tooltip}>
+              <Fab
+                size="medium"
+                color="primary"
+                aria-label="add"
+                className={classes.margin}
+                onClick={this.handleSubmit}
+                disabled={content.trim() === ""}>
+                <AddIcon />
+              </Fab>
+            </div>
+          </Tooltip>
         </Paper>
       </form>
     );
   }
 }
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  loading: state.post.loading,
-  post: state.post,
-  errors: state.post.errors
-});
 
 AddPost.propTypes = {
-  isAuthenticated: PropTypes.bool,
-  loading: PropTypes.bool.isRequired,
-  post: PropTypes.object,
-  errors: PropTypes.object
+  addPost: PropTypes.func.isRequired
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   { addPost }
 )(withStyles(styles)(AddPost));

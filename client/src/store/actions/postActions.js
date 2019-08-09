@@ -20,9 +20,9 @@ export const addPost = newPost => dispatch => {
     .post("/api/posts", newPost)
     .then(res => {
       dispatch({ type: ADD_POST, payload: res.data });
+      dispatch({ type: CLEAR_ERRORS });
     })
     .catch(err => {
-      console.log(err);
       if (err) {
         dispatch({
           type: POST_ERROR,
@@ -101,8 +101,9 @@ export const editPost = (updatedPost, postId) => dispatch => {
       setTimeout(() => dispatch({ type: REMOVE_POST_MSG }), 5000);
     })
     .catch(err => {
+      console.log(err);
       if (err) {
-        dispatch({ type: POST_ERROR });
+        dispatch({ type: POST_ERROR, payload: err.response.data });
       }
     });
 };

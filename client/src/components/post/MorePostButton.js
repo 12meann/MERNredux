@@ -3,30 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { deletePost, editPost } from "../../store/actions/postActions";
 import { withRouter } from "react-router-dom";
-import { compose } from "redux";
 import EditPostModal from "./EditPostModal";
 //MUI
-import { withStyles } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DeletePostModal from "./DeletePostModal";
-
-const styles = theme => ({
-  // moreButton: {
-  //   float: "right"
-  // },
-  // deleteMenu: {
-  //   color: theme.palette.error.main
-  // },
-  // spinner: {
-  //   position: "absolute"
-  // },
-  // disabledButton: {
-  //   backgroundColor: theme.palette.error.light
-  // }
-});
 
 export class MorePostButton extends Component {
   state = {
@@ -56,11 +39,11 @@ export class MorePostButton extends Component {
   };
   handleDelete = e => {
     const postId = this.props.post._id;
+    e.preventDefault();
     this.props.deletePost(postId);
     this.setState({
       openDeleteModal: false
     });
-    console.log(postId);
   };
   //edit modal
   handleModalEdit = () => {
@@ -130,14 +113,10 @@ export class MorePostButton extends Component {
 
 MorePostButton.propTypes = {
   deletePost: PropTypes.func.isRequired,
-  editPost: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  editPost: PropTypes.func.isRequired
 };
 
-export default compose(
-  connect(
-    null,
-    { deletePost, editPost }
-  ),
-  withStyles(styles)
+export default connect(
+  null,
+  { deletePost, editPost }
 )(withRouter(MorePostButton));

@@ -28,6 +28,7 @@ export const showComments = postId => dispatch => {
 };
 
 export const addComment = (newComment, postId) => dispatch => {
+  dispatch({ type: LOADING_COMMENTS });
   axios
     .post(`/api/posts/${postId}/comment`, newComment)
     .then(res => {

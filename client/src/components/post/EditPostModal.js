@@ -31,64 +31,61 @@ const styles = theme => ({
   }
 });
 
-class EditPostModal extends Component {
-  render() {
-    const {
-      openEditModal,
-      handleModalEdit,
-      handleSubmit,
-      handleChange,
-      content,
-      classes
-    } = this.props;
-    return (
-      <Dialog
-        open={openEditModal}
-        onClose={handleModalEdit}
-        aria-labelledby="Edit modal"
-        fullWidth
-        maxWidth="sm">
-        <DialogTitle id="Edit" align="center">
-          Edit / Update Post
-        </DialogTitle>
-        <DialogContent>
-          <form noValidate onSubmit={handleSubmit}>
-            <TextField
-              margin="dense"
-              multiline
-              id="content"
-              name="content"
-              label="Edit post"
-              type="text"
-              onChange={handleChange}
-              value={content}
+const EditPostModal = ({
+  openEditModal,
+  handleModalEdit,
+  handleSubmit,
+  handleChange,
+  content,
+  classes
+}) => {
+  return (
+    <Dialog
+      open={openEditModal}
+      onClose={handleModalEdit}
+      aria-labelledby="Edit modal"
+      fullWidth
+      maxWidth="sm">
+      <DialogTitle id="Edit" align="center">
+        Edit / Update Post
+      </DialogTitle>
+      <DialogContent>
+        <form noValidate onSubmit={handleSubmit}>
+          <TextField
+            margin="dense"
+            multiline
+            id="content"
+            name="content"
+            label="Edit post"
+            type="text"
+            onChange={handleChange}
+            value={content}
+            fullWidth
+          />
+          <DialogActions className={classes.button}>
+            <Button
+              variant="outlined"
+              type="submit"
+              color="primary"
+              className={classes.editButton}
               fullWidth
-            />
-            <DialogActions className={classes.button}>
-              <Button
-                variant="outlined"
-                type="submit"
-                color="primary"
-                className={classes.editButton}
-                fullWidth
-                size="large">
-                Update
-              </Button>
-              <Button
-                variant="contained"
-                onClick={handleModalEdit}
-                fullWidth
-                className={classes.cancelButton}
-                size="large">
-                CANCEL
-              </Button>
-            </DialogActions>
-          </form>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-}
+              size="large">
+              Update
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleModalEdit}
+              fullWidth
+              className={classes.cancelButton}
+              size="large">
+              CANCEL
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 EditPostModal.propTypes = {
   openEditModal: PropTypes.bool.isRequired,

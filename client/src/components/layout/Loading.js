@@ -8,7 +8,7 @@ import Card from "@material-ui/core/Card";
 import Avatar from "@material-ui/core/Avatar";
 import { CardHeader } from "@material-ui/core";
 
-const styles = theme => ({
+const styles = () => ({
   post: {
     padding: "10px 30px",
     margin: "20px 0"

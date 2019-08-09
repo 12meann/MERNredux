@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import PostItemCard from "./PostItemCard";
 import AddPost from "./AddPost";
 import { getPostsFeed } from "../../store/actions/postActions";
-import { loadUser } from "../../store/actions/authActions";
 //MUI stuff
 import Typography from "@material-ui/core/Typography";
 import Loading from "../layout/Loading";
@@ -23,12 +22,11 @@ class PostFeed extends Component {
     return (
       <Fragment>
         {loading ? (
-          // <Typography align="center">Loading...</Typography>
           <Loading />
         ) : posts.length === 0 ? (
           <Fragment>
             {isAuthenticated && <AddPost />}
-            <Typography align="center">No post yet</Typography>
+            <Typography align="center">No post yet.</Typography>
           </Fragment>
         ) : (
           <Fragment>
@@ -59,5 +57,5 @@ PostFeed.propTypes = {
 
 export default connect(
   mapStateToProps,
-  { getPostsFeed, loadUser }
+  { getPostsFeed }
 )(PostFeed);

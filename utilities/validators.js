@@ -82,13 +82,3 @@ exports.validateLogin = data => {
 //     valid: Object.keys(errors).length === 0 ? true : false
 //   };
 // };
-
-exports.validatePost = data => {
-  let errors = {};
-
-  if (isEmpty(data.content)) errors.content = "Must not be empty";
-  return {
-    errors,
-    valid: Object.keys(errors).length === 0 ? true : false
-  };
-};

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import ProfileFeed from "../profile/ProfileFeed";
 import PostFeed from "../post/PostFeed";
@@ -20,34 +20,30 @@ const styles = {
   }
 };
 
-class Dashboard extends Component {
-  render() {
-    const { classes, auth, post, comment } = this.props;
-    return (
-      <Grid container className={classes.dashboard}>
-        {auth.success ||
-        auth.fail ||
-        post.success ||
-        comment.success ||
-        post.error ||
-        comment.error ? (
-          <Message />
-        ) : null}
-        <Grid item sm={12} md={7} className={classes.gridItem}>
-          <PostFeed />
-        </Grid>
-        <Grid item sm={6} md={4} lg={3} className={classes.gridItem}>
-          <ProfileFeed />
-        </Grid>
+const Dashboard = ({ classes, auth, post, comment }) => {
+  return (
+    <Grid container className={classes.dashboard}>
+      {auth.success ||
+      auth.fail ||
+      post.success ||
+      comment.success ||
+      post.error ||
+      comment.error ? (
+        <Message />
+      ) : null}
+      <Grid item sm={12} md={7} className={classes.gridItem}>
+        <PostFeed />
       </Grid>
-    );
-  }
-}
+      <Grid item sm={6} md={4} lg={3} className={classes.gridItem}>
+        <ProfileFeed />
+      </Grid>
+    </Grid>
+  );
+};
 
 const mapStateToProps = state => ({
   auth: state.auth,
   post: state.post,
-  errorMsg: state.post.errors,
   comment: state.comment
 });
 Dashboard.propTypes = {

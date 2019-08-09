@@ -54,9 +54,6 @@ const styles = theme => ({
     padding: "0 10px",
     margin: "0 30px"
   },
-  heart: {
-    marginLeft: "auto"
-  },
   commentTitle: {
     margin: "0 10px",
     right: "-10px",
@@ -73,11 +70,9 @@ const styles = theme => ({
 });
 
 //from the feed
-class PostItem extends Component {
+class PostItemCard extends Component {
   state = {
-    openPostModal: false,
-    commentCount: 0,
-    likeCount: null
+    openPostModal: false
   };
   handleOpenPostModal = () => {
     this.props.user
@@ -92,15 +87,9 @@ class PostItem extends Component {
     });
     this.props.clearComments();
   };
-  componentDidMount() {
-    this.setState({
-      commentCount: this.props.post.comments.length
-    });
-  }
 
   render() {
     const { classes, post, user } = this.props;
-
     const { openPostModal } = this.state;
     return (
       <Card className={classes.card}>
@@ -144,17 +133,13 @@ class PostItem extends Component {
             {post.content}
           </Typography>
         </CardContent>
-        {/* ============================= */}
 
         <CardActions className={classes.comments}>
           <Fragment>
             {post.comments.length > 0 ? (
               <Fragment>
                 <AddCommentIcon color="primary" />
-                <Badge
-                  // className={classes.badge}
-                  badgeContent={post.comments.length}
-                  color="primary">
+                <Badge badgeContent={post.comments.length} color="primary">
                   <Typography
                     variant="body2"
                     className={classes.commentTitle}
@@ -190,15 +175,17 @@ class PostItem extends Component {
 }
 
 const mapStateToProps = state => ({
-  loading: state.post.loading,
   user: state.auth.user
 });
-PostItem.propTypes = {
+PostItemCard.propTypes = {
   classes: PropTypes.object.isRequired,
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  user: PropTypes.object,
+  openLoginModal: PropTypes.func.isRequired,
+  clearComments: PropTypes.func.isRequired
 };
 
 export default connect(
   mapStateToProps,
   { openLoginModal, clearComments }
-)(withStyles(styles)(PostItem));
+)(withStyles(styles)(PostItemCard));

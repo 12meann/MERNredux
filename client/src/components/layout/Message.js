@@ -60,9 +60,8 @@ class Message extends Component {
               {auth.success ||
                 auth.fail ||
                 post.success ||
-                comment.success ||
                 post.error ||
-                // comment.error.msg ||
+                comment.success ||
                 comment.fail}
             </span>
           }
@@ -88,6 +87,8 @@ const mapStateToProps = state => ({
 
 Message.propTypes = {
   auth: PropTypes.object,
+  post: PropTypes.object,
+  comment: PropTypes.object,
   classes: PropTypes.object.isRequired
 };
 

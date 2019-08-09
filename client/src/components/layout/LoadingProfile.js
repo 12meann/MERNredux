@@ -8,7 +8,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Divider from "@material-ui/core/Divider";
 
-const styles = theme => ({
+const styles = () => ({
   profile: {
     textAlign: "center",
     padding: "60px 20px"

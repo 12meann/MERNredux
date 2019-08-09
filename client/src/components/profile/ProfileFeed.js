@@ -14,7 +14,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import RoomIcon from "@material-ui/icons/Room";
@@ -181,7 +180,6 @@ class Profile extends Component {
             </CardContent>
           </Card>
         ) : loading ? (
-          // <CircularProgress size={250} className={classes.progress} />
           <LoadingProfile />
         ) : null}
       </Fragment>

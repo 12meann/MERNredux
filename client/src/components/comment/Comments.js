@@ -127,7 +127,7 @@ class Comments extends Component {
 }
 Comments.propTypes = {
   user: PropTypes.object.isRequired,
-  comments: PropTypes.array.isRequired,
+  comments: PropTypes.array,
   loading: PropTypes.bool.isRequired,
   showComments: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,

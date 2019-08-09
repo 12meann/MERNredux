@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { clearComments } from "../../store/actions/commentsAction";
 import noUserImg from "../../images/blankAvatar.png";
 import clsx from "clsx";
 
@@ -40,7 +39,6 @@ const styles = theme => ({
   },
   expand: {
     transform: "rotate(0deg)",
-    // marginLeft: "auto",
     transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest
     })
@@ -192,11 +190,11 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 PostModal.propTypes = {
-  classes: PropTypes.object.isRequired
-  // post: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  handleClosePostModal: PropTypes.func.isRequired,
+  openPostModal: PropTypes.bool.isRequired,
+  post: PropTypes.object.isRequired,
+  user: PropTypes.object
 };
 
-export default connect(
-  mapStateToProps,
-  { clearComments }
-)(withStyles(styles)(PostModal));
+export default connect(mapStateToProps)(withStyles(styles)(PostModal));
