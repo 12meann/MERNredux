@@ -8,10 +8,12 @@ import store from "./store/store";
 import Dashboard from "./components/layout/Dashboard";
 import UserInfo from "./components/profile/UserInfo";
 import Navbar from "./components/layout/Navbar";
+import Members from "./components/layout/Members";
 //MUI
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import myTheme from "./utilities/theme";
+import Footer from "./components/layout/Footer";
 
 const theme = createMuiTheme(myTheme);
 
@@ -31,13 +33,14 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Dashboard} />
-
+                <PrivateRoute exact path="/users" component={Members} />
                 <PrivateRoute
                   exact
                   path="/users/:userid"
                   component={UserInfo}
                 />
               </Switch>
+              <Footer />
             </div>
           </Router>
         </Provider>
