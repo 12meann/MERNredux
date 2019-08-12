@@ -18,6 +18,9 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
 export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";
 export const CLEAR_PROFILE = "CLEAR_PROFILE";
+export const GET_USER_INFO = "GET_USER_INFO";
+export const GET_USERS = "GET_USERS";
+export const GET_USERS_FAIL = "GET_USERS_FAIL";
 
 export const LOADING = "LOADING";
 export const LOADING_POSTS = "LOADING_POSTS";
@@ -25,7 +28,6 @@ export const LOADING_COMMENTS = "LOADING_COMMENTS";
 
 export const GET_POSTS = "GET_POSTS";
 export const GET_POST = "GET_POST";
-export const GET_USER_INFO = "GET_USER_INFO";
 export const ADD_POST = "ADD_POST";
 export const DELETE_POST = "DELETE_POST";
 export const EDIT_POST = "EDIT_POST";
@@ -38,11 +40,11 @@ export const EDIT_COMMENT = "EDIT_COMMENT";
 export const COMMENT_ERROR = "COMMENT_ERROR";
 export const CLEAR_COMMENTS = "CLEAR_COMMENTS";
 
-export const RESET_POSTS = "RESET_POSTS";
-export const RESET_AUTH = "RESET_AUTH";
-export const SET_ALERT = "SET_ALERT";
+// export const RESET_POSTS = "RESET_POSTS";
+// export const RESET_AUTH = "RESET_AUTH";
+// export const SET_ALERT = "SET_ALERT";
 
-export const USER_PROFILE_ERROR = "USER_PROFILE_ERROR";
+// export const USER_PROFILE_ERROR = "USER_PROFILE_ERROR";
 
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 

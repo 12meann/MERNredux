@@ -29,19 +29,18 @@ class App extends Component {
         <Provider store={store}>
           <Router>
             <Navbar />
-
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Dashboard} />
-                <PrivateRoute exact path="/users" component={Members} />
+                <PrivateRoute path="/users" component={Members} />
                 <PrivateRoute
                   exact
                   path="/users/:userid"
                   component={UserInfo}
                 />
               </Switch>
-              <Footer />
             </div>
+            <Footer />
           </Router>
         </Provider>
       </MuiThemeProvider>

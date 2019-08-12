@@ -7,14 +7,14 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import MuiLink from "@material-ui/core/Link";
 
+import { connect } from "react-redux";
+
+import { getAllUsers } from "../../store/actions/authActions";
+
 const styles = theme => ({
   appBar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    marginTop: "auto",
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
+    height: "80px"
   },
   links: {
     color: "white",
@@ -36,49 +36,52 @@ export class Footer extends Component {
         // color="secondary"
       >
         {/* <Toolbar> */}
-        <Container>
-          <Typography align="center" className={classes.links} gutterBottom>
-            <MuiLink
-              component={Link}
-              to="/"
-              underline="none"
-              className={classes.links}>
-              Home ||{" "}
-            </MuiLink>
-            <MuiLink
-              component={Link}
-              to="/"
-              underline="none"
-              className={classes.links}>
-              About ||{" "}
-            </MuiLink>
-            <MuiLink
-              component={Link}
-              to="/"
-              underline="none"
-              className={classes.links}>
-              Contact ||{" "}
-            </MuiLink>
-            <MuiLink
-              component={Link}
-              to="/users"
-              underline="none"
-              className={classes.links}>
-              Members{" "}
-            </MuiLink>
-          </Typography>
-          <Typography
-            align="center"
-            variant="subtitle2"
-            gutterBottom
+
+        <Typography align="center" className={classes.links} gutterBottom>
+          <MuiLink
+            component={Link}
+            to="/"
+            underline="none"
             className={classes.links}>
-            © MommyDiaries 2019
-          </Typography>
-        </Container>
+            Home ||{" "}
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            to="/"
+            underline="none"
+            className={classes.links}>
+            About ||{" "}
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            to="/"
+            underline="none"
+            className={classes.links}>
+            Contact ||{" "}
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            to="/users"
+            underline="none"
+            onClick={() => getAllUsers()}
+            className={classes.links}>
+            Members{" "}
+          </MuiLink>
+        </Typography>
+        <Typography
+          align="center"
+          variant="subtitle2"
+          gutterBottom
+          className={classes.links}>
+          © MommyDiaries 2019
+        </Typography>
         {/* </Toolbar> */}
       </footer>
     );
   }
 }
 
-export default withStyles(styles)(Footer);
+export default connect(
+  null,
+  { getAllUsers }
+)(withStyles(styles)(Footer));

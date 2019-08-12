@@ -16,7 +16,9 @@ import {
   LIKE_USER,
   UNLIKE_USER,
   GET_USER_INFO,
-  CLEAR_PROFILE
+  CLEAR_PROFILE,
+  GET_USERS,
+  GET_USERS_FAIL
 } from "../actions/types";
 
 const initialState = {
@@ -27,7 +29,8 @@ const initialState = {
   success: null,
   errors: null,
   fail: null,
-  profile: null
+  profile: null,
+  users: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -112,6 +115,7 @@ const authReducer = (state = initialState, action) => {
       };
     case DELETE_FAIL:
     case UPDATE_USER_FAIL:
+    case GET_USERS_FAIL:
       return {
         ...state,
         loading: false,
@@ -144,6 +148,13 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: null,
+        loading: false,
+        users: null
+      };
+    case GET_USERS:
+      return {
+        ...state,
+        users: action.payload,
         loading: false
       };
     default:
