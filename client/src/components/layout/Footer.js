@@ -3,40 +3,37 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 //MUI Stuff
 import { withStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import MuiLink from "@material-ui/core/Link";
-
-import { connect } from "react-redux";
-
-import { getAllUsers } from "../../store/actions/authActions";
 
 const styles = theme => ({
   appBar: {
     backgroundColor: theme.palette.secondary.main,
     height: "80px"
   },
+  white: {
+    color: "white"
+  },
   links: {
     color: "white",
     "&:hover": {
       color: theme.palette.primary.light,
       cursor: "pointer"
-    }
+    },
+    paddingTop: 10
   }
 });
 
-export class Footer extends Component {
+class Footer extends Component {
   render() {
     const { classes } = this.props;
     return (
       <footer
         // position="fixed"
         className={classes.appBar}
-        // component="footer"
+        component="footer"
         // color="secondary"
       >
-        {/* <Toolbar> */}
-
         <Typography align="center" className={classes.links} gutterBottom>
           <MuiLink
             component={Link}
@@ -47,14 +44,14 @@ export class Footer extends Component {
           </MuiLink>
           <MuiLink
             component={Link}
-            to="/"
+            to="/about"
             underline="none"
             className={classes.links}>
             About ||{" "}
           </MuiLink>
           <MuiLink
             component={Link}
-            to="/"
+            to="/contact"
             underline="none"
             className={classes.links}>
             Contact ||{" "}
@@ -63,7 +60,6 @@ export class Footer extends Component {
             component={Link}
             to="/users"
             underline="none"
-            onClick={() => getAllUsers()}
             className={classes.links}>
             Members{" "}
           </MuiLink>
@@ -71,17 +67,16 @@ export class Footer extends Component {
         <Typography
           align="center"
           variant="subtitle2"
-          gutterBottom
-          className={classes.links}>
+          className={classes.white}
+          gutterBottom>
           © MommyDiaries 2019
         </Typography>
-        {/* </Toolbar> */}
       </footer>
     );
   }
 }
+Footer.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
-export default connect(
-  null,
-  { getAllUsers }
-)(withStyles(styles)(Footer));
+export default withStyles(styles)(Footer);

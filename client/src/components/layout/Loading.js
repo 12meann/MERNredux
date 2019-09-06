@@ -47,7 +47,7 @@ const styles = () => ({
   }
 });
 
-const LoadingProfile = ({ classes }) => {
+const Loading = ({ classes }) => {
   return (
     <Fragment>
       <Card className={classes.post}>
@@ -103,8 +103,8 @@ const LoadingProfile = ({ classes }) => {
   );
 };
 
-LoadingProfile.propTypes = {
+Loading.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(LoadingProfile);
+export default withStyles(styles)(Loading);

@@ -14,6 +14,8 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import myTheme from "./utilities/theme";
 import Footer from "./components/layout/Footer";
+import About from "./components/layout/About";
+import Contact from "./components/layout/Contact";
 
 const theme = createMuiTheme(myTheme);
 
@@ -32,7 +34,9 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Dashboard} />
-                <PrivateRoute path="/users" component={Members} />
+                <PrivateRoute exact path="/users" component={Members} />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/contact" component={Contact} />
                 <PrivateRoute
                   exact
                   path="/users/:userid"
