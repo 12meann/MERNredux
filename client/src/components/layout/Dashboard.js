@@ -12,7 +12,8 @@ import Grid from "@material-ui/core/Grid";
 const styles = {
   dashboard: {
     margin: "0 auto",
-    padding: 20
+    padding: 20,
+    paddingTop: 40
   },
   gridItem: {
     width: "100%",

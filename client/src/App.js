@@ -32,19 +32,21 @@ class App extends Component {
           <Router>
             <Navbar />
             <div className="container">
-              <Switch>
-                <Route exact path="/" component={Dashboard} />
-                <PrivateRoute exact path="/users" component={Members} />
-                <Route exact path="/about" component={About} />
-                <Route exact path="/contact" component={Contact} />
-                <PrivateRoute
-                  exact
-                  path="/users/:userid"
-                  component={UserInfo}
-                />
-              </Switch>
+              <div className="main">
+                <Switch>
+                  <Route exact path="/" component={Dashboard} />
+                  <PrivateRoute exact path="/users" component={Members} />
+                  <Route exact path="/about" component={About} />
+                  <Route exact path="/contact" component={Contact} />
+                  <PrivateRoute
+                    exact
+                    path="/users/:userid"
+                    component={UserInfo}
+                  />
+                </Switch>
+              </div>
+              <Footer />
             </div>
-            <Footer />
           </Router>
         </Provider>
       </MuiThemeProvider>

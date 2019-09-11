@@ -5,6 +5,9 @@ import { withStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
+  title: {
+    paddingTop: 40
+  },
   content: {
     display: "block",
     maxWidth: "50%",
@@ -19,6 +22,7 @@ const Contact = ({ classes }) => {
         component="h1"
         align="center"
         color="secondary"
+        className={classes.title}
         gutterBottom>
         Contact Us
       </Typography>

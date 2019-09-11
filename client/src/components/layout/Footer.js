@@ -7,9 +7,13 @@ import Typography from "@material-ui/core/Typography";
 import MuiLink from "@material-ui/core/Link";
 
 const styles = theme => ({
-  appBar: {
+  footer: {
     backgroundColor: theme.palette.secondary.main,
-    height: "80px"
+    height: "100px",
+    // position: "relative",
+    // marginTop: "-80px"
+    padding: "20px",
+    marginTop: "auto"
   },
   white: {
     color: "white"
@@ -30,7 +34,7 @@ class Footer extends Component {
     return (
       <footer
         // position="fixed"
-        className={classes.appBar}
+        className={classes.footer}
         component="footer"
         // color="secondary"
       >
