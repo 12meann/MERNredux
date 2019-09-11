@@ -71,7 +71,6 @@ export class MorePostButton extends Component {
     });
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (!nextProps.post.error && !nextProps.post.loading) {
       this.setState({
         openDeleteModal: false

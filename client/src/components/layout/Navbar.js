@@ -62,13 +62,14 @@ class Navbar extends Component {
         {user ? (
           <div className={classes.links}>
             <AccountCircle fontSize="large" className={classes.icon} />
-            <Button
+            {/* <Button
               component={Link}
               className={classes.username}
               color="inherit"
-              to={`/users/${user._id}`}>
-              Hi, @{user.username}
-            </Button>
+           
+              to={`/users/${user._id}`}> */}{" "}
+            Hi, @{user.username}
+            {/* </Button> */}
             <Button color="inherit" onClick={this.handleLogOut}>
               Logout
             </Button>
