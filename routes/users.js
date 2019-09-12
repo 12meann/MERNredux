@@ -5,6 +5,31 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 
+//for image upload
+const multer = require("multer");
+const storage = multer.diskStorage({
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  }
+});
+const imageFilter = (req, file, cb) => {
+  // accept image files only
+  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+    return cb(new Error("Only images are allowed"), false);
+  }
+  cb(null, true);
+};
+const upload = multer({
+  storage: storage,
+  fileFilter: imageFilter
+});
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 // get all users
 // GET /api/users
 // private
@@ -79,8 +104,12 @@ router.delete("/", auth, async (req, res, next) => {
     await Comment.deleteMany({ commentedBy: req.user.id });
 
     // Remove user
-    await User.findOneAndRemove({ _id: req.user.id });
-
+    let user = await User.findOneAndRemove({ _id: req.user.id });
+    console.log(user);
+    // delete image in cloudinary
+    if (user.imageId !== "undefined") {
+      await cloudinary.uploader.destroy(user.imageId);
+    }
     res.json({ success: "User deleted" });
   } catch (err) {
     console.error(err.message);
@@ -117,6 +146,59 @@ router.put("/", auth, (req, res, next) => {
       success: `You have succesfully updated your profile, ${doc.username}.`,
       doc
     });
+  });
+});
+
+// //add image or avatar
+// // POST @ api/users/:userid/addImage
+// //auth
+
+// router.post("/:userid/addimage", upload.single("image"), (req, res, next) => {
+//   User.findById(req.params.userid)
+//     .then(user => {
+//       cloudinary.uploader.upload(
+//         req.file.path,
+//         { folder: "socialMediaApp/avatar" },
+//         (err, result) => {
+//           if (err) return res.status(500).json({ fail: err.message });
+//           user.image = result.secure_url;
+//           user.imageId = result.public_id;
+//           user.save().then(userImage => {
+//             return res
+//               .status(200)
+//               .json({ userImage, success: "Image uploaded" });
+//           });
+//         }
+//       );
+//     })
+//     .catch(err => {
+//       console.log(err, "err2");
+//     });
+// });
+
+//edit image or avatar
+// PUT @ api/users/:userid/editimage
+//auth
+
+router.put("/:userid/editimage", upload.single("image"), (req, res, next) => {
+  User.findById(req.params.userid).then(async user => {
+    console.log(user.imageId);
+    try {
+      if (user.imageId !== "socialMediaApp/avatar/no-img") {
+        await cloudinary.uploader.destroy(user.imageId);
+      }
+      let result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "socialMediaApp/avatar"
+      });
+      user.image = result.secure_url;
+      user.imageId = result.public_id;
+      user.save().then(userImage => {
+        return res.status(200).json({ userImage, success: "Image uploaded" });
+      });
+    } catch (err) {
+      console.log(err);
+      if (err) return res.status(400).json({ fail: err.message });
+    }
   });
 });
 

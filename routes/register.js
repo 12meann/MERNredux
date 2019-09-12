@@ -29,7 +29,10 @@ router.post("/", (req, res) => {
   const newUser = new User({
     email,
     password,
-    username
+    username,
+    imageId: "socialMediaApp/avatar/no-img",
+    image:
+      "https://res.cloudinary.com/meann/image/upload/v1568291711/socialMediaApp/avatar/no-img.png"
   });
 
   //salt & hash password
@@ -53,11 +56,11 @@ router.post("/", (req, res) => {
                 user: {
                   id: user.id,
                   username: user.username,
-                  email: user.email
+                  email: user.email,
+                  image: user.image
                 },
-                success: `You have succesfully registered. Welcome, ${
-                  user.username
-                }!`
+
+                success: `You have succesfully registered. Welcome, ${user.username}!`
               });
             }
           );

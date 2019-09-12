@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
@@ -9,7 +10,6 @@ const posts = require("./routes/posts");
 const comments = require("./routes/comments");
 
 const app = express();
-require("dotenv").config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

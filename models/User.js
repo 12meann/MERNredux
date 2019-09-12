@@ -24,7 +24,8 @@ const userSchema = new Schema({
   location: String,
   facebookLink: String,
   twitterLink: String,
-  avatar: String,
+  image: String,
+  imageId: String,
   about: String,
   likes: [
     {
