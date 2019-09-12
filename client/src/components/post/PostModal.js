@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import noUserImg from "../../images/blankAvatar.png";
 import clsx from "clsx";
 
 import MorePostButton from "./MorePostButton";
@@ -105,7 +104,7 @@ export class PostModal extends Component {
               avatar={
                 <Avatar
                   aria-label="User Image"
-                  src={noUserImg}
+                  src={post.postedBy.image}
                   className={classes.avatar}
                   alt="profile image"
                 />

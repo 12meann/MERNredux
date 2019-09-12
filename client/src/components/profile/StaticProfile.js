@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import noUserImg from "../../images/blankAvatar.png";
 import { connect } from "react-redux";
 import moment from "moment";
 import MoreProfileButton from "./MoreProfileButton";
@@ -41,7 +40,12 @@ const styles = theme => ({
     transform: "rotate(45deg)"
   },
   img: {
-    borderRadius: "50%"
+    width: 300,
+    height: 300,
+    objectFit: "cover",
+    maxWidth: "100%",
+    borderRadius: "50%",
+    margin: "0 auto"
   },
   about: {
     textAlign: "justify",
@@ -72,8 +76,8 @@ class StaticProfile extends Component {
               className={classes.img}
               component="img"
               alt="no user image"
-              image={noUserImg}
-              title="no user image"
+              image={profile.image}
+              title="user image"
             />
             <CardContent className={classes.content}>
               <LikeUser userId={this.props.userId} />

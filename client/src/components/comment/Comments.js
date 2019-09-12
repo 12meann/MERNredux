@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import PropTypes from "prop-types";
-import noUserImg from "../../images/blankAvatar.png";
 import { showComments } from "../../store/actions/commentsAction";
 import MoreCommentButton from "./MoreCommentButton";
 
@@ -27,9 +26,9 @@ const styles = theme => ({
   commentSection: {
     paddingLeft: "10%"
   },
-  cardHeader: {
-    marginTop: "2%"
-  },
+  // cardHeader: {
+  //   marginTop: "2%"
+  // },
   card: {
     backgroundColor: theme.palette.background.default,
     marginBottom: "10px"
@@ -41,6 +40,10 @@ const styles = theme => ({
   },
   heart: {
     marginLeft: "auto"
+  },
+  avatar: {
+    position: "relative",
+    top: "-30px"
   }
 });
 
@@ -69,7 +72,7 @@ class Comments extends Component {
                   avatar={
                     <Avatar
                       aria-label="User Image"
-                      src={noUserImg}
+                      src={comment.commentedBy.image}
                       className={classes.avatar}
                       alt="profile image"
                     />

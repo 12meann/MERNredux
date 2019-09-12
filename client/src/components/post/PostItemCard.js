@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import noUserImg from "../../images/blankAvatar.png";
 import { openLoginModal } from "../../store/actions/modalActions";
 import { clearComments } from "../../store/actions/commentsAction";
 import MorePostButton from "./MorePostButton";
@@ -106,7 +105,7 @@ class PostItemCard extends Component {
           avatar={
             <Avatar
               aria-label="User Image"
-              src={noUserImg}
+              src={post.postedBy.image}
               className={classes.avatar}
               alt="profile image"
             />

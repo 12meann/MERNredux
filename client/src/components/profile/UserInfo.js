@@ -15,7 +15,8 @@ import { withStyles } from "@material-ui/styles";
 const styles = {
   dashboard: {
     margin: "0 auto",
-    padding: 20
+    padding: 20,
+    paddingTop: 40
   },
   gridItem: {
     width: "100%",

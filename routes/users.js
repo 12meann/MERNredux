@@ -75,7 +75,7 @@ router.get("/:userid", auth, (req, res, next) => {
       userData.user = user;
       return Post.find({ postedBy: req.params.userid })
         .sort({ date: -1 })
-        .populate("postedBy", "username");
+        .populate("postedBy", "username image");
     })
     .then(doc => {
       userData.posts = doc;

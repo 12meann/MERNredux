@@ -11,10 +11,10 @@ const auth = require("../middleware/auth");
 router.get("/", (req, res, next) => {
   Post.find()
     .sort({ date: -1 })
-    .populate("postedBy", "username")
+    .populate("postedBy", "username image")
     .populate({
       path: "comments",
-      populate: { path: "commentedBy", select: "username" }
+      populate: { path: "commentedBy", select: "username image" }
     })
     .exec()
     .then(posts => {
@@ -49,7 +49,7 @@ router.post("/", auth, (req, res, next) => {
         .save()
         .then(doc => {
           doc
-            .populate("postedBy", "username")
+            .populate("postedBy", "username image")
             .execPopulate()
             .then(post => {
               res.json(post);
@@ -173,7 +173,7 @@ router.put("/:postid", auth, (req, res, next) => {
   )
     .then(doc => {
       doc
-        .populate("postedBy", "username")
+        .populate("postedBy", "username image")
         .execPopulate()
         .then(editedPost => {
           res.json({

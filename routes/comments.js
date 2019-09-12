@@ -29,10 +29,10 @@ router.post("/", auth, (req, res, next) => {
           post.comments.push(comment);
           post.save().then(doc => {
             doc
-              .populate("postedBy", "username")
+              .populate("postedBy", "username image")
               .populate({
                 path: "comments",
-                populate: { path: "commentedBy", select: "username" }
+                populate: { path: "commentedBy", select: "username image" }
               })
               .execPopulate()
               .then(() => {
@@ -109,7 +109,7 @@ router.post("/", auth, (req, res, next) => {
 //auth
 router.get("/", auth, (req, res, next) => {
   Comment.find({ post: req.params.postid })
-    .populate("commentedBy", "username")
+    .populate("commentedBy", "username image")
     .exec()
     .then(doc => {
       res.json(doc);

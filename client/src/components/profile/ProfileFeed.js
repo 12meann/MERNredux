@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import noUserImg from "../../images/blankAvatar.png";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import moment from "moment";
@@ -42,7 +41,13 @@ const styles = theme => ({
     transform: "rotate(45deg)"
   },
   img: {
-    borderRadius: "50%"
+    width: 300,
+    height: 300,
+    objectFit: "cover",
+    maxWidth: "100%",
+    borderRadius: "50%",
+    margin: "0 auto",
+    clear: "both"
   },
   about: {
     textAlign: "justify",
@@ -76,8 +81,8 @@ class Profile extends Component {
               className={classes.img}
               component="img"
               alt="no user image"
-              image={noUserImg}
-              title="no user image"
+              image={user.image}
+              title="user image"
             />
             <CardContent className={classes.content}>
               <small className={classes.heart}>

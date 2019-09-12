@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import noUserImg from "../../images/blankAvatar.png";
 import { getAllUsers } from "../../store/actions/authActions";
 import Loading from "./Loading";
 
@@ -66,7 +65,7 @@ export class Members extends Component {
                       avatar={
                         <Avatar
                           aria-label="User Image"
-                          src={noUserImg}
+                          src={member.image}
                           alt="profile image"
                         />
                       }
