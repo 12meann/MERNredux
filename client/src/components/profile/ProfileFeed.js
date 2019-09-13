@@ -18,16 +18,15 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import MuiLink from "@material-ui/core/Link";
-import IconButton from "@material-ui/core/IconButton";
 
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import ImageIcon from "@material-ui/icons/AddPhotoAlternateRounded";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import RoomIcon from "@material-ui/icons/Room";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import LinkIcon from "@material-ui/icons/Link";
 import Icon from "@material-ui/core/Icon";
-import { Tooltip, CircularProgress } from "@material-ui/core";
+import EditImage from "./EditImage";
+import { CircularProgress } from "@material-ui/core";
 
 const styles = theme => ({
   card: {
@@ -99,7 +98,10 @@ class Profile extends Component {
       <Fragment>
         {user ? (
           <Card className={classes.card}>
-            <MoreProfileButton />
+            <MoreProfileButton
+              handleClickEdit={this.handleClickEdit}
+              handleEditImage={this.handleEditImage}
+            />
             {loading ? (
               <CardMedia
                 className={clsx(classes.imgLoad, classes.img)}
@@ -118,22 +120,11 @@ class Profile extends Component {
               />
             )}
 
-            <Tooltip title="edit image" placement="top-end">
-              <IconButton
-                aria-label="add image"
-                className={classes.imgIcon}
-                onClick={this.handleClickEdit}>
-                <ImageIcon color="primary" fontSize="large" />
-              </IconButton>
-            </Tooltip>
-
-            <input
-              type="file"
-              id="imageInput"
-              name="image"
-              hidden="hidden"
-              onChange={this.handleEditImage}
+            <EditImage
+              handleClickEdit={this.handleClickEdit}
+              handleEditImage={this.handleEditImage}
             />
+
             <CardContent className={classes.content}>
               <small className={classes.heart}>
                 {user.likes

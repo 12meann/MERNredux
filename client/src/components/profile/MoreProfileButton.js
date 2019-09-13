@@ -90,6 +90,10 @@ export class MoreProfileButton extends Component {
     };
     editProfile(formData, history);
   };
+  handleClickEditImage = () => {
+    this.props.handleClickEdit();
+    this.handleCloseMenu();
+  };
   componentDidMount() {
     loadCSS(
       "https://use.fontawesome.com/releases/v5.1.0/css/all.css",
@@ -125,7 +129,14 @@ export class MoreProfileButton extends Component {
       twitterLink,
       about
     } = this.state;
-    const { classes, user, logOut, loading } = this.props;
+    const {
+      classes,
+      user,
+      logOut,
+      loading,
+      handleClickEdit,
+      handleEditImage
+    } = this.props;
     return (
       <Fragment>
         <IconButton
@@ -151,8 +162,17 @@ export class MoreProfileButton extends Component {
             className={classes.deleteMenu}>
             Edit Profile
           </MenuItem>
-          {/* <MenuItem>Edit Profile Image</MenuItem> */}
+          <MenuItem id="imageInput" onClick={this.handleClickEditImage}>
+            Edit Profile Image
+          </MenuItem>
           <MenuItem onClick={logOut}>Logout</MenuItem>
+          <input
+            type="file"
+            id="imageInput"
+            name="image"
+            hidden="hidden"
+            onChange={handleEditImage}
+          />
           <Divider variant="middle" />
           <MenuItem
             onClick={this.handleModalDelete}
