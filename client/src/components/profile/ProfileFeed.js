@@ -5,6 +5,8 @@ import { compose } from "redux";
 import moment from "moment";
 import MoreProfileButton from "./MoreProfileButton";
 import LoadingProfile from "../layout/LoadingProfile";
+import { editImage } from "../../store/actions/authActions";
+import { getPostsFeed } from "../../store/actions/postActions";
 
 //MUI
 import { withStyles } from "@material-ui/core/styles";
@@ -16,17 +18,19 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import MuiLink from "@material-ui/core/Link";
+import IconButton from "@material-ui/core/IconButton";
 
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import ImageIcon from "@material-ui/icons/AddPhotoAlternateRounded";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import RoomIcon from "@material-ui/icons/Room";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import LinkIcon from "@material-ui/icons/Link";
 import Icon from "@material-ui/core/Icon";
+import { Tooltip, CircularProgress } from "@material-ui/core";
 
 const styles = theme => ({
   card: {
-    // position: "relative",
     textAlign: "center",
     padding: 20
   },
@@ -49,6 +53,9 @@ const styles = theme => ({
     margin: "0 auto",
     clear: "both"
   },
+  imgLoad: {
+    opacity: "0.6"
+  },
   about: {
     textAlign: "justify",
     lineHeight: "1.85rem"
@@ -60,10 +67,26 @@ const styles = theme => ({
   },
   heart: {
     color: theme.palette.secondary.light
+  },
+  imgIcon: {
+    position: "relative",
+    top: "-35px",
+    right: "-120px"
   }
 });
 
 class Profile extends Component {
+  handleClickEdit = () => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+  };
+  handleEditImage = e => {
+    const userId = this.props.user._id;
+    const image = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    this.props.editImage(userId, formData);
+  };
   componentDidMount() {
     loadCSS(
       "https://use.fontawesome.com/releases/v5.1.0/css/all.css",
@@ -77,12 +100,39 @@ class Profile extends Component {
         {user ? (
           <Card className={classes.card}>
             <MoreProfileButton />
-            <CardMedia
-              className={classes.img}
-              component="img"
-              alt="no user image"
-              image={user.image}
-              title="user image"
+            {loading ? (
+              <CardMedia
+                className={clsx(classes.imgLoad, classes.img)}
+                component="img"
+                alt="uploading.ln image"
+                image={user.image}
+                title="user image"
+              />
+            ) : (
+              <CardMedia
+                className={classes.img}
+                component="img"
+                alt="no user image"
+                image={user.image}
+                title="user image"
+              />
+            )}
+
+            <Tooltip title="edit image" placement="top-end">
+              <IconButton
+                aria-label="add image"
+                className={classes.imgIcon}
+                onClick={this.handleClickEdit}>
+                <ImageIcon color="primary" fontSize="large" />
+              </IconButton>
+            </Tooltip>
+
+            <input
+              type="file"
+              id="imageInput"
+              name="image"
+              hidden="hidden"
+              onChange={this.handleEditImage}
             />
             <CardContent className={classes.content}>
               <small className={classes.heart}>
@@ -200,6 +250,9 @@ Profile.propTypes = {
 };
 
 export default compose(
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    { editImage, getPostsFeed }
+  ),
   withStyles(styles)
 )(Profile);

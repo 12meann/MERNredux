@@ -20,9 +20,12 @@ import {
   GET_USER_INFO,
   CLEAR_PROFILE,
   GET_USERS,
-  GET_USERS_FAIL
+  GET_USERS_FAIL,
+  EDIT_IMAGE,
+  EDIT_IMAGE_FAIL
 } from "./types";
 import { closeLoginModal, closeRegisterModal } from "./modalActions";
+import { getPostsFeed } from "./postActions";
 
 const config = {
   headers: {
@@ -216,6 +219,26 @@ export const getAllUsers = () => dispatch => {
       if (err) {
         dispatch({ type: GET_USERS_FAIL, payload: err.response.data });
       }
+    });
+};
+export const editImage = (userId, formData) => dispatch => {
+  dispatch({ type: LOADING });
+  axios
+    .put(`/api/users/${userId}/editimage`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    })
+    .then(res => {
+      return dispatch({ type: EDIT_IMAGE, payload: res.data });
+    })
+    .then(() => {
+      setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
+      dispatch(getPostsFeed());
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({ type: EDIT_IMAGE_FAIL, payload: err.response.data });
     });
 };
 

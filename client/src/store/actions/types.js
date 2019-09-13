@@ -21,6 +21,8 @@ export const CLEAR_PROFILE = "CLEAR_PROFILE";
 export const GET_USER_INFO = "GET_USER_INFO";
 export const GET_USERS = "GET_USERS";
 export const GET_USERS_FAIL = "GET_USERS_FAIL";
+export const EDIT_IMAGE = "EDIT_IMAGE";
+export const EDIT_IMAGE_FAIL = "EDIT_IMAGE_FAIL";
 
 export const LOADING = "LOADING";
 export const LOADING_POSTS = "LOADING_POSTS";
@@ -39,12 +41,6 @@ export const DELETE_COMMENT = "DELETE_COMMENT";
 export const EDIT_COMMENT = "EDIT_COMMENT";
 export const COMMENT_ERROR = "COMMENT_ERROR";
 export const CLEAR_COMMENTS = "CLEAR_COMMENTS";
-
-// export const RESET_POSTS = "RESET_POSTS";
-// export const RESET_AUTH = "RESET_AUTH";
-// export const SET_ALERT = "SET_ALERT";
-
-// export const USER_PROFILE_ERROR = "USER_PROFILE_ERROR";
 
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 

@@ -18,7 +18,9 @@ import {
   GET_USER_INFO,
   CLEAR_PROFILE,
   GET_USERS,
-  GET_USERS_FAIL
+  GET_USERS_FAIL,
+  EDIT_IMAGE,
+  EDIT_IMAGE_FAIL
 } from "../actions/types";
 
 const initialState = {
@@ -113,13 +115,24 @@ const authReducer = (state = initialState, action) => {
         loading: false,
         success: action.payload.success
       };
+    case EDIT_IMAGE:
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          image: action.payload.userImage.image
+        },
+        success: action.payload.success
+      };
+    case EDIT_IMAGE_FAIL:
     case DELETE_FAIL:
     case UPDATE_USER_FAIL:
     case GET_USERS_FAIL:
       return {
         ...state,
         loading: false,
-        fail: action.payload.fail
+        fail: action.payload.fail || action.payload.error
       };
     case UPDATE_USER_PROFILE:
       return {
