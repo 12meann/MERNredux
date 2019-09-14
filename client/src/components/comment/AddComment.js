@@ -6,7 +6,7 @@ import { addComment } from "../../store/actions/commentsAction";
 import { withStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AddCommentIcon from "@material-ui/icons/AddComment";
-import Textfield from "@material-ui/core/Textfield";
+import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { Tooltip } from "@material-ui/core";
 
@@ -46,7 +46,7 @@ export class AddComment extends Component {
     const { classes } = this.props;
     return (
       <form>
-        <Textfield
+        <TextField
           multiline
           variant="outlined"
           autoFocus
