@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/styles";
 import Grid from "@material-ui/core/Grid";
 
-const styles = {
+const styles = theme => ({
   dashboard: {
     margin: "0 auto",
     padding: 20,
@@ -19,7 +19,7 @@ const styles = {
     width: "100%",
     margin: "0 auto"
   }
-};
+});
 
 const Dashboard = ({ classes, auth, post, comment }) => {
   return (
