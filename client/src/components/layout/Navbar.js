@@ -16,7 +16,6 @@ import Button from "@material-ui/core/Button";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
-import { Drawer } from "@material-ui/core";
 
 const styles = theme => ({
   root: {
