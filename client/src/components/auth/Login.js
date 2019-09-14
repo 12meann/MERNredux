@@ -206,6 +206,12 @@ class Login extends Component {
                 </Button>
               </DialogActions>
               <Typography variant="body2" align="center" gutterBottom>
+                <em>
+                  Once you successfully login, your account will be logged out
+                  automatically after an hour for your security.
+                </em>
+              </Typography>
+              <Typography variant="body2" align="center" gutterBottom>
                 Don't have an account yet?{" "}
                 <MuiLink
                   color="secondary"

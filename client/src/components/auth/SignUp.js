@@ -300,6 +300,12 @@ class SignUp extends Component {
                 <br />
               </DialogActions>
               <Typography variant="body2" align="center" gutterBottom>
+                <em>
+                  Once you successfully register, your account will be logged
+                  out automatically after an hour for your security.
+                </em>
+              </Typography>
+              <Typography variant="body2" align="center" gutterBottom>
                 Already have an account?{" "}
                 <MuiLink
                   color="secondary"
