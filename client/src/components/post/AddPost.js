@@ -5,7 +5,7 @@ import { addPost } from "../../store/actions/postActions";
 ///MUI
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import Textfield from "@material-ui/core/Textfield";
+import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -69,7 +69,7 @@ class AddPost extends Component {
     return (
       <form>
         <Paper className={classes.root}>
-          <Textfield
+          <TextField
             multiline
             autoFocus
             className={classes.input}
