@@ -6,7 +6,6 @@ import moment from "moment";
 import MoreProfileButton from "./MoreProfileButton";
 import LoadingProfile from "../layout/LoadingProfile";
 import { editImage } from "../../store/actions/authActions";
-import { getPostsFeed } from "../../store/actions/postActions";
 
 //MUI
 import { withStyles } from "@material-ui/core/styles";
@@ -26,7 +25,6 @@ import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import LinkIcon from "@material-ui/icons/Link";
 import Icon from "@material-ui/core/Icon";
 import EditImage from "./EditImage";
-import { CircularProgress } from "@material-ui/core";
 
 const styles = theme => ({
   card: {
@@ -237,13 +235,14 @@ const mapStateToProps = state => ({
 Profile.propTypes = {
   user: PropTypes.object,
   classes: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  editImage: PropTypes.func.isRequired
 };
 
 export default compose(
   connect(
     mapStateToProps,
-    { editImage, getPostsFeed }
+    { editImage }
   ),
   withStyles(styles)
 )(Profile);

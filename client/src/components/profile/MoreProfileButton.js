@@ -129,14 +129,7 @@ export class MoreProfileButton extends Component {
       twitterLink,
       about
     } = this.state;
-    const {
-      classes,
-      user,
-      logOut,
-      loading,
-      handleClickEdit,
-      handleEditImage
-    } = this.props;
+    const { classes, user, logOut, loading, handleEditImage } = this.props;
     return (
       <Fragment>
         <IconButton

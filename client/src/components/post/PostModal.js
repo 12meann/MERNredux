@@ -89,7 +89,7 @@ export class PostModal extends Component {
         aria-labelledby="Post Modal"
         fullWidth
         maxWidth="md">
-        <Tooltip title="Close">
+        <Tooltip title="close">
           <IconButton
             aria-label="Close"
             className={classes.closeIcon}

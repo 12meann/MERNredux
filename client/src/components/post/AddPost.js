@@ -73,7 +73,7 @@ class AddPost extends Component {
             multiline
             autoFocus
             className={classes.input}
-            label="What are your thoughts today?"
+            label="Share your thoughts"
             name="content"
             margin="dense"
             id="content"

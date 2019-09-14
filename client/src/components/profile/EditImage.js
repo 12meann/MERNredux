@@ -1,4 +1,6 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+
 import { withStyles } from "@material-ui/core";
 
 import IconButton from "@material-ui/core/IconButton";
@@ -34,6 +36,11 @@ const EditImage = ({ classes, handleEditImage, handleClickEdit }) => {
       />
     </Fragment>
   );
+};
+EditImage.propTypes = {
+  classes: PropTypes.object.isRequired,
+  handleEditImage: PropTypes.func.isRequired,
+  handleClickEdit: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(EditImage);

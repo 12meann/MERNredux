@@ -26,6 +26,9 @@ const styles = theme => ({
       color: theme.palette.secondary.light,
       backgroundColor: "#f6fbfc"
     }
+  },
+  title: {
+    paddingTop: 40
   }
 });
 export class Members extends Component {
@@ -127,6 +130,7 @@ export class Members extends Component {
           variant="h3"
           component="h1"
           align="center"
+          className={classes.title}
           color="secondary">
           Members
         </Typography>

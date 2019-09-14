@@ -93,7 +93,9 @@ export class MoreCommentButton extends Component {
 }
 
 MoreCommentButton.propTypes = {
-  comment: PropTypes.object.isRequired
+  comment: PropTypes.object.isRequired,
+  editComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired
 };
 
 export default connect(
