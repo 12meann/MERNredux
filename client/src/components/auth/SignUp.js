@@ -134,6 +134,7 @@ class SignUp extends Component {
         <Dialog
           open={registerModalOpen}
           onClose={closeRegisterModal}
+          fullScreen={window.innerWidth <= 500}
           aria-labelledby="form-dialog-title">
           <Tooltip title="Close">
             <IconButton
@@ -302,7 +303,7 @@ class SignUp extends Component {
               <Typography variant="body2" align="center" gutterBottom>
                 <em>
                   Once you successfully register, your account will be logged
-                  out automatically after an hour for your security.
+                  out after an hour for your security.
                 </em>
               </Typography>
               <Typography variant="body2" align="center" gutterBottom>

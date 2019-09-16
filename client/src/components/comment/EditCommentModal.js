@@ -48,6 +48,7 @@ class EditCommentModal extends Component {
         open={openEditModal}
         onClose={handleModalEdit}
         aria-labelledby="Edit modal"
+        fullScreen={window.innerWidth <= 500}
         className={classes.dialog}
         fullWidth
         maxWidth="sm">
@@ -62,6 +63,7 @@ class EditCommentModal extends Component {
               name="content"
               label="Edit post"
               type="text"
+              multiline
               onChange={handleChange}
               value={content}
               fullWidth

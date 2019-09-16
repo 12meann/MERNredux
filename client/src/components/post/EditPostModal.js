@@ -16,7 +16,7 @@ const styles = theme => ({
     margin: "20px 0"
   },
   editButton: {
-    "&:hover": {
+    "&:hover, &:click": {
       backgroundColor: theme.palette.primary.main,
       color: "#fff"
     }
@@ -43,6 +43,7 @@ const EditPostModal = ({
     <Dialog
       open={openEditModal}
       onClose={handleModalEdit}
+      fullScreen={window.innerWidth <= 500}
       aria-labelledby="Edit modal"
       fullWidth
       maxWidth="sm">

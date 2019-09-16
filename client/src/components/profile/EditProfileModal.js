@@ -66,6 +66,7 @@ const EditProfileModal = ({
     <Dialog
       open={openEditModal}
       onClose={handleModalEdit}
+      fullScreen={window.innerWidth <= 500}
       aria-labelledby="Edit modal"
       fullWidth
       className={classes.dialog}

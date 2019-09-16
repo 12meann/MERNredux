@@ -121,7 +121,7 @@ class PostItemCard extends Component {
               component={Link}
               to={`/users/${post.postedBy._id}`}>
               <Typography variant="h6" color="primary" className={classes.link}>
-                @ {post.postedBy.username}
+                @{post.postedBy.username}
               </Typography>
             </MuiLink>
           }

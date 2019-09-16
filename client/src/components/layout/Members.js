@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getAllUsers } from "../../store/actions/authActions";
 import Loading from "./Loading";
-
 //MUI
 import { withStyles } from "@material-ui/styles";
 import Card from "@material-ui/core/Card";
@@ -22,23 +21,26 @@ const styles = theme => ({
     margin: "20px auto 0 auto"
   },
   card: {
+    // margin: "0 auto",
     "&:hover": {
       color: theme.palette.secondary.light,
       backgroundColor: "#f6fbfc"
     }
   },
+  cardMobile: {
+    // margin: "0 20px"
+  },
   title: {
     paddingTop: 40
   }
 });
-export class Members extends Component {
+class Members extends Component {
   state = {
     members: null
   };
 
   componentDidMount() {
     this.props.getAllUsers();
-    console.log(this.props.getAllUsers);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -58,7 +60,7 @@ export class Members extends Component {
       ? members.map(member => {
           return (
             <Grid container alignItems="center" key={member._id}>
-              <Grid item sm={12} md={8} className={classes.users}>
+              <Grid item xs={11} sm={10} md={8} className={classes.users}>
                 <MuiLink
                   underline="none"
                   component={Link}
@@ -72,7 +74,13 @@ export class Members extends Component {
                           alt="profile image"
                         />
                       }
-                      action={<Typography>View Profile</Typography>}
+                      // action={
+                      //   window.innerWidth >= 500 ? (
+                      //     <Typography>View Profile</Typography>
+                      //   ) : (
+                      //     ""
+                      //   )
+                      // }
                       title={
                         <Fragment>
                           <Typography
@@ -119,7 +127,7 @@ export class Members extends Component {
       : null;
     const loadingList = (
       <Grid container>
-        <Grid item sm={12} md={8} className={classes.users}>
+        <Grid item xs={11} sm={10} md={8} className={classes.users}>
           <Loading />
         </Grid>
       </Grid>
@@ -146,7 +154,7 @@ const mapStateToProps = state => ({
 });
 
 Members.propTypes = {
-  members: PropTypes.array.isRequired,
+  members: PropTypes.array,
   loading: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired
 };

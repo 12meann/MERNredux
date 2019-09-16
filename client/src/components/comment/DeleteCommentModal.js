@@ -36,6 +36,7 @@ const DeletePostModal = ({
       open={openDeleteModal}
       onClose={handleModalDelete}
       aria-labelledby="Delete modal"
+      fullScreen={window.innerWidth <= 500}
       className={classes.dialog}
       fullWidth
       maxWidth="sm">

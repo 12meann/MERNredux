@@ -114,6 +114,7 @@ class Login extends Component {
         <Dialog
           open={loginModalOpen}
           onClose={closeLoginModal}
+          fullScreen={window.innerWidth <= 500}
           aria-labelledby="Login modal">
           <Tooltip title="Close">
             <IconButton
@@ -208,7 +209,7 @@ class Login extends Component {
               <Typography variant="body2" align="center" gutterBottom>
                 <em>
                   Once you successfully login, your account will be logged out
-                  automatically after an hour for your security.
+                  after an hour for your security.
                 </em>
               </Typography>
               <Typography variant="body2" align="center" gutterBottom>

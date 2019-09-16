@@ -43,7 +43,7 @@ const styles = theme => ({
   },
   avatar: {
     position: "relative",
-    top: "-30px"
+    top: "10px"
   }
 });
 
@@ -94,7 +94,7 @@ class Comments extends Component {
                           underline="none"
                           component={Link}
                           to={`/users/${comment.commentedBy._id}`}>
-                          @ {comment.commentedBy.username}{" "}
+                          @{comment.commentedBy.username}{" "}
                         </MuiLink>
                         <Typography variant="caption" color="textPrimary">
                           {moment(comment.date.toString()).fromNow()}
@@ -102,23 +102,22 @@ class Comments extends Component {
                       </Typography>
                     </Fragment>
                   }
-                  subheader={
-                    <Fragment>
-                      <Typography
-                        variant="subtitle2"
-                        color="textSecondary"
-                        className={classes.comment}>
-                        {comment.content}
-                      </Typography>
-                      <LikeComment
-                        comment={comment}
-                        commentId={comment._id}
-                        postId={postId}
-                        className={classes.heart}
-                      />
-                    </Fragment>
-                  }
+                
                 />
+                <CardContent >
+                  <Typography
+                    variant="subtitle2"
+                    color="textSecondary"
+                    className={classes.comment}>
+                    {comment.content}
+                  </Typography>
+                  <LikeComment
+                    comment={comment}
+                    commentId={comment._id}
+                    postId={postId}
+                    className={classes.heart}
+                  />
+                </CardContent>
               </Card>
             ))
           )

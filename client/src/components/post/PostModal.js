@@ -82,11 +82,13 @@ export class PostModal extends Component {
       user
     } = this.props;
     const { expanded } = this.state;
+
     return (
       <Dialog
         open={openPostModal}
         onClose={handleClosePostModal}
         aria-labelledby="Post Modal"
+        fullScreen={window.innerWidth <= 500}
         fullWidth
         maxWidth="md">
         <Tooltip title="close">
@@ -127,7 +129,7 @@ export class PostModal extends Component {
                     variant="h6"
                     color="primary"
                     className={classes.link}>
-                    @ {post.postedBy.username}
+                    @{post.postedBy.username}
                   </Typography>
                 </MuiLink>
               }

@@ -6,6 +6,7 @@ import moment from "moment";
 import MoreProfileButton from "./MoreProfileButton";
 import LoadingProfile from "../layout/LoadingProfile";
 import { editImage } from "../../store/actions/authActions";
+import noUserImg from "../../images/blankAvatar.png";
 
 //MUI
 import { withStyles } from "@material-ui/core/styles";
@@ -100,20 +101,30 @@ class Profile extends Component {
               handleClickEdit={this.handleClickEdit}
               handleEditImage={this.handleEditImage}
             />
-            {loading ? (
-              <CardMedia
-                className={clsx(classes.imgLoad, classes.img)}
-                component="img"
-                alt="uploading.ln image"
-                image={user.image}
-                title="user image"
-              />
+            {user.image ? (
+              loading ? (
+                <CardMedia
+                  className={clsx(classes.imgLoad, classes.img)}
+                  component="img"
+                  alt="uploading image"
+                  image={user.image}
+                  title="user image"
+                />
+              ) : (
+                <CardMedia
+                  className={classes.img}
+                  component="img"
+                  alt="user image"
+                  image={user.image}
+                  title="user image"
+                />
+              )
             ) : (
               <CardMedia
                 className={classes.img}
                 component="img"
                 alt="no user image"
-                image={user.image}
+                image={noUserImg}
                 title="user image"
               />
             )}

@@ -20,7 +20,6 @@ export const showComments = postId => dispatch => {
       dispatch({ type: SHOW_COMMENTS, payload: res.data });
     })
     .catch(err => {
-      console.log(err);
       if (err) {
         dispatch({ type: COMMENT_ERROR, payload: err.response.data });
       }
@@ -32,12 +31,10 @@ export const addComment = (newComment, postId) => dispatch => {
   axios
     .post(`/api/posts/${postId}/comment`, newComment)
     .then(res => {
-      console.log(res.data);
       dispatch({ type: ADD_COMMENT, payload: res.data });
       setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
     })
     .catch(err => {
-      console.log(err);
       if (err) {
         dispatch({ type: COMMENT_ERROR, payload: err.response.data });
       }
@@ -54,7 +51,6 @@ export const editComment = (updatedComment, postId, commentId) => dispatch => {
       setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
     })
     .catch(err => {
-      console.log(err);
       if (err) {
         dispatch({ type: COMMENT_ERROR });
       }
@@ -65,12 +61,10 @@ export const deleteComment = (postId, commentId) => dispatch => {
   axios
     .delete(`/api/posts/${postId}/comment/${commentId}`)
     .then(res => {
-      console.log(res.data);
       dispatch({ type: DELETE_COMMENT, payload: res.data });
       setTimeout(() => dispatch({ type: REMOVE_SUCCESS_MSG }), 5000);
     })
     .catch(err => {
-      console.log(err);
       dispatch({ type: COMMENT_ERROR, payload: err.response.data });
     });
 };
