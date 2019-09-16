@@ -33,9 +33,9 @@ mongoose
     console.log(err);
   });
 
-app.get("/", (req, res) => {
-  res.send("Home");
-});
+// app.get("/", (req, res) => {
+//   res.send("Home");
+// });
 
 //routes
 
