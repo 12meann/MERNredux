@@ -16,6 +16,7 @@ import myTheme from "./utilities/theme";
 import Footer from "./components/layout/Footer";
 import About from "./components/layout/About";
 import Contact from "./components/layout/Contact";
+import NotFound from "./components/layout/NotFound";
 
 const theme = createMuiTheme(myTheme);
 
@@ -43,6 +44,7 @@ class App extends Component {
                     path="/users/:userid"
                     component={UserInfo}
                   />
+                  <Route component={NotFound} />
                 </Switch>
               </div>
               <Footer />

@@ -23,7 +23,8 @@ const styles = theme => ({
   },
   brand: {
     justifyContent: "flex-start",
-    fontSize: "20px"
+    fontSize: "20px",
+    textTransform: "none"
   },
   button: {
     fontSize: "16px",
