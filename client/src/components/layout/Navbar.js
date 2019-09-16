@@ -159,7 +159,7 @@ class Navbar extends Component {
               component={Link}
               to="/"
               className={classes.brand}>
-              Mom's diary
+              SocialMediaApp
             </Button>
             {!loading && (
               <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>

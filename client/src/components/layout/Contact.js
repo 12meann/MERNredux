@@ -31,7 +31,7 @@ const Contact = ({ classes }) => {
         component="p"
         align="center"
         className={classes.content}>
-        Mom's Diary
+        SocialMediaApp by Me-ann
         <br />
         123-4567890
         <br />

@@ -73,7 +73,7 @@ class Footer extends Component {
           variant="subtitle2"
           className={classes.white}
           gutterBottom>
-          © MommyDiaries 2019
+          © SocialMediaApp by Me-ann 2019
         </Typography>
       </footer>
     );
